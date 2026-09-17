@@ -209,7 +209,7 @@ A flat, dark, premium look taken from the MensuraMedia `ui-ki-green-gray-black` 
 | Accent | `#C1FF14` | Neon lime: active state, primary actions, live indicator |
 | Brand gradient | `#ECFEC2 → #D6F2A5 → #B8E86A` | Optimal category header, brand accents |
 | Heat levels | `#22C55E` green · `#FACC15` yellow · `#EF4444` red | Nominal / medium / intense heat (hero cards, gauges, meters, indicator) |
-| Intense category | `#F14D8A → #C22061` | Intense template category only |
+| Intense category | `#DC143C` / `#C8102E` (crimson) | Intense template category. Red states are always red or crimson, never pink. |
 | Cool | `#5DDEA5` | OK / cooling |
 | Text | `#F5F7FA` / `#8B8F99` / `#585C65` | Primary / secondary / muted |
 

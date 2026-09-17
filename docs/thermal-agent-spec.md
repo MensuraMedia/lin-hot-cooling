@@ -2,8 +2,8 @@
 
 | | |
 | --- | --- |
-| Version | 1.2 (2026-09-17): owner decisions D1–D4 (Suggest default, heat-first collapsed views, green/yellow/red heat levels, panel indicator) |
-| Mockups | `docs/mockups/AgentOverview.dc.html`, `AgentProfiles.dc.html`, `AgentStates.dc.html`; reusable component `AgentCard.dc.html` |
+| Version | 1.3 (2026-09-17): owner decisions D1–D5 (Suggest default, heat-first collapsed views, green/yellow/red heat levels, panel indicator, **tray icon as a temperature gauge**, red never pink) |
+| Mockups | `docs/mockups/AgentOverview.dc.html`, `AgentProfiles.dc.html`, `AgentStates.dc.html`, `Tray.dc.html` (panel gauge + mini window); reusable component `AgentCard.dc.html` |
 | Status | Specification (not implemented) |
 | Related | [TECHNICAL-CONCEPT.md](../TECHNICAL-CONCEPT.md) §3 (process model), §6 (heat vectors), §7 (categories, templates, rules), §8 (helper), §13 (safety), §20 (modularity); [ui-layout-spec.md](ui-layout-spec.md) (tokens and components); [milestones.md](milestones.md) M3.5–M3.7 |
 | Milestones | Detailed plan: [milestones-thermal-agent.md](milestones-thermal-agent.md) (A0–A6), which slots into M1.9, M3.5–M3.7 and M4 |
@@ -18,6 +18,7 @@ The **Thermal Agent** is the component that continuously watches heat, understan
 | D2 | **Heat state is the default view** on every agent surface. Expanding reveals the current template and mode, which can be changed there. |
 | D3 | **Heat levels use three colors:** green = nominal, yellow = medium, red = intense (§3.5). |
 | D4 | **A panel indicator** shows the heat level and opens the collapsed mini window (§7.6). |
+| D5 | **The tray icon is a temperature gauge** (§7.7). Red states are always red or crimson, never pink (ui-layout-spec §3.1). |
 
 ---
 
@@ -342,13 +343,26 @@ Every agent surface has two views.
 | Part | Spec |
 | --- | --- |
 | Backend | **XApp.StatusIcon** (libxapp; native on Cinnamon/Mint; provides left-click activation with the icon's position). Fallback: **AyatanaAppIndicator3** (menu-only) on other desktops. The backend is a plugin (`hot_cooling.agent.indicators`). |
-| Icons | Full-color SVGs: **Nominal** green fan; **Medium** yellow fan + dot; **Intense** red fan + "!"; Critical alternates red/white every 1 s (static with reduced motion). Tooltip: "Hot Cooling — {Level} · {zone} {T} °C". |
+| Icons | A **live temperature gauge** (§7.7) in the heat-level color. Tooltip: "Hot Cooling — {Level} · {zone} {T} °C". |
 | Left click | Toggles the **mini window**, placed next to the icon and opened **collapsed** |
 | Mini window, collapsed | Undecorated, 320 × 132, radius 18, `surface.1`, level-colored 4 px top edge. Contents: level word (22/800 in the level text color), heat meter, hottest zone + trend, forecast, expander "Template & mode ▾", suggestion dot. |
 | Mini window, expanded | 320 × 440: adds the current template, mode segmented control (Observe / **Suggest** / Auto), recommendation bar (Apply / Not now), the top 3 templates with Apply, "More templates…" and "Open Hot Cooling" |
 | Behavior | Closes on focus loss or Esc; remembers its expansion state; keyboard reachable; double-clicking the icon opens the main window |
 | Right click | Menu: Mode (radio), Snooze suggestions for 1 h, Open Hot Cooling, Quit agent |
 | Process | The indicator is owned by the agent process (A4/A5). It uses GTK only in a separate indicator module, loaded lazily so that the agent core stays GTK-free. |
+
+### 7.7 Tray icon: temperature gauge (D5)
+
+| Aspect | Spec |
+| --- | --- |
+| Geometry (24-unit viewbox) | Track: circle r 9 at (12, 12), stroke 2.6, round caps, 270° sweep starting at 135° (dash 42.41 = 0.75 × 2π × 9). Fill arc: same path, dash = `score/100 × 42.41`. Needle: from the center to radius 6.6 at angle `135° + 270° × score/100`, stroke 1.6, round cap. Hub: circle r 1.8. |
+| Colors, dark panels | Track `rgba(255,255,255,0.28)`; fill in the heat-level color (`#22C55E` / `#FACC15` / `#EF4444`); needle and hub `#FFFFFF` |
+| Colors, light panels | Track `rgba(8,12,23,0.22)`; fill `#15803D` / `#A16207` / `#B91C1C` (darker for contrast on light panels); needle and hub `#1B1D22`. The variant is chosen from the panel's theme (dark/light preference of the icon theme, or a user setting). |
+| Shape cue (open bottom of the arc) | Nominal: none. Medium: a dot (r 1.3 at (12, 19.2)). Intense: "!" (bar 16.6–18.8 + dot r 0.8 at (12, 20.6)). Critical: "!" and a 1 s blink (opacity 1 ↔ 0.35; static with reduced motion). |
+| Value source | Needle and fill follow the agent's **heat score** (§3.4); the color follows the **heat level** (§3.5). Optional setting "Show temperature in the panel" adds a text label (XApp `set_label`, e.g. "91°") next to the icon. |
+| Sizes | Rendered at the panel's icon size (16–48 px) and scale factor; stroke widths scale with the size, and at ≤ 18 px the needle is omitted (arc + cue only) |
+| Rendering | Generated SVGs (or Cairo PNGs) cached under `$XDG_RUNTIME_DIR/lin-hot-cooling/tray/` by (level, score rounded to 5, theme, size); the icon path is set on `XApp.StatusIcon`. Updated at most every 2 s, and only when the rounded score, level or theme changes. |
+| Accessibility | Accessible name/tooltip: "Hot Cooling, heat {Level}, score {n}, {zone} {T} degrees". The level never depends on color alone (shape cue + tooltip). |
 
 ### 7.5 Full variant (Profiles page)
 - **Layout:** full width, two columns.

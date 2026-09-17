@@ -2,6 +2,38 @@
   "v": 3,
   "attachments": {},
   "boards": {
+    "AgentCard.dc.html": {
+      "h": 300,
+      "w": 492,
+      "x": 2720,
+      "y": 2240,
+      "title": "Cooling Template Card \u00b7 component",
+      "is_interactive": true
+    },
+    "AgentOverview.dc.html": {
+      "h": 800,
+      "is_interactive": true,
+      "title": "Overview \u00b7 Thermal Agent",
+      "w": 1280,
+      "x": 0,
+      "y": 2240
+    },
+    "AgentProfiles.dc.html": {
+      "h": 800,
+      "is_interactive": true,
+      "title": "Profiles \u00b7 Agent ranking",
+      "w": 1280,
+      "x": 1360,
+      "y": 2240
+    },
+    "AgentStates.dc.html": {
+      "h": 1120,
+      "is_interactive": true,
+      "title": "Thermal Agent \u00b7 states",
+      "w": 1660,
+      "x": 0,
+      "y": 3160
+    },
     "Fans.dc.html": {
       "h": 800,
       "is_interactive": true,
@@ -34,28 +66,12 @@
       "x": 0,
       "y": 920
     },
-    "AgentOverview.dc.html": {
-      "x": 0,
-      "y": 2240,
-      "w": 1280,
-      "h": 800,
-      "title": "Overview \u00b7 Thermal Agent",
-      "is_interactive": true
-    },
-    "AgentProfiles.dc.html": {
-      "x": 1360,
-      "y": 2240,
-      "w": 1280,
-      "h": 800,
-      "title": "Profiles \u00b7 Agent ranking",
-      "is_interactive": true
-    },
-    "AgentStates.dc.html": {
-      "x": 0,
+    "Tray.dc.html": {
+      "x": 1740,
       "y": 3160,
-      "w": 1660,
-      "h": 1120,
-      "title": "Thermal Agent \u00b7 states",
+      "w": 1500,
+      "h": 940,
+      "title": "Panel indicator \u00b7 gauge",
       "is_interactive": true
     }
   },
@@ -68,6 +84,14 @@
     "view": "canvas"
   },
   "notes": {
+    "agentTitle": {
+      "kind": "title1",
+      "maxW": 2640,
+      "text": "Thermal Agent",
+      "w": 240,
+      "x": 0,
+      "y": 1940
+    },
     "title": {
       "kind": "title1",
       "maxW": 2640,
@@ -75,13 +99,6 @@
       "w": 240,
       "x": 0,
       "y": -300
-    },
-    "agentTitle": {
-      "x": 0,
-      "y": 1940,
-      "text": "Thermal Agent",
-      "kind": "title1",
-      "maxW": 2640
     }
   },
   "order": [
@@ -91,7 +108,9 @@
     "Hardware.dc.html",
     "AgentOverview.dc.html",
     "AgentProfiles.dc.html",
-    "AgentStates.dc.html"
+    "AgentStates.dc.html",
+    "AgentCard.dc.html",
+    "Tray.dc.html"
   ],
   "pages": [],
   "title": "Lin Hot Cooling Mockups"

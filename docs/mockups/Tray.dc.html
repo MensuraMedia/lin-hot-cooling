@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #080C17; font-family: Manrope, Ubuntu, Cantarell, sans-serif; color: #F5F7FA; }
+    a { color: #C1FF14; } a:hover { color: #D9FF6B; }
+    .lbl { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: #8B8F99; }
+    .lbl b { color: #F5F7FA; font-weight: 800; }
+    .blink { animation: trblink 1s steps(1, end) infinite; }
+    @keyframes trblink { 50% { opacity: 0.35; } }
+    @media (prefers-reduced-motion: reduce) { .blink { animation: none; } }
+    .tbtn { height: 30px; padding: 0 12px; border-radius: 999px; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+  </style>
+</helmet>
+<div style="width: 1500px; height: 940px; box-sizing: border-box; padding: 48px; background: #080C17; display: flex; flex-direction: column; gap: 30px;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <h1 style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em;">Panel indicator · temperature gauge</h1>
+      <span style="font-size: 15px; color: #8B8F99;">The Thermal Agent lives in the system tray as a live heat gauge. Left click opens the mini window (collapsed); right click opens the menu.</span>
+    </div>
+    <span style="font-size: 13px; color: #8B8F99;">Tweak “level” to switch the live examples</span>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 12px;">
+    <span class="lbl"><b>ICON ANATOMY</b> — 270° arc filled by heat score, needle, shape cue in the open bottom</span>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+      <sc-for list="{{anatomy}}" as="a" hint-placeholder-count="4">
+        <div style="background: #1E222E; border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; padding: 18px; display: flex; align-items: center; gap: 18px;">
+          <svg viewBox="0 0 24 24" width="96" height="96" role="img" aria-label="{{a.aria}}" class="{{a.blink}}">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="42.41 100" transform="rotate(135 12 12)"/>
+            <circle cx="12" cy="12" r="9" fill="none" stroke="{{a.color}}" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="{{a.dash}}" transform="rotate(135 12 12)"/>
+            <line x1="12" y1="12" x2="{{a.nx}}" y2="{{a.ny}}" stroke="#F5F7FA" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="1.8" fill="#F5F7FA"/>
+            <circle cx="12" cy="19.2" r="1.3" fill="{{a.color}}" opacity="{{a.dotOpacity}}"/>
+            <path d="M12 16.6v2.2" stroke="{{a.color}}" stroke-width="1.5" stroke-linecap="round" opacity="{{a.bangOpacity}}"/>
+            <circle cx="12" cy="20.6" r="0.8" fill="{{a.color}}" opacity="{{a.bangOpacity}}"/>
+          </svg>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 18px; font-weight: 800; color: {{a.text}};">{{a.name}}</span>
+            <span style="font-size: 13px; color: #B9BDC6;">{{a.example}}</span>
+            <span style="font-size: 12px; color: #8B8F99;">Cue: {{a.cue}}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display: flex; gap: 32px; align-items: flex-start;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <span class="lbl"><b>IN THE PANEL</b> — 24 px, dark and light panels</span>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div aria-label="Dark panel example" style="width: 520px; height: 40px; box-sizing: border-box; padding: 0 14px; border-radius: 10px; background: #1B1D22; display: flex; align-items: center; gap: 16px;">
+          <span style="flex-grow: 1;"></span>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D0D3DA" stroke-width="1.7" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01"/></svg>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D0D3DA" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4zM16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D0D3DA" stroke-width="1.7" stroke-linecap="round"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2M5 10v4M8 10v4M11 10v4"/></svg>
+          <span style="position: relative; width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.10); display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-label="Hot Cooling heat gauge: {{live.name}}" class="{{live.blink}}">
+              <circle cx="12" cy="12" r="9" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="42.41 100" transform="rotate(135 12 12)"/>
+              <circle cx="12" cy="12" r="9" fill="none" stroke="{{live.color}}" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="{{live.dash}}" transform="rotate(135 12 12)"/>
+              <line x1="12" y1="12" x2="{{live.nx}}" y2="{{live.ny}}" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="1.8" fill="#FFFFFF"/>
+              <circle cx="12" cy="19.2" r="1.3" fill="{{live.color}}" opacity="{{live.dotOpacity}}"/>
+              <path d="M12 16.6v2.2" stroke="{{live.color}}" stroke-width="1.5" stroke-linecap="round" opacity="{{live.bangOpacity}}"/>
+              <circle cx="12" cy="20.6" r="0.8" fill="{{live.color}}" opacity="{{live.bangOpacity}}"/>
+            </svg>
+          </span>
+          <span style="font-size: 14px; font-weight: 600; color: #E6E8EC;">21:24</span>
+        </div>
+        <div aria-label="Light panel example" style="width: 520px; height: 40px; box-sizing: border-box; padding: 0 14px; border-radius: 10px; background: #EEF0F3; display: flex; align-items: center; gap: 16px;">
+          <span style="flex-grow: 1;"></span>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3A3F4A" stroke-width="1.7" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01"/></svg>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3A3F4A" stroke-width="1.7" stroke-linecap="round"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2M5 10v4M8 10v4M11 10v4"/></svg>
+          <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-label="Hot Cooling heat gauge on a light panel: {{live.name}}" class="{{live.blink}}">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="rgba(8,12,23,0.22)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="42.41 100" transform="rotate(135 12 12)"/>
+            <circle cx="12" cy="12" r="9" fill="none" stroke="{{live.colorOnLight}}" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="{{live.dash}}" transform="rotate(135 12 12)"/>
+            <line x1="12" y1="12" x2="{{live.nx}}" y2="{{live.ny}}" stroke="#1B1D22" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="1.8" fill="#1B1D22"/>
+            <circle cx="12" cy="19.2" r="1.3" fill="{{live.colorOnLight}}" opacity="{{live.dotOpacity}}"/>
+            <path d="M12 16.6v2.2" stroke="{{live.colorOnLight}}" stroke-width="1.5" stroke-linecap="round" opacity="{{live.bangOpacity}}"/>
+            <circle cx="12" cy="20.6" r="0.8" fill="{{live.colorOnLight}}" opacity="{{live.bangOpacity}}"/>
+          </svg>
+          <span style="font-size: 14px; font-weight: 600; color: #1B1D22;">21:24</span>
+        </div>
+        <div role="tooltip" style="align-self: flex-end; margin-right: 60px; padding: 8px 12px; border-radius: 8px; background: #262A36; border: 1px solid rgba(255,255,255,0.10); font-size: 12px; font-weight: 600;">Hot Cooling — <span style="color: {{live.text}}; font-weight: 800;">{{live.name}}</span> · {{live.zone}}</div>
+      </div>
+
+      <span class="lbl" style="margin-top: 14px;"><b>RIGHT-CLICK MENU</b></span>
+      <div role="menu" aria-label="Hot Cooling indicator menu" style="width: 260px; box-sizing: border-box; padding: 6px; border-radius: 12px; background: #262A36; border: 1px solid rgba(255,255,255,0.10); display: flex; flex-direction: column;">
+        <span style="padding: 8px 10px 4px; font-size: 11px; font-weight: 800; letter-spacing: 0.05em; color: #8B8F99;">AGENT MODE</span>
+        <button role="menuitemradio" aria-checked="false" style="display: flex; justify-content: space-between; padding: 7px 10px; border: 0; border-radius: 8px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 600; text-align: left;">Observe</button>
+        <button role="menuitemradio" aria-checked="true" style="display: flex; justify-content: space-between; padding: 7px 10px; border: 0; border-radius: 8px; background: rgba(193,255,20,0.10); color: #C1FF14; font-family: inherit; font-size: 13px; font-weight: 700; text-align: left;">Suggest<span>✓</span></button>
+        <button role="menuitemradio" aria-checked="false" style="display: flex; justify-content: space-between; padding: 7px 10px; border: 0; border-radius: 8px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 600; text-align: left;">Auto</button>
+        <div style="height: 1px; margin: 6px; background: rgba(255,255,255,0.08);"></div>
+        <button role="menuitem" style="padding: 7px 10px; border: 0; border-radius: 8px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 600; text-align: left;">Snooze suggestions for 1 hour</button>
+        <button role="menuitem" style="padding: 7px 10px; border: 0; border-radius: 8px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 600; text-align: left;">Open Hot Cooling</button>
+        <button role="menuitem" style="padding: 7px 10px; border: 0; border-radius: 8px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 600; text-align: left;">Quit agent</button>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <span class="lbl"><b>MINI WINDOW · COLLAPSED</b> (default) — heat only</span>
+      <div role="dialog" aria-label="Hot Cooling mini window" style="width: 320px; height: 148px; box-sizing: border-box; border-radius: 18px; overflow: hidden; background: #1E222E; border: 1px solid rgba(255,255,255,0.10); display: flex; flex-direction: column;">
+        <div style="height: 4px; background: {{live.color}};"></div>
+        <div style="padding: 14px 18px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between;">
+            <span style="font-size: 22px; font-weight: 800; color: {{live.text}};">{{live.name}}</span>
+            <span style="font-size: 12px; color: #8B8F99;">Heat score <span style="font-size: 18px; font-weight: 800; color: {{live.text}}; font-variant-numeric: tabular-nums;">{{live.score}}</span></span>
+          </div>
+          <div style="height: 8px; border-radius: 999px; background: #2A2E3A; overflow: hidden;"><div style="height: 8px; width: {{live.pct}}; border-radius: 999px; background-image: linear-gradient(90deg, #22C55E 0%, #FACC15 50%, #EF4444 100%); background-size: {{live.bgSize}} 8px;"></div></div>
+          <span style="font-size: 13px; font-weight: 700;">{{live.zone}} <span style="font-size: 12px; color: {{live.trendColor}};">{{live.trend}}</span></span>
+          <button aria-expanded="false" style="display: flex; align-items: center; gap: 8px; padding: 0; border: 0; background: transparent; color: #C1FF14; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer;">Template &amp; mode
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#C1FF14" stroke-width="2.4" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: {{live.color}}; opacity: {{live.suggestOpacity}};"></span>
+            <span style="font-size: 11px; color: #8B8F99; font-weight: 600; opacity: {{live.suggestOpacity}};">Suggestion available</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <span class="lbl"><b>MINI WINDOW · EXPANDED</b> — current template and mode, change for better results</span>
+      <div role="dialog" aria-label="Hot Cooling mini window, expanded" style="width: 340px; height: 470px; box-sizing: border-box; border-radius: 18px; overflow: hidden; background: #1E222E; border: 1px solid rgba(255,255,255,0.10); display: flex; flex-direction: column;">
+        <div style="height: 4px; background: {{live.color}};"></div>
+        <div style="padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between;">
+            <span style="font-size: 22px; font-weight: 800; color: {{live.text}};">{{live.name}}</span>
+            <span style="font-size: 18px; font-weight: 800; color: {{live.text}}; font-variant-numeric: tabular-nums;">{{live.score}}</span>
+          </div>
+          <div style="height: 8px; border-radius: 999px; background: #2A2E3A; overflow: hidden;"><div style="height: 8px; width: {{live.pct}}; border-radius: 999px; background-image: linear-gradient(90deg, #22C55E 0%, #FACC15 50%, #EF4444 100%); background-size: {{live.bgSize}} 8px;"></div></div>
+          <span style="font-size: 13px; font-weight: 700;">{{live.zone}} <span style="font-size: 12px; color: {{live.trendColor}};">{{live.trend}}</span></span>
+          <button aria-expanded="true" style="display: flex; align-items: center; gap: 8px; padding: 0; border: 0; background: transparent; color: #C1FF14; font-family: inherit; font-size: 12px; font-weight: 700;">Template &amp; mode
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#C1FF14" stroke-width="2.4" stroke-linecap="round"><path d="m6 15 6-6 6 6"/></svg>
+          </button>
+          <div style="height: 1px; background: rgba(255,255,255,0.08);"></div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="display: flex; flex-direction: column; gap: 2px;">
+              <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.05em; color: #8B8F99;">CURRENT TEMPLATE</span>
+              <span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{activeCat}};"></span>{{activeName}}</span>
+            </span>
+            <span style="font-size: 11px; color: #8B8F99;">since 20:50</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.05em; color: #8B8F99;">MODE</span>
+            <div role="group" aria-label="Agent mode" style="display: flex; gap: 4px; padding: 3px; border-radius: 999px; background: #353743;">
+              <sc-for list="{{modes}}" as="m" hint-placeholder-count="3">
+                <button onClick="{{m.pick}}" aria-pressed="{{m.pressed}}" style="flex-grow: 1; height: 30px; border: 0; border-radius: 999px; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; {{m.style}}">{{m.label}}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <sc-if value="{{showRec}}" hint-placeholder-val="{{ true }}">
+            <div style="padding: 8px 8px 8px 12px; border-radius: 12px; background: rgba(193,255,20,0.10); display: flex; align-items: center; gap: 8px;">
+              <span style="flex-grow: 1; font-size: 12px; font-weight: 700;">Suggested: {{recName}} <span style="color: #4ADE80;">{{recRelief}}</span></span>
+              <button class="tbtn" onClick="{{applyRec}}" style="border: 0; background: #C1FF14; color: #0A0F05;">Apply</button>
+            </div>
+          </sc-if>
+
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <sc-for list="{{rows}}" as="r" hint-placeholder-count="3">
+              <div style="height: 34px; display: flex; align-items: center; gap: 10px;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: {{r.cat}};"></span>
+                <span style="flex-grow: 1; font-size: 13px; font-weight: 600;">{{r.name}} <span style="font-size: 11px; color: #4ADE80; font-weight: 700;">{{r.relief}}</span></span>
+                <sc-if value="{{r.active}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; font-weight: 700; color: #C1FF14;">Active</span></sc-if>
+                <sc-if value="{{r.inactive}}" hint-placeholder-val="{{ true }}"><button class="tbtn" onClick="{{r.apply}}" aria-label="Apply {{r.name}}" style="border: 1px solid rgba(255,255,255,0.14); background: transparent; color: #F5F7FA;">Apply</button></sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="flex-grow: 1;"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="Templates.dc.html" style="font-size: 12px; font-weight: 700; text-decoration: none;">More templates…</a>
+            <a href="AgentOverview.dc.html" style="height: 32px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; color: #F5F7FA; font-size: 12px; font-weight: 700; text-decoration: none;">Open Hot Cooling</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"level":{"editor":"enum","options":["nominal","medium","intense","critical"],"default":"intense","section":"Heat"},"$preview":{"width":1500,"height":940}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const ARC = 42.41;
+    const L = {
+      nominal:  { name: 'Nominal',  score: 18,  color: '#22C55E', onLight: '#15803D', text: '#4ADE80', zone: 'CPU 54 °C', trend: '→ steady', trendColor: '#8B8F99', cue: 'none (arc only)', dot: 0, bang: 0, blink: '', suggest: 0 },
+      medium:   { name: 'Medium',   score: 52,  color: '#FACC15', onLight: '#A16207', text: '#FDE047', zone: 'CPU 78 °C', trend: '↑ 0.9 °C/min', trendColor: '#F87171', cue: 'dot in the arc gap', dot: 1, bang: 0, blink: '', suggest: 0 },
+      intense:  { name: 'Intense',  score: 78,  color: '#EF4444', onLight: '#B91C1C', text: '#F87171', zone: 'CPU 91 °C', trend: '↑ 1.8 °C/min', trendColor: '#F87171', cue: '“!” in the arc gap', dot: 0, bang: 1, blink: '', suggest: 1 },
+      critical: { name: 'Critical', score: 100, color: '#EF4444', onLight: '#B91C1C', text: '#F87171', zone: 'CPU 97 °C', trend: '↑ 4.2 °C/min', trendColor: '#F87171', cue: '“!” + 1 s blink', dot: 0, bang: 1, blink: 'blink', suggest: 0 }
+    };
+    const geo = (score) => {
+      const f = Math.max(0, Math.min(score, 100)) / 100;
+      const ang = (135 + 270 * f) * Math.PI / 180;
+      return { dash: (f * ARC).toFixed(2) + ' 100', nx: (12 + 6.6 * Math.cos(ang)).toFixed(2), ny: (12 + 6.6 * Math.sin(ang)).toFixed(2) };
+    };
+    const view = (k) => {
+      const d = L[k]; const g = geo(d.score);
+      return { ...g, name: d.name, color: d.color, colorOnLight: d.onLight, text: d.text, score: d.score, pct: d.score + '%',
+        bgSize: Math.round(10000 / Math.max(d.score, 1)) + '%', zone: d.zone, trend: d.trend, trendColor: d.trendColor,
+        dotOpacity: d.dot, bangOpacity: d.bang, blink: d.blink, suggestOpacity: d.suggest };
+    };
+    const level = this.props.level ?? 'intense';
+    const examples = { nominal: 'CPU 54 °C · light use', medium: 'CPU 78 °C · compile', intense: 'CPU 91 °C · gaming', critical: 'CPU 97 °C · emergency' };
+    const anatomy = ['nominal', 'medium', 'intense', 'critical'].map((k) => ({
+      ...view(k), example: examples[k], cue: L[k].cue, aria: 'Heat gauge, ' + L[k].name + ', score ' + L[k].score
+    }));
+    const mode = st.mode || 'suggest';
+    const modes = [['observe', 'Observe'], ['suggest', 'Suggest'], ['auto', 'Auto']].map(([id, label]) => ({
+      label, pressed: id === mode ? 'true' : 'false',
+      style: id === mode ? 'background: #C1FF14; color: #0A0F05;' : 'background: transparent; color: #F5F7FA;',
+      pick: () => this.setState({ mode: id })
+    }));
+    const CAT = { intense: '#DC143C', optimal: '#C1FF14', idle: '#5DDEA5' };
+    const T = [['general', 'General Operations', 'optimal', ''], ['gaming', 'High-Intensity Gaming', 'intense', '−8 °C'], ['cooldown', 'Cool-down', 'intense', '−5 °C'], ['longrun', 'Long-Running Operations', 'intense', '−9 °C']];
+    const active = st.active || 'general';
+    const showRec = mode === 'suggest' && active !== 'gaming' && (level === 'intense' || level === 'medium');
+    const rows = T.filter((t) => !(showRec && t[0] === 'gaming')).slice(0, 3).map(([id, name, cat, relief]) => ({
+      name, cat: CAT[cat], relief: id === active ? '' : relief, active: id === active, inactive: id !== active,
+      apply: () => this.setState({ active: id })
+    }));
+    const act = T.find((t) => t[0] === active);
+    return {
+      anatomy, live: view(level), modes, rows, showRec,
+      recName: 'High-Intensity Gaming', recRelief: '−8 °C',
+      applyRec: () => this.setState({ active: 'gaming' }),
+      activeName: act[1], activeCat: CAT[act[2]]
+    };
+  }
+}
+</script>
+</body>
+</html>

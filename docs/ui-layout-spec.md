@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Version | 1.1 (2026-09-17): green/yellow/red heat levels |
+| Version | 1.2 (2026-09-17): green/yellow/red heat levels; red and crimson only for red states (no pink) |
 | Status | **Approved:** Overview, Fans, Templates. **Provisional:** Hardware (not reviewed yet). |
 | Source of truth | `docs/mockups/*.dc.html` (1280 × 800 artboards) + this document. When they disagree, this document wins and the mockup is updated. |
 | Related | [TECHNICAL-CONCEPT.md](../TECHNICAL-CONCEPT.md) §9 (UI), §10 (design system), §19 (GTK 4 portability), §20 (modularity); [milestones.md](milestones.md) M0.4–M0.7, M1.6–M1.7, M2.8, M3.7 |
@@ -81,10 +81,10 @@ This document fixes the layout, dimensions, tokens, component anatomy, states, m
 | `heat.intense.fill` / `.deep` | `#DC2626` / `#B91C1C` | Red fills behind white text (emergency banner, hot hero) |
 | `state.cool` | `#5DDEA5` | OK/applied status, Idle template category (not a heat level) |
 | `state.warm` | `#F5C542` | Advisory status, boost timer (not a heat level) |
-| `category.intense` | `#F14D8A` | Intense template category marks only (**not** a heat color; not as a text background) |
-| `category.intense.strong` | `#C22061` | Intense category fills behind white text (performance pill, intense template header) |
-| `category.intense.deep` | `#A01743` / `#7A1235` | Intense category gradient middle/end |
-| `category.intense.text` | `#FF8DB6` / `#FF6FA3` | Intense category text on dark surfaces |
+| `category.intense` | `#DC143C` (crimson) | Intense template category marks: dots, bars, icons (not text on dark, not a text background) |
+| `category.intense.strong` | `#C8102E` | Crimson fills behind white text (performance pill, intense template header) |
+| `category.intense.deep` | `#A50E2A` / `#6B0A1A` | Crimson gradient middle/end |
+| `category.intense.text` | `#FF5468` | Intense category text and icons on dark surfaces |
 | Tints | `rgba(<semantic>, 0.12–0.16)` | Icon tiles, badges, feed avatars, chips |
 
 **Contrast (WCAG 2.2, computed):**
@@ -98,15 +98,18 @@ This document fixes the layout, dimensions, tokens, component anatomy, states, m
 | `accent.lime` on `bg.base` / `surface.1` | 16.4 / 13.3 | All text |
 | `text.onAccent` on lime / cool gradient stops | 16.2 / 13.7–18.0 | All text |
 | `text.onWarm` on warm gradient stops | 7.8–11.4 | All text |
-| White on `category.intense.strong` / `#A01743` / `#7A1235` | 5.7 / 7.8 / 10.7 | All text |
-| White on `category.intense` `#F14D8A` | 3.4 | **Not for text** (changed on 2026-09-17, §12) |
-| `state.cool` / `state.warm` / `#FF8DB6` / `#FF6FA3` on `surface.1` | 9.4 / 9.8 / 7.4 / 6.1 | All text |
+| White on `category.intense.strong` / `#A50E2A` / `#6B0A1A` | 5.9 / 7.8 / 12.5 | All text |
+| White on `#DC143C` | 5.0 | Allowed, but prefer `category.intense.strong` for fills |
+| `category.intense` `#DC143C` on `surface.1` | 3.2 | **Marks only** (≥ 3:1 for graphics), never text |
+| `state.cool` / `state.warm` / `category.intense.text` on `surface.1` | 9.4 / 9.8 / 5.1 | All text |
 | `#4ADE80` / `#FDE047` / `#F87171` on `surface.1` | 9.1 / 12.0 / 5.7 | All text (heat levels) |
 | `#22C55E` / `#FACC15` / `#EF4444` on `surface.1` | 7.0 / 10.4 / 4.2 | Marks, icons, large text; `#EF4444` is not for small text |
 | `#052E16` on `#DCFCE7` / `#86EFAC` / `#22C55E` | 13.6 / 10.6 / 6.5 | All text (nominal fill) |
 | `#1A1204` on `#FEF9C3` / `#FDE047` / `#EAB308` | 17.3 / 14.1 / 9.7 | All text (medium fill) |
 | White on `#DC2626` / `#B91C1C` / `#7F1D1D` | 4.8 / 6.5 / 10.0 | All text (intense fill) |
 | `#585C65` on `bg.base` | 2.9 | **Decorative only**, never text |
+
+**Red-state rule (owner decision, 2026-09-17):** every red state in the app, whether heat (Intense/Critical), errors, emergencies or the Intense category, uses **red (hue ≈ 0°) or crimson (hue ≈ 350°)**. Pink and magenta hues (≈ 320–345°) are not used anywhere. Heat levels use pure red; the Intense template category uses crimson, so the two stay distinguishable.
 
 ### 3.2 Gradients
 
@@ -117,7 +120,7 @@ This document fixes the layout, dimensions, tokens, component anatomy, states, m
 | `grad.heat.intense` | 135°: `#DC2626` 0 % → `#B91C1C` 55 % → `#7F1D1D` 100 %; text white | Hero (Intense / Critical) |
 | `grad.hero.cool` | 135°: `#ECFEC2` 0 % → `#D6F2A5` 45 % → `#B8E86A` 100 % | Optimal template header (brand lime; no longer a heat state) |
 | `grad.hero.warm` | *(retired in v1.1; replaced by `grad.heat.medium`)* | — |
-| `grad.category.intense` | 135°: `#C22061` 0 % → `#A01743` 55 % → `#7A1235` 100 % | Intense template header (category, not heat) |
+| `grad.category.intense` | 135°: `#C8102E` 0 % → `#A50E2A` 55 % → `#6B0A1A` 100 % (crimson) | Intense template header (category, not heat) |
 | `grad.hero.idle` | 135°: `#D8FBEA` 0 % → `#8FE8C1` 55 % → `#3FBF88` 100 % | Idle template header |
 | `grad.sidebar` | 180°: `#0D1322` → `#080C17` | Sidebar |
 | `grad.brand` | 135°: `#1E2A12` → `#0B101D`, border lime 35 % | Brand tile |
@@ -340,7 +343,7 @@ Each entry gives the anatomy, dimensions, states, tokens and implementation.
 
   | Category | Text / icon | Tint |
   | --- | --- | --- |
-  | Intense | `#FF6FA3` | hot 16 % |
+  | Intense | `#FF5468` (crimson) | `rgba(220,20,60,0.16)` |
   | Optimal | lime | lime 12 % |
   | Idle | `state.cool` | cool 14 % |
 - **States:**
@@ -381,7 +384,7 @@ Each entry gives the anatomy, dimensions, states, tokens and implementation.
   - header row with overline labels and a bottom hairline;
   - rows padding 10 × 22 with a `border.row` divider;
   - interface in mono 12 `text.chip`;
-  - Read/Change values 12/700 colored `state.cool` (yes), `state.warm` (partial or helper), `#FF8DB6` (no), `text.secondary` (not applicable). Values are always words, never color alone.
+  - Read/Change values 12/700 colored `state.cool` (yes), `state.warm` (partial or helper), `heat.intense.text` `#F87171` (no), `text.secondary` (not applicable). Values are always words, never color alone.
 - **Zone topology:** diagram 260 × 210. Zone pills on the left (70 × 24, radius 12; active zones `surface.2`, passive zones outlined 12 % white with secondary text); fans as circles r 30 with a lime stroke; links as 1.5 px lime 35 % curves (active) or dashed 12 % white (monitored only).
 - **Conflict card:** shield icon (`state.cool`, or `state.warm` when there are conflicts) + title + one-sentence explanation.
 
@@ -567,7 +570,7 @@ Thermals, Power, Profiles, Automation, Benchmarks, History, Settings and About u
 @define-color hc_heat_nominal #22C55E;
 @define-color hc_heat_medium #FACC15;
 @define-color hc_heat_intense #EF4444;
-@define-color hc_intense_category #C22061;
+@define-color hc_intense_category #C8102E;
 
 .hc-sidebar { background-image: linear-gradient(180deg, #0D1322, @hc_bg); border-right: 1px solid alpha(white, 0.05); padding: 24px 14px; }
 .hc-nav { min-height: 40px; padding: 0 14px; border-radius: 12px; color: @hc_text2; font-weight: 500; }
@@ -617,5 +620,6 @@ Thermals, Power, Profiles, Automation, Benchmarks, History, Settings and About u
 | Date | Change |
 | --- | --- |
 | 2026-09-17 | v1.0: spec written from the approved Overview, Fans and Templates mockups; Hardware recorded as provisional. |
+| 2026-09-17 | v1.2 (owner decision): red states are red or crimson, never pink. The Intense category moved from magenta (`#F14D8A`, `#C22061`, `#FF6FA3`, `#FF8DB6`) to crimson (`#DC143C`, `#C8102E → #A50E2A → #6B0A1A`, `#FF5468`). All mockups were recolored, including the green/yellow/red heat levels. |
 | 2026-09-17 | v1.1 (owner decision D3): heat detection uses **green / yellow / red** (`heat.nominal/medium/intense`) for hero cards, gauges, meters, sparklines and the indicator. The former cool/warm/hot hero gradients are retired; magenta is now only the Intense *template category* color. Agent surfaces are heat-first and collapsed by default (thermal-agent-spec §7.0). Mockups are to be updated in A0.3–A0.5. |
 | 2026-09-17 | Accessibility fix (applied to the mockups too): the hot gradient changed from `#FFC4DA → #F14D8A → #A01743` to `#C22061 → #A01743 → #7A1235` (white text ≥ 5.7:1), and the "Performance" segment fill changed from `#F14D8A` (3.4:1) to `#C22061`. `#F14D8A` is kept for non-text marks only. |

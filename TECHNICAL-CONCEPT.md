@@ -419,8 +419,8 @@ The palette is sampled from `ui-ki-green-gray-black.jpg`: a deep navy-black base
 | `heat.nominal` / `heat.medium` / `heat.intense` | `#22C55E` / `#FACC15` / `#EF4444` | **Heat levels: green / yellow / red** (decision 2026-09-17; see ui-layout-spec v1.1) |
 | `state.cool` | `#5DDEA5` | OK/applied status, Idle category (mint) |
 | `state.warm` | `#F5C542` | Advisory status, boost timer |
-| `category.intense` | `#F14D8A` | Intense template category (magenta; not a heat color) |
-| `category.intense.deep` | `#A01743` | Intense category gradient |
+| `category.intense` | `#DC143C` / `#C8102E` | Intense template category (crimson; red states are never pink) |
+| `category.intense.deep` | `#A50E2A` / `#6B0A1A` | Intense category gradient |
 | `on.accent` | `#0A0F05` | Text on lime surfaces |
 
 ### 10.2 Typography and layout

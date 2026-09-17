@@ -19,15 +19,18 @@
     .cap { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #8B8F99; }
     .num { font-variant-numeric: tabular-nums; }
     .seg { height: 40px; min-width: 104px; padding: 0 18px; border: 0; border-radius: 999px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: transparent; }
-    .hero-cool { background-image: linear-gradient(135deg, #ECFEC2 0%, #D6F2A5 45%, #B8E86A 100%); color: #0A0F05; }
-    .hero-warm { background-image: linear-gradient(135deg, #FFF3C4 0%, #F5C542 60%, #E8963A 100%); color: #1A1204; }
-    .hero-hot { background-image: linear-gradient(135deg, #C22061 0%, #A01743 55%, #7A1235 100%); color: #FFFFFF; }
-    .segtrack-cool, .segtrack-warm { background: rgba(10, 15, 5, 0.12); }
-    .segtrack-hot { background: rgba(0, 0, 0, 0.22); }
-    .seg-on-cool, .seg-on-warm { background: #0A0F05; color: #C1FF14; }
-    .seg-off-cool, .seg-off-warm { color: #0A0F05; }
-    .seg-on-hot { background: #FFFFFF; color: #A01743; }
-    .seg-off-hot { color: #FFFFFF; }
+    .hero-nominal { background-image: linear-gradient(135deg, #DCFCE7 0%, #86EFAC 45%, #22C55E 100%); color: #052E16; }
+    .hero-medium { background-image: linear-gradient(135deg, #FEF9C3 0%, #FDE047 50%, #EAB308 100%); color: #1A1204; }
+    .hero-intense { background-image: linear-gradient(135deg, #DC2626 0%, #B91C1C 55%, #7F1D1D 100%); color: #FFFFFF; }
+    .segtrack-nominal { background: rgba(5, 46, 22, 0.12); }
+    .segtrack-medium { background: rgba(26, 18, 4, 0.12); }
+    .segtrack-intense { background: rgba(0, 0, 0, 0.22); }
+    .seg-on-nominal { background: #052E16; color: #4ADE80; }
+    .seg-off-nominal { color: #052E16; }
+    .seg-on-medium { background: #1A1204; color: #FDE047; }
+    .seg-off-medium { color: #1A1204; }
+    .seg-on-intense { background: #FFFFFF; color: #B91C1C; }
+    .seg-off-intense { color: #FFFFFF; }
     .spin { animation-name: hcspin; animation-timing-function: linear; animation-iteration-count: infinite; }
     .pulse { animation: hcpulse 1s ease-in-out infinite; }
     @keyframes hcspin { to { transform: rotate(360deg); } }
@@ -76,7 +79,7 @@
 
     <section class="hero-{{thermal}}" style="border-radius: 24px; padding: 26px 30px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
       <div style="display: flex; flex-direction: column; gap: 6px;">
-        <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.75;">Thermal state</span>
+        <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.75;">Heat level</span>
         <span style="font-size: 52px; font-weight: 800; letter-spacing: -0.03em; line-height: 1;">{{stateLabel}}</span>
         <span class="num" style="font-size: 15px; font-weight: 600; opacity: 0.85;">CPU {{cpu}} °C · dGPU {{gpu}} °C · Fan {{rpmText}} RPM</span>
       </div>
@@ -130,7 +133,7 @@
           <div style="display: flex; align-items: center; gap: 14px;">
             <div style="position: relative; width: 104px; height: 104px; flex-shrink: 0;">
               <svg viewBox="0 0 120 120" width="104" height="104">
-                <defs><linearGradient id="arc{{$index}}" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#5DDEA5"/><stop offset="0.45" stop-color="#C1FF14"/><stop offset="0.75" stop-color="#F5C542"/><stop offset="1" stop-color="#F14D8A"/></linearGradient></defs>
+                <defs><linearGradient id="arc{{$index}}" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#22C55E"/><stop offset="0.5" stop-color="#FACC15"/><stop offset="1" stop-color="#EF4444"/></linearGradient></defs>
                 <circle cx="60" cy="60" r="48" fill="none" stroke="#2A2E3A" stroke-width="10" stroke-linecap="round" stroke-dasharray="226 400" transform="rotate(135 60 60)"/>
                 <circle cx="60" cy="60" r="48" fill="none" stroke="url(#arc{{$index}})" stroke-width="10" stroke-linecap="round" stroke-dasharray="{{g.dash}}" transform="rotate(135 60 60)"/>
               </svg>
@@ -154,16 +157,16 @@
         </div>
         <div style="display: flex; gap: 14px; align-items: center;">
           <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(193, 255, 20, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m14 10 2-2 2 2-2 2z"/><path d="M18 3v2M21 6h-2"/></svg></div>
-          <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; font-weight: 600;">Agent suggests High-Intensity Gaming</span><span style="font-size: 12px; color: #8B8F99;">Hot · sustained CPU + GPU · heat score 78</span></div>
+          <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; font-weight: 600;">Agent suggests High-Intensity Gaming</span><span style="font-size: 12px; color: #8B8F99;">Intense heat · sustained CPU + GPU · heat score 78</span></div>
           <span class="num" style="font-size: 12px; color: #8B8F99;">21:24</span>
         </div>
         <div style="display: flex; gap: 14px; align-items: center;">
-          <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(245, 197, 66, 0.14); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#F5C542" stroke-width="1.7" stroke-linecap="round"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/><path d="M12 9v7"/></svg></div>
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(239, 68, 68, 0.16); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#F87171" stroke-width="1.7" stroke-linecap="round"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/><path d="M12 9v7"/></svg></div>
           <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; font-weight: 600;">CPU passed 85 °C</span><span style="font-size: 12px; color: #8B8F99;">Rising 1.8 °C/min · fan at 5,200 RPM</span></div>
           <span class="num" style="font-size: 12px; color: #8B8F99;">21:23</span>
         </div>
         <div style="display: flex; gap: 14px; align-items: center;">
-          <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(241, 77, 138, 0.16); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#F14D8A" stroke-width="1.7" stroke-linecap="round"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10v5M4.5 12.5h5"/></svg></div>
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(220, 20, 60, 0.16); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#FF5468" stroke-width="1.7" stroke-linecap="round"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10v5M4.5 12.5h5"/></svg></div>
           <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; font-weight: 600;">Game started</span><span style="font-size: 12px; color: #8B8F99;">Template kept on General (your choice at 20:50)</span></div>
           <span class="num" style="font-size: 12px; color: #8B8F99;">21:22</span>
         </div>
@@ -174,15 +177,15 @@
   </main>
 </div>
 </x-dc>
-<script data-dc-script data-props='{"thermal":{"editor":"enum","options":["cool","warm","hot"],"default":"hot","section":"State"},"$preview":{"width":1280,"height":800}}'>
+<script data-dc-script data-props='{"thermal":{"editor":"enum","options":["nominal","medium","intense"],"default":"intense","section":"State"},"$preview":{"width":1280,"height":800}}'>
 class Component extends DCLogic {
   renderVals() {
-    const thermal = this.props.thermal ?? 'cool';
+    const thermal = this.props.thermal ?? 'nominal';
     const cat = (this.state && this.state.category) || 'optimal';
     const data = {
-      cool: { label: 'Cool', cpu: 54, gpu: 49, rpm: 2100, igpu: 12, cpuW: '9 W', gpuW: '3 W · P8' },
-      warm: { label: 'Warm', cpu: 79, gpu: 71, rpm: 3800, igpu: 34, cpuW: '38 W', gpuW: '42 W · P0' },
-      hot:  { label: 'Hot',  cpu: 92, gpu: 84, rpm: 5200, igpu: 41, cpuW: '45 W', gpuW: '55 W · P0' }
+      nominal: { label: 'Nominal', cpu: 54, gpu: 49, rpm: 2100, igpu: 12, cpuW: '9 W', gpuW: '3 W · P8' },
+      medium: { label: 'Medium', cpu: 79, gpu: 71, rpm: 3800, igpu: 34, cpuW: '38 W', gpuW: '42 W · P0' },
+      intense: { label: 'Intense', cpu: 92, gpu: 84, rpm: 5200, igpu: 41, cpuW: '45 W', gpuW: '55 W · P0' }
     }[thermal] || {};
     const rpmMax = 5600;
     const frac = Math.min(data.rpm / rpmMax, 1);
@@ -205,8 +208,8 @@ class Component extends DCLogic {
     const zoneRows = [
       ['CPU package', data.cpu, '#C1FF14', [0.3, 0.35, 0.32, 0.5, 0.62, 0.55, 0.7, 0.66, 0.6, 0.58, 0.64, 0.6]],
       ['dGPU', data.gpu, '#5DDEA5', [0.2, 0.22, 0.25, 0.4, 0.55, 0.6, 0.62, 0.6, 0.52, 0.5, 0.5, 0.48]],
-      ['Chipset (PCH)', thermal === 'cool' ? 61 : thermal === 'warm' ? 66 : 71, '#F5C542', [0.55, 0.56, 0.56, 0.58, 0.6, 0.61, 0.62, 0.62, 0.61, 0.6, 0.6, 0.61]],
-      ['NVMe', thermal === 'cool' ? 39 : thermal === 'warm' ? 44 : 49, '#8B8F99', [0.2, 0.2, 0.22, 0.22, 0.25, 0.3, 0.28, 0.26, 0.25, 0.24, 0.24, 0.23]]
+      ['Chipset (PCH)', thermal === 'nominal' ? 61 : thermal === 'medium' ? 66 : 71, '#B9BDC6', [0.55, 0.56, 0.56, 0.58, 0.6, 0.61, 0.62, 0.62, 0.61, 0.6, 0.6, 0.61]],
+      ['NVMe', thermal === 'nominal' ? 39 : thermal === 'medium' ? 44 : 49, '#8B8F99', [0.2, 0.2, 0.22, 0.22, 0.25, 0.3, 0.28, 0.26, 0.25, 0.24, 0.24, 0.23]]
     ];
     return {
       thermal,

@@ -19,15 +19,18 @@
     .cap { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #8B8F99; }
     .num { font-variant-numeric: tabular-nums; }
     .seg { height: 40px; min-width: 104px; padding: 0 18px; border: 0; border-radius: 999px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: transparent; }
-    .hero-cool { background-image: linear-gradient(135deg, #ECFEC2 0%, #D6F2A5 45%, #B8E86A 100%); color: #0A0F05; }
-    .hero-warm { background-image: linear-gradient(135deg, #FFF3C4 0%, #F5C542 60%, #E8963A 100%); color: #1A1204; }
-    .hero-hot { background-image: linear-gradient(135deg, #C22061 0%, #A01743 55%, #7A1235 100%); color: #FFFFFF; }
-    .segtrack-cool, .segtrack-warm { background: rgba(10, 15, 5, 0.12); }
-    .segtrack-hot { background: rgba(0, 0, 0, 0.22); }
-    .seg-on-cool, .seg-on-warm { background: #0A0F05; color: #C1FF14; }
-    .seg-off-cool, .seg-off-warm { color: #0A0F05; }
-    .seg-on-hot { background: #FFFFFF; color: #A01743; }
-    .seg-off-hot { color: #FFFFFF; }
+    .hero-nominal { background-image: linear-gradient(135deg, #DCFCE7 0%, #86EFAC 45%, #22C55E 100%); color: #052E16; }
+    .hero-medium { background-image: linear-gradient(135deg, #FEF9C3 0%, #FDE047 50%, #EAB308 100%); color: #1A1204; }
+    .hero-intense { background-image: linear-gradient(135deg, #DC2626 0%, #B91C1C 55%, #7F1D1D 100%); color: #FFFFFF; }
+    .segtrack-nominal { background: rgba(5, 46, 22, 0.12); }
+    .segtrack-medium { background: rgba(26, 18, 4, 0.12); }
+    .segtrack-intense { background: rgba(0, 0, 0, 0.22); }
+    .seg-on-nominal { background: #052E16; color: #4ADE80; }
+    .seg-off-nominal { color: #052E16; }
+    .seg-on-medium { background: #1A1204; color: #FDE047; }
+    .seg-off-medium { color: #1A1204; }
+    .seg-on-intense { background: #FFFFFF; color: #B91C1C; }
+    .seg-off-intense { color: #FFFFFF; }
     .spin { animation-name: hcspin; animation-timing-function: linear; animation-iteration-count: infinite; }
     .pulse { animation: hcpulse 1s ease-in-out infinite; }
     @keyframes hcspin { to { transform: rotate(360deg); } }
@@ -139,7 +142,7 @@
 <script data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
 class Component extends DCLogic {
   renderVals() {
-    const Y = '#5DDEA5', N = '#FF8DB6', P = '#F5C542', D = '#8B8F99';
+    const Y = '#5DDEA5', N = '#F87171', P = '#F5C542', D = '#8B8F99';
     const r = (control, iface, read, readColor, write, writeColor, owner) => ({ control, iface, read, readColor, write, writeColor, owner });
     return {
       specs: [

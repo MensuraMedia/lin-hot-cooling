@@ -4,9 +4,9 @@
 | --- | --- |
 | Version | 0.1 (started 2026-09-17) |
 | Status | **Documentation only.** No build, code or packaging work has started. |
-| Specification | [thermal-agent-spec.md](thermal-agent-spec.md) v1.2 |
+| Specification | [thermal-agent-spec.md](thermal-agent-spec.md) v1.3 |
 | Parent plan | [milestones.md](milestones.md): agent work slots into M1.9, M3.5–M3.7 and M4 |
-| Design | [ui-layout-spec.md](ui-layout-spec.md) v1.1 (heat-level colors), [mockups](mockups/README.md) |
+| Design | [ui-layout-spec.md](ui-layout-spec.md) v1.2 (heat-level colors, red/crimson rule), [mockups](mockups/README.md) |
 
 ## Owner decisions (2026-09-17)
 
@@ -16,6 +16,7 @@
 | D2 | **Heat state is the default view.** Expanding shows the current template and mode, which can be changed for better results. | Every agent surface (panel indicator window, Overview card, compact bar) opens **collapsed**, showing heat only. An expander reveals the template, mode, recommendation and change controls. The expanded or collapsed choice is remembered per surface. |
 | D3 | **Heat detection uses three colors:** green = nominal, yellow = medium, red = intense | Nominal → green; Elevated and Recovering → yellow; Hot and Critical → red (Critical adds a pulse and the emergency banner). The colors replace the earlier lime/amber/magenta heat colors everywhere (hero cards, gauges, meters, sparklines, indicator icon). |
 | D4 | **A panel (tray) indicator** is part of the agent | The indicator shows the heat level; clicking it opens the collapsed mini window (A5). |
+| D5 | **The tray icon is a temperature gauge.** Red states are red or crimson, never pink. | Gauge icon per thermal-agent-spec §7.7. Heat red is `#EF4444`; the Intense template category is crimson `#DC143C` / `#C8102E` (ui-layout-spec v1.2). |
 
 ## Heat levels (reference for every milestone)
 
@@ -26,7 +27,7 @@
 | Hot | **Intense** | `heat.intense` | `#EF4444` | `#F87171` | `#DC2626 → #B91C1C → #7F1D1D` | `#FFFFFF` (≥ 4.8:1) |
 | Critical | **Intense + emergency** | `heat.intense` | `#EF4444`, pulsing | `#F87171` | same, plus banner `#B91C1C` | `#FFFFFF` |
 
-**Color is never the only signal.** Every level also shows a word (Nominal / Medium / Intense / Critical), and the indicator icon changes shape for each level: plain fan, fan + dot, fan + "!".
+**Color is never the only signal.** Every level also shows a word (Nominal / Medium / Intense / Critical), and the temperature-gauge tray icon changes shape for each level: arc only (nominal), a dot in the arc gap (medium), "!" in the gap (intense), plus a blink for critical.
 
 ---
 
@@ -65,9 +66,9 @@ flowchart LR
 | --- | --- | --- | --- |
 | A0.1 | Spec update | thermal-agent-spec v1.2: Suggest default, collapsed/expanded model, heat-level mapping, panel indicator, resolved open questions | `docs/thermal-agent-spec.md` (**done 2026-09-17**) |
 | A0.2 | Token update | ui-layout-spec v1.1: `heat.*` tokens, hero gradients, gauge gradient, sparkline over-warning color, contrast table | `docs/ui-layout-spec.md` (**done 2026-09-17**) |
-| A0.3 | Mockup update: colors | Recolor the Overview hero, gauges, meters and sparklines, and the agent card and state sheet, to green/yellow/red | `docs/mockups/*.dc.html`, design canvas |
+| A0.3 | Mockup update: colors | Recolor the Overview hero, gauges, meters and sparklines, and the agent card and state sheet, to green/yellow/red; the Intense category becomes crimson (no pink) | `docs/mockups/*.dc.html`, design canvas (**done 2026-09-17**) |
 | A0.4 | Mockup: collapsed/expanded card | Overview card in both views; compact bar in both views | New artboards |
-| A0.5 | Mockup: panel indicator | The three indicator icons (with shape cues), mini window collapsed (320 × 132) and expanded (320 × 440), right-click menu | New artboards |
+| A0.5 | Mockup: panel indicator | Temperature-gauge icon (anatomy, dark/light panels, tooltip), mini window collapsed (320 × 148) and expanded (340 × 470), right-click menu | `docs/mockups/Tray.dc.html` (**done 2026-09-17**) |
 | A0.6 | Review and sign-off | Owner approves A0.3–A0.5; any change goes back into the specs | Entry in the decision log |
 
 **Acceptance:** the owner approves the mockups; every heat color in them matches the heat-level table; the specs and mockups agree.
@@ -172,7 +173,7 @@ flowchart LR
 | ID | Work package | Details |
 | --- | --- | --- |
 | A5.1 | Status icon backend | **XApp.StatusIcon** (libxapp, native on Cinnamon/Mint; left click activates, with the icon's position); fallback **AyatanaAppIndicator3** (menu-only) on other desktops; icon provider as a plugin |
-| A5.2 | Icons | Three full-color SVG icons (green fan; yellow fan + dot; red fan + "!") plus a critical variant that alternates every 1 s (static with reduced motion); tooltip "Hot Cooling — Medium · CPU 78 °C" |
+| A5.2 | Gauge icon | Live temperature-gauge icon (thermal-agent-spec §7.7): arc + needle from the heat score, heat-level color, shape cue in the arc gap, dark/light variants, cached renders, optional temperature label; critical blink (static with reduced motion) |
 | A5.3 | Mini window, collapsed (default) | Undecorated, 320 × 132, placed next to the icon: state word in the heat color, heat meter, hottest zone + trend, forecast, expander "Template & mode", suggestion dot |
 | A5.4 | Mini window, expanded | 320 × 440: current template (with category), mode segmented control (Observe / **Suggest** / Auto), recommendation bar with Apply, top 3 templates with Apply, "More templates…", "Open Hot Cooling" |
 | A5.5 | Behavior | Closes on focus loss or Esc; remembers its expansion state; keyboard reachable; opens the main window on double-click |
@@ -216,7 +217,7 @@ flowchart LR
 
 | Milestone | Status | Notes |
 | --- | --- | --- |
-| A0 | **In progress** | A0.1 and A0.2 done 2026-09-17; mockup updates A0.3–A0.5 pending the owner's go-ahead |
+| A0 | **In progress** | A0.1, A0.2, A0.3, A0.5 done 2026-09-17; A0.4 (collapsed/expanded Overview card and compact bar mockups) and A0.6 (owner sign-off) remain |
 | A1 | Not started | Needs M1.1–M1.5 |
 | A2 | Not started | |
 | A3 | Not started | Needs the M2 helper |
