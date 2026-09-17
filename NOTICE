@@ -1,0 +1,18 @@
+Lin Hot Cooling — Third-party notices
+
+1. gtk-python-dashboard-starter
+   https://github.com/mikesdatawork/gtk-python-dashboard-starter  (author: mikesdatawork)
+   Application shell (window, sidebar, page routing, theme applicator, layout config) is derived from
+   this template. Its README states: "Free for personal and educational use." Commercial use of
+   derived code may require the template author's permission in addition to MensuraMedia's.
+
+2. UI design reference
+   universal-instruction-set/universal-themes/image-reference/ui-ki-green-gray-black.jpg
+   (MensuraMedia/universal-instruction-set, CC BY-NC 4.0). Used as a color/style reference only;
+   no image content is redistributed.
+
+3. Runtime libraries (not bundled; installed from the distribution)
+   PyGObject (LGPL-2.1+), GTK 3 (LGPL-2.1+), pycairo (LGPL-2.1 / MPL-1.1), PyYAML (MIT),
+   jsonschema (MIT), pynvml (BSD-3-Clause), power-profiles-daemon (GPL-3.0, used over D-Bus).
+
+Additional components will be listed here as they are added.
