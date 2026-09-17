@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #080C17; font-family: Manrope, Ubuntu, Cantarell, sans-serif; color: #F5F7FA; }
+    .lbl { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: #8B8F99; }
+    .lbl b { color: #F5F7FA; font-weight: 800; }
+    .sec { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
+  </style>
+</helmet>
+<div style="width: 1636px; height: 1330px; box-sizing: border-box; padding: 48px; background: #080C17; display: flex; flex-direction: column; gap: 26px;">
+  <div style="display: flex; flex-direction: column; gap: 6px;">
+    <h1 style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em;">Thermal Agent · collapsed and expanded views</h1>
+    <span style="font-size: 15px; color: #8B8F99;">Heat state is the default (collapsed) view. “Template &amp; mode” expands the card to show and change the current template and mode. Every card here is live: expand, apply, switch modes.</span>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <span class="sec">Overview card · collapsed (default)</span>
+    <div style="display: grid; grid-template-columns: repeat(3, 492px); column-gap: 32px;">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>NOMINAL (GREEN)</b> — no suggestion</span>
+        <dc-import name="AgentCard" preset="nominal-observe" view="collapsed" hint-size="492px,300px"></dc-import>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>MEDIUM (YELLOW)</b> — auto-applied template</span>
+        <dc-import name="AgentCard" preset="elevated-auto" view="collapsed" hint-size="492px,300px"></dc-import>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>INTENSE (RED)</b> — suggestion waiting (dot on the expander)</span>
+        <dc-import name="AgentCard" preset="hot-suggest" view="collapsed" hint-size="492px,300px"></dc-import>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <span class="sec">Overview card · expanded</span>
+    <div style="display: grid; grid-template-columns: repeat(3, 492px); column-gap: 32px;">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>INTENSE (RED) · SUGGEST</b> — change the template for better cooling</span>
+        <dc-import name="AgentCard" preset="hot-suggest" view="expanded" hint-size="492px,300px"></dc-import>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>MEDIUM (YELLOW) · AUTO</b> — template applied by the agent</span>
+        <dc-import name="AgentCard" preset="elevated-auto" view="expanded" hint-size="492px,300px"></dc-import>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>CRITICAL (RED) · COLLAPSED</b> — emergency banner shows without expanding</span>
+        <dc-import name="AgentCard" preset="critical" view="collapsed" hint-size="492px,300px"></dc-import>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <span class="sec">Compact bar (Fans, Thermals) · collapsed and expanded</span>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <span class="lbl"><b>COLLAPSED (DEFAULT) · NOMINAL (GREEN)</b></span>
+      <div style="height: 58px;"><dc-import name="CompactBar" preset="nominal-observe" view="collapsed" hint-size="1016px,132px"></dc-import></div>
+      <span class="lbl"><b>COLLAPSED · INTENSE (RED)</b> — suggestion waiting</span>
+      <div style="height: 58px;"><dc-import name="CompactBar" preset="intense-suggest" view="collapsed" hint-size="1016px,132px"></dc-import></div>
+      <span class="lbl"><b>EXPANDED · INTENSE (RED) · SUGGEST</b> — current template, mode, apply the suggestion or change the template</span>
+      <dc-import name="CompactBar" preset="intense-suggest" view="expanded" hint-size="1016px,132px"></dc-import>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1636,"height":1330}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

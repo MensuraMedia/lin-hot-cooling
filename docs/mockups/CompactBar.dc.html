@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #080C17; font-family: Manrope, Ubuntu, Cantarell, sans-serif; color: #F5F7FA; }
+    .cb-btn { height: 36px; padding: 0 16px; border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .cb-exp { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 4px; border: 0; background: transparent; color: #C1FF14; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+  </style>
+</helmet>
+<div style="width: 1016px; height: 132px;">
+  <section aria-label="Thermal Agent, compact" style="width: 1016px; box-sizing: border-box; border-radius: 18px; background: #1E222E; display: flex; flex-direction: column; {{border}}">
+    <div style="height: 56px; box-sizing: border-box; padding: 0 12px 0 20px; display: flex; align-items: center; gap: 16px;">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="M12 8v5M12 16h.01"/></svg>
+      <span style="font-size: 16px; font-weight: 800; color: {{color}}; min-width: 72px;">{{level}}</span>
+      <div role="meter" aria-label="Heat score {{score}} of 100" aria-valuenow="{{score}}" aria-valuemin="0" aria-valuemax="100" style="width: 160px; height: 8px; border-radius: 999px; background: #2A2E3A; overflow: hidden;">
+        <div style="height: 8px; width: {{pct}}; border-radius: 999px; background-image: linear-gradient(90deg, #22C55E 0%, #FACC15 50%, #EF4444 100%); background-size: {{bg}} 8px;"></div>
+      </div>
+      <span style="font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; color: {{color}};">{{score}}</span>
+      <span style="font-size: 14px; font-weight: 700;">{{zone}} <span style="font-size: 12px; color: {{trendColor}};">{{trend}}</span></span>
+      <span style="font-size: 12px; color: #8B8F99;">{{forecast}}</span>
+      <span style="flex-grow: 1;"></span>
+      <span style="display: {{hint}}; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: {{color}};"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{mark}};"></span>{{hintText}}</span>
+      <button class="cb-exp" onClick="{{toggle}}" aria-expanded="{{ariaExpanded}}">Template &amp; mode
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#C1FF14" stroke-width="2.4" stroke-linecap="round"><path d="{{chevron}}"/></svg>
+      </button>
+    </div>
+    <div style="display: {{expDisplay}}; height: 72px; box-sizing: border-box; padding: 0 12px 0 20px; border-top: 1px solid rgba(255,255,255,0.06); align-items: center; gap: 18px;">
+      <span style="display: flex; flex-direction: column; gap: 2px;">
+        <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.05em; color: #8B8F99;">CURRENT TEMPLATE</span>
+        <span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{activeCat}};"></span>{{activeName}}</span>
+      </span>
+      <span style="display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.05em; color: #8B8F99;">MODE</span>
+        <span role="group" aria-label="Agent mode" style="display: flex; gap: 3px; padding: 3px; border-radius: 999px; background: #353743;">
+          <sc-for list="{{modes}}" as="m" hint-placeholder-count="3">
+            <button onClick="{{m.pick}}" aria-pressed="{{m.pressed}}" style="height: 28px; min-width: 76px; border: 0; border-radius: 999px; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; {{m.style}}">{{m.label}}</button>
+          </sc-for>
+        </span>
+      </span>
+      <span style="flex-grow: 1;"></span>
+      <sc-if value="{{showRec}}" hint-placeholder-val="{{ true }}">
+        <span style="font-size: 12px; color: #8B8F99;">Suggested for better cooling · <span style="color: #4ADE80; font-weight: 700;">{{recRelief}}</span></span>
+        <button class="cb-btn" onClick="{{applyRec}}" style="border: 0; background: #C1FF14; color: #0A0F05; font-weight: 800;">Apply {{recName}}</button>
+        <button class="cb-btn" onClick="{{snooze}}" style="border: 0; background: transparent; color: #F5F7FA;">Not now</button>
+      </sc-if>
+      <button class="cb-btn" disabled="{{locked}}" style="border: 1px solid rgba(255,255,255,0.14); background: transparent; color: #F5F7FA;">Change template</button>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"preset":{"editor":"enum","options":["intense-suggest","medium-auto","nominal-observe","critical"],"default":"intense-suggest","section":"Agent"},"view":{"editor":"enum","options":["collapsed","expanded"],"default":"collapsed","section":"Agent"},"$preview":{"width":1016,"height":132}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const expanded = st.expanded !== undefined ? st.expanded : (this.props.view ?? 'collapsed') === 'expanded';
+    const P = {
+      'intense-suggest': { level: 'Intense', color: '#F87171', mark: '#EF4444', score: 78, zone: 'CPU 91 °C', trend: '↑ 1.8 °C/min', trendColor: '#F87171', forecast: 'critical in ~6 min', mode: 'suggest', active: ['General Operations', '#C1FF14'], rec: true },
+      'medium-auto': { level: 'Medium', color: '#FDE047', mark: '#FACC15', score: 52, zone: 'CPU 78 °C', trend: '↑ 0.9 °C/min', trendColor: '#F87171', forecast: 'warning in ~8 min', mode: 'auto', active: ['Development', '#C1FF14'] },
+      'nominal-observe': { level: 'Nominal', color: '#4ADE80', mark: '#22C55E', score: 18, zone: 'CPU 54 °C', trend: '→ steady', trendColor: '#8B8F99', forecast: 'no limits in sight', mode: 'observe', active: ['General Operations', '#C1FF14'] },
+      'critical': { level: 'Critical', color: '#F87171', mark: '#EF4444', score: 100, zone: 'CPU 97 °C', trend: '↑ 4.2 °C/min', trendColor: '#F87171', forecast: 'emergency cooling active', mode: 'suggest', active: ['High-Intensity Gaming', '#DC143C'], critical: true }
+    }[this.props.preset ?? 'intense-suggest'];
+    const mode = st.mode || P.mode;
+    const applied = !!st.applied;
+    const showRec = !!P.rec && mode === 'suggest' && !st.snoozed && !applied;
+    const active = applied ? ['High-Intensity Gaming', '#DC143C'] : P.active;
+    return {
+      level: P.level, color: P.color, mark: P.mark, score: P.score, pct: P.score + '%', bg: Math.round(10000 / P.score) + '%',
+      zone: P.zone, trend: P.trend, trendColor: P.trendColor, forecast: P.forecast,
+      border: P.critical ? 'border: 1.5px solid #DC2626;' : 'border: 1px solid rgba(255,255,255,0.06);',
+      hint: (showRec || P.critical) && !expanded ? 'flex' : 'none', hintText: P.critical ? 'Emergency active' : 'Suggestion available',
+      expDisplay: expanded ? 'flex' : 'none', ariaExpanded: expanded ? 'true' : 'false',
+      chevron: expanded ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6',
+      toggle: () => this.setState({ expanded: !expanded }),
+      activeName: active[0], activeCat: active[1],
+      modes: [['observe', 'Observe'], ['suggest', 'Suggest'], ['auto', 'Auto']].map(([id, label]) => ({
+        label, pressed: id === mode ? 'true' : 'false',
+        style: id === mode ? 'background: #C1FF14; color: #0A0F05;' : 'background: transparent; color: #F5F7FA;',
+        pick: () => this.setState({ mode: id })
+      })),
+      showRec, recName: 'High-Intensity Gaming', recRelief: '−8 °C',
+      applyRec: () => this.setState({ applied: true }),
+      snooze: () => this.setState({ snoozed: true }),
+      locked: !!P.critical
+    };
+  }
+}
+</script>
+</body>
+</html>

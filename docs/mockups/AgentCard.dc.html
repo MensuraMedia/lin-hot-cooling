@@ -15,31 +15,72 @@
     .ac-sec { border: 1px solid rgba(255, 255, 255, 0.14); background: transparent; color: #F5F7FA; }
     .ac-pri { border: 0; background: #C1FF14; color: #0A0F05; }
     .ac-sec:disabled, .ac-pri:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ac-exp { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px 0 0; border: 0; background: transparent; color: #C1FF14; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
     .ac-pulse { animation: acpulse 1.2s ease-in-out infinite; }
     @keyframes acpulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
     @media (prefers-reduced-motion: reduce) { .ac-pulse { animation: none; } }
   </style>
 </helmet>
 <section aria-label="Thermal Agent" style="width: 492px; height: 300px; box-sizing: border-box; padding: 16px 20px; border-radius: 18px; background: #1E222E; display: flex; flex-direction: column; gap: 6px; {{cardBorder}}">
-  <div style="display: flex; align-items: center; justify-content: space-between; height: 32px;">
+  <div style="display: flex; align-items: center; justify-content: space-between; height: 32px; flex-shrink: 0;">
     <span style="display: flex; align-items: center; gap: 10px;">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="M12 8v5M12 16h.01"/></svg>
       <span style="font-size: 16px; font-weight: 700;">Thermal Agent</span>
     </span>
-    <button onClick="{{cycleMode}}" aria-label="Agent mode: {{modeLabel}}. Change mode" style="display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: #353743; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;">
+    <span style="display: {{liveDisplay}}; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: #8B8F99;"><span class="ac-pulse" style="width: 8px; height: 8px; border-radius: 50%; background: #C1FF14;"></span>Live</span>
+    <button onClick="{{cycleMode}}" aria-label="Agent mode: {{modeLabel}}. Change mode" style="display: {{modePillDisplay}}; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: #353743; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;">
       <span class="ac-pulse" style="width: 10px; height: 10px; box-sizing: border-box; border-radius: 50%; {{modeDot}}"></span>{{modeLabel}}
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#F5F7FA" stroke-width="2.2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
     </button>
   </div>
 
   <div style="flex-grow: 1; min-height: 0; display: {{offDisplay}}; flex-direction: column; align-items: flex-start; justify-content: center; gap: 10px;">
-      <span style="width: 44px; height: 44px; border-radius: 14px; background: #2A2E3A; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#8B8F99" stroke-width="1.7" stroke-linecap="round"><path d="M12 3v9M7.5 6.5a7 7 0 1 0 9 0"/></svg></span>
-      <span style="font-size: 16px; font-weight: 700;">Background agent is off</span>
-      <span style="font-size: 13px; line-height: 1.5; color: #8B8F99;">Heat is monitored only while this window is open, and no templates are suggested. You can still switch templates on the Templates page.</span>
-      <button class="ac-btn ac-pri" style="height: 40px; padding: 0 18px;">Start agent</button>
+    <span style="width: 44px; height: 44px; border-radius: 14px; background: #2A2E3A; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#8B8F99" stroke-width="1.7" stroke-linecap="round"><path d="M12 3v9M7.5 6.5a7 7 0 1 0 9 0"/></svg></span>
+    <span style="font-size: 16px; font-weight: 700;">Background agent is off</span>
+    <span style="font-size: 13px; line-height: 1.5; color: #8B8F99;">Heat is monitored only while this window is open, and no templates are suggested. You can still switch templates on the Templates page.</span>
+    <button class="ac-btn ac-pri" style="height: 40px; padding: 0 18px;">Start agent</button>
   </div>
 
-  <div style="flex-grow: 1; min-height: 0; display: {{onDisplay}}; flex-direction: column; gap: 6px;">
+  <div style="flex-grow: 1; min-height: 0; display: {{colDisplay}}; flex-direction: column; gap: 6px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between;">
+      <span style="font-size: 36px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; color: {{stateColor}};">{{stateLabel}}</span>
+      <span style="display: flex; align-items: baseline; gap: 4px;"><span style="font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; color: {{stateColor}};">{{score}}</span><span style="font-size: 12px; color: #8B8F99;">/ 100 heat</span></span>
+    </div>
+    <div role="meter" aria-label="Heat score {{score}} of 100, {{stateLabel}}" aria-valuenow="{{score}}" aria-valuemin="0" aria-valuemax="100" style="height: 8px; border-radius: 999px; background: #2A2E3A; overflow: hidden; flex-shrink: 0;">
+      <div class="{{meterClass}}" style="height: 8px; width: {{scorePct}}; border-radius: 999px; background-image: linear-gradient(90deg, #22C55E 0%, #FACC15 50%, #EF4444 100%); background-size: {{meterBgSize}} 8px;"></div>
+    </div>
+    <div style="display: flex; align-items: baseline; gap: 8px;">
+      <span style="font-size: 14px; font-weight: 700;">{{zoneText}}</span>
+      <span style="font-size: 12px; font-weight: 700; color: {{slopeColor}}; font-variant-numeric: tabular-nums;">{{slopeText}}</span>
+      <span style="font-size: 12px; color: #8B8F99;">· {{forecast}}</span>
+    </div>
+    <svg viewBox="0 0 450 44" width="450" height="44" preserveAspectRatio="none" role="img" aria-label="Hottest zone, last 10 minutes" style="flex-shrink: 0;">
+      <defs><linearGradient id="acspark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{sparkColor}}" stop-opacity="0.32"/><stop offset="1" stop-color="{{sparkColor}}" stop-opacity="0"/></linearGradient></defs>
+      <path d="M0 {{warnY}}H450" stroke="rgba(248,113,113,0.45)" stroke-width="1" stroke-dasharray="3 4"/>
+      <path d="{{sparkArea}}" fill="url(#acspark)"/>
+      <path d="{{sparkLine}}" fill="none" stroke="{{sparkColor}}" stroke-width="2"/>
+    </svg>
+    <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8B8F99;"><span>10 min ago</span><span>warning {{warnLabel}}</span><span>now</span></div>
+    <div style="flex-grow: 1;"></div>
+    <sc-if value="{{isCritical}}" hint-placeholder-val="{{ false }}">
+      <div role="alert" style="height: 32px; flex-shrink: 0; box-sizing: border-box; padding: 0 12px; border-radius: 10px; background: #B91C1C; color: #FFFFFF; display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20zM12 9v5M12 17h.01"/></svg>
+        <span style="font-size: 12px; font-weight: 700;">Emergency cooling active · switching locked</span>
+      </div>
+    </sc-if>
+    <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 4px;">
+      <button class="ac-exp" onClick="{{toggle}}" aria-expanded="false">Template &amp; mode
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#C1FF14" stroke-width="2.4" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <span style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: {{stateMark}}; display: {{hintDisplay}};"></span>
+        <span style="color: {{stateColor}}; display: {{hintDisplay}};">{{hintText}}</span>
+        <span style="color: #8B8F99; font-weight: 600; display: {{quietDisplay}};">Expand to see the template and mode</span>
+      </span>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; min-height: 0; display: {{expDisplay}}; flex-direction: column; gap: 6px;">
     <div style="display: flex; flex-direction: column; gap: 6px;">
       <div style="display: flex; align-items: center; gap: 12px;">
         <div role="meter" aria-label="Heat score {{score}} of 100" aria-valuenow="{{score}}" aria-valuemin="0" aria-valuemax="100" style="flex-grow: 1; height: 8px; border-radius: 999px; background: #2A2E3A; overflow: hidden;">
@@ -51,11 +92,12 @@
         <span style="font-size: 14px; font-weight: 800; color: {{stateColor}};">{{stateLabel}}</span><span style="font-size: 14px; font-weight: 700;">· {{zoneText}}</span>
         <span style="font-size: 12px; font-weight: 700; color: {{slopeColor}}; font-variant-numeric: tabular-nums;">{{slopeText}}</span>
       </div>
-      <span style="font-size: 12px; color: #8B8F99;">{{forecast}}</span>
     </div>
 
-    <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 6px;">
-      <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.05em; color: #8B8F99;">COOLING TEMPLATES</span>
+    <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 2px;">
+      <button class="ac-exp" onClick="{{toggle}}" aria-expanded="true">Template &amp; mode
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#C1FF14" stroke-width="2.4" stroke-linecap="round"><path d="m6 15 6-6 6 6"/></svg>
+      </button>
       <a href="Templates.dc.html" style="font-size: 12px; font-weight: 700; text-decoration: none;">More templates…</a>
     </div>
 
@@ -66,7 +108,7 @@
           <span style="width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: {{r.catColor}};"></span>
           <span style="display: flex; flex-direction: column; flex-grow: 1; min-width: 0;">
             <span style="font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.name}}</span>
-            <span style="font-size: 11px; color: #8B8F99; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.reason}} <span style="color: #5DDEA5; font-weight: 700;">{{r.relief}}</span></span>
+            <span style="font-size: 11px; color: #8B8F99; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.reason}} <span style="color: #4ADE80; font-weight: 700;">{{r.relief}}</span></span>
           </span>
           <sc-if value="{{r.active}}" hint-placeholder-val="{{ false }}">
             <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #C1FF14;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#C1FF14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Active</span>
@@ -83,7 +125,7 @@
     <sc-if value="{{showRec}}" hint-placeholder-val="{{ false }}">
       <div style="height: 40px; box-sizing: border-box; padding: 0 6px 0 12px; border-radius: 12px; background: rgba(193, 255, 20, 0.10); display: flex; align-items: center; gap: 8px;">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#C1FF14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m14 10 2-2 2 2-2 2z"/><path d="M18 3v2M21 6h-2"/></svg>
-        <span style="flex-grow: 1; font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Suggested: {{recName}} <span style="color: #5DDEA5;">{{recRelief}}</span></span>
+        <span style="flex-grow: 1; font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Suggested: {{recName}} <span style="color: #4ADE80;">{{recRelief}}</span></span>
         <button class="ac-btn ac-pri" onClick="{{applyRec}}">Apply</button>
         <button class="ac-btn ac-sec" onClick="{{snooze}}" style="border: 0;">Not now</button>
       </div>
@@ -98,35 +140,40 @@
   </div>
 </section>
 </x-dc>
-<script data-dc-script data-props='{"preset":{"editor":"enum","options":["hot-suggest","elevated-auto","nominal-observe","critical","off"],"default":"hot-suggest","section":"Agent"},"$preview":{"width":492,"height":300}}'>
+<script data-dc-script data-props='{"preset":{"editor":"enum","options":["hot-suggest","elevated-auto","nominal-observe","critical","off"],"default":"hot-suggest","section":"Agent"},"view":{"editor":"enum","options":["collapsed","expanded"],"default":"collapsed","section":"Agent"},"$preview":{"width":492,"height":300}}'>
 class Component extends DCLogic {
   renderVals() {
     const preset = this.props.preset ?? 'hot-suggest';
     const st = this.state || {};
+    const expanded = st.expanded !== undefined ? st.expanded : (this.props.view ?? 'collapsed') === 'expanded';
     const CAT = { intense: '#DC143C', optimal: '#C1FF14', idle: '#5DDEA5' };
     const P = {
-      'hot-suggest': { mode: 'suggest', state: 'Intense', stateColor: '#F87171', score: 78, zone: 'CPU 91 °C', slope: '↑ 1.8 °C/min', slopeColor: '#F87171',
-        forecast: 'Critical in ~6 min · sustained CPU + GPU (gaming)', active: 'general',
+      'hot-suggest': { mode: 'suggest', state: 'Intense', stateColor: '#F87171', mark: '#EF4444', score: 78, zone: 'CPU 91 °C', slope: '↑ 1.8 °C/min', slopeColor: '#F87171',
+        forecast: 'critical in ~6 min', active: 'general',
+        spark: [52, 54, 55, 58, 63, 70, 76, 80, 83, 86, 88, 89, 91],
         rows: [['general', 'General Operations', 'optimal', 'Active since 20:50', ''], ['cooldown', 'Cool-down', 'intense', 'Holds fans until cool ·', '−5 °C']],
         rec: ['gaming', 'High-Intensity Gaming', 'intense', 'Best relief for gaming load ·', '−8 °C'] },
-      'elevated-auto': { mode: 'auto', state: 'Medium', stateColor: '#FDE047', score: 52, zone: 'CPU 78 °C', slope: '↑ 0.9 °C/min', slopeColor: '#F87171',
-        forecast: 'Warning in ~8 min · sustained CPU (compile)', active: 'dev',
+      'elevated-auto': { mode: 'auto', state: 'Medium', stateColor: '#FDE047', mark: '#FACC15', score: 52, zone: 'CPU 78 °C', slope: '↑ 0.9 °C/min', slopeColor: '#F87171',
+        forecast: 'warning in ~8 min', active: 'dev',
+        spark: [55, 56, 60, 66, 70, 71, 72, 74, 75, 76, 77, 77, 78],
         rows: [['dev', 'Development', 'optimal', 'Applied automatically at 21:40', ''], ['longrun', 'Long-Running Operations', 'intense', 'More relief ·', '−6 °C'], ['quiet', 'Quiet Office', 'idle', 'Quieter ·', '−2 °C']] },
-      'nominal-observe': { mode: 'observe', state: 'Nominal', stateColor: '#4ADE80', score: 18, zone: 'CPU 54 °C', slope: '→ steady', slopeColor: '#8B8F99',
-        forecast: 'No limits in sight · light desktop use', active: 'general',
+      'nominal-observe': { mode: 'observe', state: 'Nominal', stateColor: '#4ADE80', mark: '#22C55E', score: 18, zone: 'CPU 54 °C', slope: '→ steady', slopeColor: '#8B8F99',
+        forecast: 'no limits in sight', active: 'general',
+        spark: [53, 55, 54, 56, 58, 55, 54, 53, 55, 54, 53, 54, 54],
         rows: [['general', 'General Operations', 'optimal', 'Power-source default', ''], ['quiet', 'Quiet Office', 'idle', 'Quieter ·', '−3 °C'], ['dev', 'Development', 'optimal', 'Faster ramp-up', '']] },
-      'critical': { mode: 'suggest', state: 'Critical', stateColor: '#F87171', score: 100, zone: 'CPU 97 °C', slope: '↑ 4.2 °C/min', slopeColor: '#F87171',
-        forecast: 'Fan at full speed · firmware protection active', active: 'gaming', critical: true,
+      'critical': { mode: 'suggest', state: 'Critical', stateColor: '#F87171', mark: '#EF4444', score: 100, zone: 'CPU 97 °C', slope: '↑ 4.2 °C/min', slopeColor: '#F87171',
+        forecast: 'fan at full speed', active: 'gaming', critical: true,
+        spark: [70, 74, 78, 82, 85, 87, 89, 91, 93, 94, 95, 96, 97],
         rows: [['gaming', 'High-Intensity Gaming', 'intense', 'Emergency override in effect', ''], ['cooldown', 'Cool-down', 'intense', 'Queued after recovery', '']] },
-      'off': { mode: 'off', off: true, rows: [] }
+      'off': { mode: 'off', off: true, rows: [], spark: [50, 50] }
     }[preset] || {};
     const modes = ['observe', 'suggest', 'auto'];
     const mode = st.mode || P.mode;
     const MODE = { observe: ['Observe', 'background: #8B8F99;'], suggest: ['Suggest', 'background: transparent; border: 2px solid #C1FF14;'], auto: ['Auto', 'background: #C1FF14;'], off: ['Off', 'background: #585C65;'] };
     const active = st.active || P.active;
-    const showRec = !!P.rec && mode === 'suggest' && !st.snoozed && active !== (P.rec && P.rec[0]);
+    const recPending = !!P.rec && mode === 'suggest' && !st.snoozed && active !== (P.rec && P.rec[0]);
     let rows = (P.rows || []).slice();
-    if (P.rec && !showRec && !rows.find((r) => r[0] === P.rec[0])) rows = [rows[0], P.rec];
+    if (P.rec && !recPending && !rows.find((r) => r[0] === P.rec[0])) rows = [rows[0], P.rec];
     rows = rows.map(([id, name, cat, reason, relief]) => {
       const on = id === active;
       return {
@@ -136,20 +183,34 @@ class Component extends DCLogic {
         apply: () => this.setState({ active: id })
       };
     });
-    if (active !== P.active) {
-      rows.sort((a, b) => (b.active ? 1 : 0) - (a.active ? 1 : 0));
-    }
+    if (active !== P.active) rows.sort((a, b) => (b.active ? 1 : 0) - (a.active ? 1 : 0));
+    const y = (t) => (44 - ((Math.min(Math.max(t, 45), 100) - 45) / 55) * 42 - 1).toFixed(1);
+    const pts = P.spark || [50, 50];
+    const step = 450 / (pts.length - 1);
+    const line = pts.map((t, i) => (i ? 'L' : 'M') + (i * step).toFixed(1) + ' ' + y(t)).join(' ');
     const score = P.score || 0;
+    const on = !P.off;
+    const hint = recPending || !!P.critical;
     return {
-      offDisplay: P.off ? 'flex' : 'none', onDisplay: P.off ? 'none' : 'flex', isCritical: !!P.critical,
-      locked: !!P.critical,
+      offDisplay: P.off ? 'flex' : 'none',
+      colDisplay: on && !expanded ? 'flex' : 'none',
+      expDisplay: on && expanded ? 'flex' : 'none',
+      modePillDisplay: on && expanded ? 'flex' : 'none',
+      liveDisplay: on && !expanded ? 'flex' : 'none',
+      hintDisplay: hint ? 'inline-block' : 'none', hintText: P.critical ? 'Emergency active' : 'Suggestion available',
+      quietDisplay: hint ? 'none' : 'inline',
+      toggle: () => this.setState({ expanded: !expanded }),
+      isCritical: !!P.critical, locked: !!P.critical,
       cardBorder: P.critical ? 'border: 1.5px solid #DC2626;' : 'border: 1px solid rgba(255, 255, 255, 0.06);',
-      modeLabel: MODE[mode][0], modeDot: MODE[mode][1], stateColor: P.stateColor || '#F5F7FA',
+      modeLabel: MODE[mode][0], modeDot: MODE[mode][1],
+      stateColor: P.stateColor || '#F5F7FA', stateMark: P.mark || '#8B8F99',
       cycleMode: () => { if (!P.off) this.setState({ mode: modes[(modes.indexOf(mode) + 1) % 3] }); },
       score, scorePct: score + '%', meterBgSize: score > 0 ? Math.round(10000 / score) + '%' : '100%',
       meterClass: P.critical ? 'ac-pulse' : '',
       stateLabel: P.state, zoneText: P.zone, slopeText: P.slope, slopeColor: P.slopeColor, forecast: P.forecast,
-      rows, showRec,
+      sparkLine: line, sparkArea: line + ' L450 44 L0 44 Z', sparkColor: P.mark || '#8B8F99',
+      warnY: y(85), warnLabel: '85 °C',
+      rows, showRec: recPending,
       recName: P.rec ? P.rec[1] : '', recRelief: P.rec ? P.rec[4] : '',
       applyRec: () => this.setState({ active: P.rec[0] }),
       snooze: () => this.setState({ snoozed: true })

@@ -73,6 +73,22 @@
       "h": 940,
       "title": "Panel indicator \u00b7 gauge",
       "is_interactive": true
+    },
+    "AgentViews.dc.html": {
+      "x": 3320,
+      "y": 3160,
+      "w": 1636,
+      "h": 1330,
+      "title": "Thermal Agent \u00b7 collapsed and expanded",
+      "is_interactive": true
+    },
+    "CompactBar.dc.html": {
+      "x": 2720,
+      "y": 2640,
+      "w": 1016,
+      "h": 132,
+      "title": "Compact bar \u00b7 component",
+      "is_interactive": true
     }
   },
   "createdOnFiles": {
@@ -110,7 +126,9 @@
     "AgentProfiles.dc.html",
     "AgentStates.dc.html",
     "AgentCard.dc.html",
-    "Tray.dc.html"
+    "Tray.dc.html",
+    "AgentViews.dc.html",
+    "CompactBar.dc.html"
   ],
   "pages": [],
   "title": "Lin Hot Cooling Mockups"

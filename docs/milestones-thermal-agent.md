@@ -67,7 +67,7 @@ flowchart LR
 | A0.1 | Spec update | thermal-agent-spec v1.2: Suggest default, collapsed/expanded model, heat-level mapping, panel indicator, resolved open questions | `docs/thermal-agent-spec.md` (**done 2026-09-17**) |
 | A0.2 | Token update | ui-layout-spec v1.1: `heat.*` tokens, hero gradients, gauge gradient, sparkline over-warning color, contrast table | `docs/ui-layout-spec.md` (**done 2026-09-17**) |
 | A0.3 | Mockup update: colors | Recolor the Overview hero, gauges, meters and sparklines, and the agent card and state sheet, to green/yellow/red; the Intense category becomes crimson (no pink) | `docs/mockups/*.dc.html`, design canvas (**done 2026-09-17**) |
-| A0.4 | Mockup: collapsed/expanded card | Overview card in both views; compact bar in both views | New artboards |
+| A0.4 | Mockup: collapsed/expanded card | Overview card in both views (collapsed = heat level, score, meter, zone + trend, forecast, 10-minute sparkline, expander with suggestion hint); compact bar in both views | `docs/mockups/AgentViews.dc.html`, `AgentCard.dc.html` (`view`), `CompactBar.dc.html` (**done 2026-09-17**) |
 | A0.5 | Mockup: panel indicator | Temperature-gauge icon (anatomy, dark/light panels, tooltip), mini window collapsed (320 × 148) and expanded (340 × 470), right-click menu | `docs/mockups/Tray.dc.html` (**done 2026-09-17**) |
 | A0.6 | Review and sign-off | Owner approves A0.3–A0.5; any change goes back into the specs | Entry in the decision log |
 
@@ -217,7 +217,7 @@ flowchart LR
 
 | Milestone | Status | Notes |
 | --- | --- | --- |
-| A0 | **In progress** | A0.1, A0.2, A0.3, A0.5 done 2026-09-17; A0.4 (collapsed/expanded Overview card and compact bar mockups) and A0.6 (owner sign-off) remain |
+| A0 | **In progress** | A0.1–A0.5 done 2026-09-17 (owner reviewed A0.4: "looks good"); A0.6 formal sign-off of the full mockup set remains |
 | A1 | Not started | Needs M1.1–M1.5 |
 | A2 | Not started | |
 | A3 | Not started | Needs the M2 helper |

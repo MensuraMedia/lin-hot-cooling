@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Version | 1.3 (2026-09-17): owner decisions D1–D5 (Suggest default, heat-first collapsed views, green/yellow/red heat levels, panel indicator, **tray icon as a temperature gauge**, red never pink) |
+| Version | 1.3.1 (2026-09-17): collapsed/expanded mockups added (`AgentViews`, `CompactBar`);  owner decisions D1–D5 (Suggest default, heat-first collapsed views, green/yellow/red heat levels, panel indicator, **tray icon as a temperature gauge**, red never pink) |
 | Mockups | `docs/mockups/AgentOverview.dc.html`, `AgentProfiles.dc.html`, `AgentStates.dc.html`, `Tray.dc.html` (panel gauge + mini window); reusable component `AgentCard.dc.html` |
 | Status | Specification (not implemented) |
 | Related | [TECHNICAL-CONCEPT.md](../TECHNICAL-CONCEPT.md) §3 (process model), §6 (heat vectors), §7 (categories, templates, rules), §8 (helper), §13 (safety), §20 (modularity); [ui-layout-spec.md](ui-layout-spec.md) (tokens and components); [milestones.md](milestones.md) M3.5–M3.7 |
@@ -281,7 +281,7 @@ Every agent surface has two views.
 
 | View | Default | Shows | Controls |
 | --- | --- | --- | --- |
-| **Collapsed** | **Yes** | Heat level (word in the level color), heat meter, hottest zone + trend, forecast; on the Overview card also a 10-minute sparkline of the hottest zone; a small level-colored "Suggestion available" dot when the agent has a recommendation | Expander "Template & mode ▾" |
+| **Collapsed** | **Yes** | Heat level (36 px word in the level color) and score ("/ 100 heat"), heat meter, hottest zone + trend + forecast on one line; on the Overview card also a 44 px 10-minute sparkline of the hottest zone with a dashed warning line; a "Live" indicator replaces the mode pill; a small level-colored "Suggestion available" dot when the agent has a recommendation | Expander "Template & mode ▾" |
 | **Expanded** | On request | Everything above, plus the current template (name, category, since when), the mode (Observe / **Suggest** / Auto), the recommendation bar, and the template rows with Apply | Mode switch, Apply, Not now, More templates… |
 
 - **Memory:** the expansion state is remembered per surface (`ui.toml`).
