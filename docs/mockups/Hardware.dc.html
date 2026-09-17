@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #080C17; font-family: Manrope, Ubuntu, Cantarell, sans-serif; color: #F5F7FA; }
+    a { color: #C1FF14; } a:hover { color: #D9FF6B; }
+    .nav { display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 14px; border-radius: 12px; color: #8B8F99; font-size: 14px; font-weight: 500; text-decoration: none; }
+    .nav svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .nav-on { background: rgba(193, 255, 20, 0.10); color: #C1FF14; }
+    .card { background: #1E222E; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 18px; box-sizing: border-box; }
+    .cap { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #8B8F99; }
+    .num { font-variant-numeric: tabular-nums; }
+    .seg { height: 40px; min-width: 104px; padding: 0 18px; border: 0; border-radius: 999px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: transparent; }
+    .hero-cool { background-image: linear-gradient(135deg, #ECFEC2 0%, #D6F2A5 45%, #B8E86A 100%); color: #0A0F05; }
+    .hero-warm { background-image: linear-gradient(135deg, #FFF3C4 0%, #F5C542 60%, #E8963A 100%); color: #1A1204; }
+    .hero-hot { background-image: linear-gradient(135deg, #FFC4DA 0%, #F14D8A 55%, #A01743 100%); color: #FFFFFF; }
+    .segtrack-cool, .segtrack-warm { background: rgba(10, 15, 5, 0.12); }
+    .segtrack-hot { background: rgba(0, 0, 0, 0.22); }
+    .seg-on-cool, .seg-on-warm { background: #0A0F05; color: #C1FF14; }
+    .seg-off-cool, .seg-off-warm { color: #0A0F05; }
+    .seg-on-hot { background: #FFFFFF; color: #A01743; }
+    .seg-off-hot { color: #FFFFFF; }
+    .spin { animation-name: hcspin; animation-timing-function: linear; animation-iteration-count: infinite; }
+    .pulse { animation: hcpulse 1s ease-in-out infinite; }
+    @keyframes hcspin { to { transform: rotate(360deg); } }
+    @keyframes hcpulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @media (prefers-reduced-motion: reduce) { .spin, .pulse { animation: none; } }
+  </style>
+</helmet>
+<div style="width: 1280px; height: 800px; display: flex; background: #080C17; overflow: hidden;">
+
+  <nav aria-label="Main" style="width: 216px; flex-shrink: 0; box-sizing: border-box; padding: 24px 14px; display: flex; flex-direction: column; gap: 4px; background-image: linear-gradient(180deg, #0D1322 0%, #080C17 100%); border-right: 1px solid rgba(255, 255, 255, 0.05);">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 0 8px 22px;">
+      <div style="width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background-image: linear-gradient(135deg, #1E2A12 0%, #0B101D 100%); border: 1px solid rgba(193, 255, 20, 0.35);">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 10C12 6 13 3 16 3s3 3 0 5z"/><path d="M14 12c4 0 7 1 7 4s-3 3-5 0z"/><path d="M12 14c0 4-1 7-4 7s-3-3 0-5z"/><path d="M10 12c-4 0-7-1-7-4s3-3 5 0z"/></svg>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-size: 16px; font-weight: 800; letter-spacing: -0.01em;">Hot Cooling</span>
+        <span style="font-size: 12px; color: #8B8F99;">Thermal control</span>
+      </div>
+    </div>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Overview</a>
+    <a class="nav" href="Fans.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 10C12 6 13 3 16 3s3 3 0 5z"/><path d="M14 12c4 0 7 1 7 4s-3 3-5 0z"/><path d="M12 14c0 4-1 7-4 7s-3-3 0-5z"/><path d="M10 12c-4 0-7-1-7-4s3-3 5 0z"/></svg>Fans</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/><path d="M12 9v7"/></svg>Thermals</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Power</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Profiles</a>
+    <a class="nav" href="Templates.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg>Templates</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m14 10 2-2 2 2-2 2z"/><path d="M18 3v2M21 6h-2"/></svg>Automation</a>
+    <a class="nav nav-on" href="Hardware.dc.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>Hardware</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Benchmarks</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>History</a>
+    <div style="flex-grow: 1;"></div>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Settings</a>
+  </nav>
+
+  <main style="flex-grow: 1; box-sizing: border-box; padding: 28px 32px; display: flex; flex-direction: column; gap: 18px; min-width: 0;">
+    <header style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em;">Hardware</h1>
+        <span style="font-size: 14px; color: #8B8F99;">What this machine exposes, what Hot Cooling can change, and who owns each control</span>
+      </div>
+      <button style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C1FF14" stroke-width="1.8" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v4h-4"/></svg>Re-scan hardware</button>
+    </header>
+
+    <section style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px;">
+      <sc-for list="{{specs}}" as="s" hint-placeholder-count="4">
+        <div class="card" style="padding: 16px 18px; display: flex; gap: 14px; align-items: center;">
+          <span style="width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(193, 255, 20, 0.10);">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{s.icon}}"/></svg>
+          </span>
+          <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+            <span class="cap">{{s.label}}</span>
+            <span style="font-size: 14px; font-weight: 700;">{{s.value}}</span>
+            <span style="font-size: 12px; color: #8B8F99;">{{s.sub}}</span>
+          </span>
+        </div>
+      </sc-for>
+    </section>
+
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; flex-grow: 1; min-height: 0;">
+      <section class="card" style="padding: 8px 0 4px; display: flex; flex-direction: column;">
+        <div style="display: grid; grid-template-columns: 1.3fr 1.6fr 70px 90px 1.2fr; gap: 12px; padding: 12px 22px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <span class="cap">Control</span><span class="cap">Interface</span><span class="cap">Read</span><span class="cap">Change</span><span class="cap">Owner</span>
+        </div>
+        <sc-for list="{{rows}}" as="r" hint-placeholder-count="10">
+          <div style="display: grid; grid-template-columns: 1.3fr 1.6fr 70px 90px 1.2fr; gap: 12px; padding: 10px 22px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.04);">
+            <span style="font-size: 13px; font-weight: 700;">{{r.control}}</span>
+            <span style="font-size: 12px; color: #B9BDC6; font-family: 'JetBrains Mono', ui-monospace, monospace;">{{r.iface}}</span>
+            <span style="font-size: 12px; font-weight: 700; color: {{r.readColor}};">{{r.read}}</span>
+            <span style="font-size: 12px; font-weight: 700; color: {{r.writeColor}};">{{r.write}}</span>
+            <span style="font-size: 12px; color: #8B8F99;">{{r.owner}}</span>
+          </div>
+        </sc-for>
+      </section>
+
+      <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+        <section class="card" style="padding: 18px 20px; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 15px; font-weight: 700;">Zone topology</span>
+          <svg viewBox="0 0 260 210" width="260" height="210" role="img" aria-label="Thermal zones linked to the single system fan">
+            <g stroke="rgba(193,255,20,0.35)" stroke-width="1.5" fill="none">
+              <path d="M70 26C140 26 140 105 190 105"/><path d="M70 62C140 62 140 105 190 105"/><path d="M70 98C130 98 150 105 190 105"/>
+              <path d="M70 134C140 134 140 105 190 105"/>
+            </g>
+            <g stroke="rgba(255,255,255,0.12)" stroke-width="1.5" fill="none" stroke-dasharray="3 4">
+              <path d="M70 170C130 170 150 140 190 118"/><path d="M70 196C130 196 150 150 190 122"/>
+            </g>
+            <g font-family="Manrope, sans-serif" font-size="12" font-weight="700">
+              <rect x="0" y="14" width="70" height="24" rx="12" fill="#2A2E3A"/><text x="35" y="30" fill="#F5F7FA" text-anchor="middle">CPU</text>
+              <rect x="0" y="50" width="70" height="24" rx="12" fill="#2A2E3A"/><text x="35" y="66" fill="#F5F7FA" text-anchor="middle">dGPU</text>
+              <rect x="0" y="86" width="70" height="24" rx="12" fill="#2A2E3A"/><text x="35" y="102" fill="#F5F7FA" text-anchor="middle">iGPU</text>
+              <rect x="0" y="122" width="70" height="24" rx="12" fill="#2A2E3A"/><text x="35" y="138" fill="#F5F7FA" text-anchor="middle">Chipset</text>
+              <rect x="0" y="158" width="70" height="24" rx="12" fill="#1E222E" stroke="rgba(255,255,255,0.12)"/><text x="35" y="174" fill="#8B8F99" text-anchor="middle">NVMe</text>
+              <rect x="0" y="186" width="70" height="22" rx="11" fill="#1E222E" stroke="rgba(255,255,255,0.12)"/><text x="35" y="201" fill="#8B8F99" text-anchor="middle">Battery</text>
+              <circle cx="220" cy="108" r="30" fill="#080C17" stroke="#C1FF14" stroke-width="2"/>
+              <text x="220" y="105" fill="#C1FF14" text-anchor="middle">Fan 1</text>
+              <text x="220" y="120" fill="#8B8F99" text-anchor="middle" font-size="10">shared</text>
+            </g>
+          </svg>
+          <span style="font-size: 12px; color: #8B8F99;">Dashed: passive zones, monitored only</span>
+        </section>
+
+        <section class="card" style="padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#5DDEA5" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5" stroke-linecap="round"/></svg><span style="font-size: 15px; font-weight: 700;">No conflicts</span></div>
+          <span style="font-size: 12px; line-height: 1.5; color: #8B8F99;">power-profiles-daemon owns profiles, thermald protects the CPU, and TLP, asusd and fancontrol aren't installed.</span>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const Y = '#5DDEA5', N = '#FF8DB6', P = '#F5C542', D = '#8B8F99';
+    const r = (control, iface, read, readColor, write, writeColor, owner) => ({ control, iface, read, readColor, write, writeColor, owner });
+    return {
+      specs: [
+        { label: 'Model', value: 'TUF Gaming F15', sub: 'FX506LI · BIOS 310 (latest)', icon: 'M4 5h16v11H4zM2 19h20M9 16v3M15 16v3' },
+        { label: 'Processor', value: 'Core i5-10300H', sub: '4 cores · 8 threads · intel_pstate', icon: 'M6 6h12v12H6zM9.5 9.5h5v5h-5zM9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3' },
+        { label: 'Graphics', value: 'GTX 1650 Ti + UHD', sub: 'NVIDIA 595.91 · PRIME on-demand', icon: 'M3 7h18v10H3zM7 17v3M17 17v3M8 12h.01M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4z' },
+        { label: 'System', value: 'Linux Mint 22.2', sub: 'Kernel 7.0.0-31 · X11', icon: 'M12 3 4 7v10l8 4 8-4V7zM4 7l8 4 8-4M12 11v10' }
+      ],
+      rows: [
+        r('Platform profile', 'acpi/platform_profile', 'Yes', Y, 'Via PPD', Y, 'power-profiles-daemon'),
+        r('CPU preference', 'cpufreq EPP', 'Yes', Y, 'Yes', Y, 'intel_pstate'),
+        r('Turbo', 'intel_pstate/no_turbo', 'Yes', Y, 'Yes', Y, 'kernel'),
+        r('Fan speed', 'hwmon asus fan1_input', 'Yes', Y, '—', D, 'firmware'),
+        r('Fan mode', 'hwmon asus pwm1_enable', 'Yes', Y, 'Auto / full', P, 'asus-nb-wmi'),
+        r('Fan curves', 'pwm1_auto_point*', 'No', N, 'No', N, 'not supported'),
+        r('CPU power', 'powercap intel-rapl:0', 'Helper', P, 'Helper', P, 'kernel · root only'),
+        r('dGPU telemetry', 'NVML', 'Yes', Y, '—', D, 'nvidia 595'),
+        r('dGPU power limit', 'NVML power.limit', 'Yes', Y, 'No', N, 'laptop firmware'),
+        r('dGPU sleep (RTD3)', 'nvidia gpus/*/power', 'Yes', Y, 'No', N, 'firmware: unsupported'),
+        r('Charge limit', 'BAT1 charge_control_end', 'Yes', Y, 'Yes', Y, 'battery-charge-threshold')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

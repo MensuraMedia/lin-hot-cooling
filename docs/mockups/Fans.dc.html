@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #080C17; font-family: Manrope, Ubuntu, Cantarell, sans-serif; color: #F5F7FA; }
+    a { color: #C1FF14; } a:hover { color: #D9FF6B; }
+    .nav { display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 14px; border-radius: 12px; color: #8B8F99; font-size: 14px; font-weight: 500; text-decoration: none; }
+    .nav svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .nav-on { background: rgba(193, 255, 20, 0.10); color: #C1FF14; }
+    .card { background: #1E222E; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 18px; box-sizing: border-box; }
+    .cap { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #8B8F99; }
+    .num { font-variant-numeric: tabular-nums; }
+    .seg { height: 40px; min-width: 104px; padding: 0 18px; border: 0; border-radius: 999px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: transparent; }
+    .hero-cool { background-image: linear-gradient(135deg, #ECFEC2 0%, #D6F2A5 45%, #B8E86A 100%); color: #0A0F05; }
+    .hero-warm { background-image: linear-gradient(135deg, #FFF3C4 0%, #F5C542 60%, #E8963A 100%); color: #1A1204; }
+    .hero-hot { background-image: linear-gradient(135deg, #FFC4DA 0%, #F14D8A 55%, #A01743 100%); color: #FFFFFF; }
+    .segtrack-cool, .segtrack-warm { background: rgba(10, 15, 5, 0.12); }
+    .segtrack-hot { background: rgba(0, 0, 0, 0.22); }
+    .seg-on-cool, .seg-on-warm { background: #0A0F05; color: #C1FF14; }
+    .seg-off-cool, .seg-off-warm { color: #0A0F05; }
+    .seg-on-hot { background: #FFFFFF; color: #A01743; }
+    .seg-off-hot { color: #FFFFFF; }
+    .spin { animation-name: hcspin; animation-timing-function: linear; animation-iteration-count: infinite; }
+    .pulse { animation: hcpulse 1s ease-in-out infinite; }
+    @keyframes hcspin { to { transform: rotate(360deg); } }
+    @keyframes hcpulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @media (prefers-reduced-motion: reduce) { .spin, .pulse { animation: none; } }
+  </style>
+</helmet>
+<div style="width: 1280px; height: 800px; display: flex; background: #080C17; overflow: hidden;">
+
+  <nav aria-label="Main" style="width: 216px; flex-shrink: 0; box-sizing: border-box; padding: 24px 14px; display: flex; flex-direction: column; gap: 4px; background-image: linear-gradient(180deg, #0D1322 0%, #080C17 100%); border-right: 1px solid rgba(255, 255, 255, 0.05);">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 0 8px 22px;">
+      <div style="width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background-image: linear-gradient(135deg, #1E2A12 0%, #0B101D 100%); border: 1px solid rgba(193, 255, 20, 0.35);">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 10C12 6 13 3 16 3s3 3 0 5z"/><path d="M14 12c4 0 7 1 7 4s-3 3-5 0z"/><path d="M12 14c0 4-1 7-4 7s-3-3 0-5z"/><path d="M10 12c-4 0-7-1-7-4s3-3 5 0z"/></svg>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-size: 16px; font-weight: 800; letter-spacing: -0.01em;">Hot Cooling</span>
+        <span style="font-size: 12px; color: #8B8F99;">Thermal control</span>
+      </div>
+    </div>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Overview</a>
+    <a class="nav nav-on" href="Fans.dc.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 10C12 6 13 3 16 3s3 3 0 5z"/><path d="M14 12c4 0 7 1 7 4s-3 3-5 0z"/><path d="M12 14c0 4-1 7-4 7s-3-3 0-5z"/><path d="M10 12c-4 0-7-1-7-4s3-3 5 0z"/></svg>Fans</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/><path d="M12 9v7"/></svg>Thermals</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Power</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Profiles</a>
+    <a class="nav" href="Templates.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg>Templates</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m14 10 2-2 2 2-2 2z"/><path d="M18 3v2M21 6h-2"/></svg>Automation</a>
+    <a class="nav" href="Hardware.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>Hardware</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Benchmarks</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>History</a>
+    <div style="flex-grow: 1;"></div>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Settings</a>
+  </nav>
+
+  <main style="flex-grow: 1; box-sizing: border-box; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px; min-width: 0;">
+    <header style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em;">Fans</h1>
+        <span style="font-size: 14px; color: #8B8F99;">1 fan detected · asus-nb-wmi · firmware-managed curves</span>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <span style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 999px; background: rgba(241, 77, 138, 0.14); font-size: 13px; font-weight: 700; color: #FF8DB6;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#FF8DB6" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10v5M4.5 12.5h5"/></svg>High-Intensity Gaming</span>
+        <span style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 999px; background: #1E222E; font-size: 13px; font-weight: 600;"><span class="pulse" style="width: 8px; height: 8px; border-radius: 50%; background: #C1FF14; box-shadow: 0 0 10px rgba(193, 255, 20, 0.8);"></span>Live · 1 s</span>
+      </div>
+    </header>
+
+    <section style="display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 16px;">
+      <div class="card" style="padding: 22px; display: flex; flex-direction: column; align-items: center; gap: 14px; background-image: radial-gradient(circle at 50% 42%, rgba(193, 255, 20, 0.10) 0%, rgba(30, 34, 46, 0) 60%);">
+        <div style="align-self: stretch; display: flex; justify-content: space-between;"><span class="cap">System fan · fan1</span><span style="font-size: 12px; font-weight: 700; color: #F5C542;">Boost · 32 s left</span></div>
+        <div style="position: relative; width: 250px; height: 250px;">
+          <svg viewBox="0 0 250 250" width="250" height="250" style="position: absolute; left: 0; top: 0;">
+            <defs><linearGradient id="ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C1FF14"/><stop offset="1" stop-color="#F5C542"/></linearGradient></defs>
+            <circle cx="125" cy="125" r="116" fill="none" stroke="#2A2E3A" stroke-width="8"/>
+            <circle cx="125" cy="125" r="116" fill="none" stroke="url(#ring)" stroke-width="8" stroke-linecap="round" stroke-dasharray="{{ringDash}}" transform="rotate(-90 125 125)"/>
+            <circle cx="125" cy="125" r="100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="2 6"/>
+          </svg>
+          <div class="spin" style="position: absolute; left: 35px; top: 35px; width: 180px; height: 180px; animation-duration: {{fanDur}};">
+            <svg viewBox="0 0 200 200" width="180" height="180">
+              <defs><linearGradient id="bladeF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ECFEC2"/><stop offset="1" stop-color="#6E9E12"/></linearGradient></defs>
+              <g fill="url(#bladeF)">
+                <path d="M100 100C96 62 112 30 138 22c14 16 2 52-38 78z"/>
+                <path d="M100 100C96 62 112 30 138 22c14 16 2 52-38 78z" transform="rotate(51.4 100 100)"/>
+                <path d="M100 100C96 62 112 30 138 22c14 16 2 52-38 78z" transform="rotate(102.8 100 100)"/>
+                <path d="M100 100C96 62 112 30 138 22c14 16 2 52-38 78z" transform="rotate(154.3 100 100)"/>
+                <path d="M100 100C96 62 112 30 138 22c14 16 2 52-38 78z" transform="rotate(205.7 100 100)"/>
+                <path d="M100 100C96 62 112 30 138 22c14 16 2 52-38 78z" transform="rotate(257.1 100 100)"/>
+                <path d="M100 100C96 62 112 30 138 22c14 16 2 52-38 78z" transform="rotate(308.6 100 100)"/>
+              </g>
+              <circle cx="100" cy="100" r="24" fill="#080C17" stroke="#C1FF14" stroke-width="4"/>
+              <circle cx="100" cy="100" r="8" fill="#C1FF14"/>
+            </svg>
+          </div>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 8px;"><span class="num" style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em;">{{rpmText}}</span><span style="font-size: 15px; color: #8B8F99;">RPM</span></div>
+        <div role="group" aria-label="Fan mode" style="display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: #353743;">
+          <button class="seg" style="color: #F5F7FA;">Automatic</button>
+          <button class="seg" style="background: #C1FF14; color: #0A0F05;" aria-pressed="true">Max boost</button>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+        <div class="card" style="padding: 20px 22px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 16px; font-weight: 700;">Fan response</span>
+            <div style="display: flex; gap: 16px; font-size: 12px; color: #8B8F99;">
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 3px; border-radius: 2px; background: #C1FF14;"></span>Fan RPM</span>
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 3px; border-radius: 2px; background: #F14D8A;"></span>CPU °C</span>
+              <span>Last 10 minutes</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 600 180" height="180" preserveAspectRatio="none" style="width: 100%;">
+            <defs><linearGradient id="rpmfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C1FF14" stop-opacity="0.28"/><stop offset="1" stop-color="#293C1C" stop-opacity="0"/></linearGradient></defs>
+            <g stroke="rgba(255,255,255,0.05)"><path d="M0 45H600M0 90H600M0 135H600"/></g>
+            <path d="M0 150 L60 148 L110 140 L150 96 L190 70 L240 64 L280 40 L330 22 L380 24 L430 26 L470 30 L520 22 L560 20 L600 21 L600 180 L0 180 Z" fill="url(#rpmfill)"/>
+            <path d="M0 150 L60 148 L110 140 L150 96 L190 70 L240 64 L280 40 L330 22 L380 24 L430 26 L470 30 L520 22 L560 20 L600 21" fill="none" stroke="#C1FF14" stroke-width="2.5"/>
+            <path d="M0 132 L60 126 L110 104 L150 70 L190 58 L240 50 L280 38 L330 44 L380 50 L430 48 L470 46 L520 50 L560 52 L600 51" fill="none" stroke="#F14D8A" stroke-width="2" stroke-dasharray="1 0"/>
+            <path d="M280 0V180" stroke="#F5C542" stroke-width="1" stroke-dasharray="4 4"/>
+          </svg>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #8B8F99;"><span>21:31</span><span style="color: #F5C542; font-weight: 600;">Boost triggered · CPU 86 °C</span><span>21:41</span></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+          <div class="card" style="padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#8B8F99" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg><span style="font-size: 15px; font-weight: 700;">Custom curves unavailable</span></div>
+            <span style="font-size: 13px; line-height: 1.5; color: #8B8F99;">This fan only offers automatic and full speed. The firmware picks its curve from the platform profile, so Hot Cooling switches profiles and boosts instead.</span>
+            <a href="Hardware.dc.html" style="font-size: 13px; font-weight: 600; text-decoration: none;">See capability details</a>
+          </div>
+          <div class="card" style="padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 15px; font-weight: 700;">Firmware fan table</span>
+            <div role="group" aria-label="Platform profile" style="display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: #353743; align-self: flex-start;">
+              <button class="seg" style="min-width: 84px; color: #F5F7FA;">Quiet</button>
+              <button class="seg" style="min-width: 84px; color: #F5F7FA;">Balanced</button>
+              <button class="seg" style="min-width: 84px; background: #F14D8A; color: #FFFFFF;" aria-pressed="true">Performance</button>
+            </div>
+            <span style="font-size: 13px; color: #8B8F99;">Set by the gaming template · Fn+F5 still works</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding: 16px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <span class="cap" style="margin-right: 6px;">Capabilities</span>
+      <span style="display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: rgba(93, 222, 165, 0.12); color: #5DDEA5; font-size: 12px; font-weight: 600;">Reads fan1_input</span>
+      <span style="display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: rgba(93, 222, 165, 0.12); color: #5DDEA5; font-size: 12px; font-weight: 600;">Writes pwm1_enable · auto / full</span>
+      <span style="display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: rgba(93, 222, 165, 0.12); color: #5DDEA5; font-size: 12px; font-weight: 600;">Platform profile · 3 levels</span>
+      <span style="display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: #2A2E3A; color: #8B8F99; font-size: 12px; font-weight: 600;">No manual PWM</span>
+      <span style="display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: #2A2E3A; color: #8B8F99; font-size: 12px; font-weight: 600;">No curve points</span>
+      <span style="flex-grow: 1;"></span>
+      <span style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #8B8F99;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/></svg>Watchdog armed · returns to automatic if the app stops</span>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"rpm":{"editor":"range","min":0,"max":5600,"step":50,"unit":"RPM","default":4850,"section":"Fan"},"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const rpm = this.props.rpm ?? 4850;
+    const frac = Math.min(rpm / 5600, 1);
+    const circ = 2 * Math.PI * 116;
+    return {
+      rpmText: rpm.toLocaleString('en-US'),
+      ringDash: (frac * circ).toFixed(1) + ' 800',
+      fanDur: rpm > 0 ? (1 / Math.max(frac * 2.5, 0.05)).toFixed(2) + 's' : '0s'
+    };
+  }
+}
+</script>
+</body>
+</html>

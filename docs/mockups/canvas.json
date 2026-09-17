@@ -1,0 +1,62 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-09-17T16:06:04Z"
+ },
+ "title": "Lin Hot Cooling Mockups",
+ "launch": {
+  "view": "canvas"
+ },
+ "pages": [],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 800,
+   "title": "Overview",
+   "is_interactive": true
+  },
+  "Fans.dc.html": {
+   "x": 1360,
+   "y": 0,
+   "w": 1280,
+   "h": 800,
+   "title": "Fans",
+   "is_interactive": true
+  },
+  "Templates.dc.html": {
+   "x": 0,
+   "y": 920,
+   "w": 1280,
+   "h": 800,
+   "title": "Templates",
+   "is_interactive": true
+  },
+  "Hardware.dc.html": {
+   "x": 1360,
+   "y": 920,
+   "w": 1280,
+   "h": 800,
+   "title": "Hardware",
+   "is_interactive": true
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "Fans.dc.html",
+  "Templates.dc.html",
+  "Hardware.dc.html"
+ ],
+ "notes": {
+  "title": {
+   "x": 0,
+   "y": -300,
+   "text": "Lin Hot Cooling \u2014 desktop screens",
+   "kind": "title1",
+   "maxW": 2640
+  }
+ },
+ "designSystems": []
+}

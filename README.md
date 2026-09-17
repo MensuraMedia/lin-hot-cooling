@@ -294,6 +294,7 @@ Work packages and acceptance criteria: [docs/milestones.md](docs/milestones.md).
 | --- | --- |
 | [TECHNICAL-CONCEPT.md](TECHNICAL-CONCEPT.md) | Full technical concept: architecture, discovery sources, state model, heat vectors, templates, rule engine, helper API, UI, design system, packaging, safety, testing, GTK 4 portability, modularity principles |
 | [docs/milestones.md](docs/milestones.md) | Milestone plan M0–M7 |
+| [docs/mockups/](docs/mockups/README.md) | UI mockups: Overview, Fans, Templates, Hardware |
 
 ## 14. License and credits
 

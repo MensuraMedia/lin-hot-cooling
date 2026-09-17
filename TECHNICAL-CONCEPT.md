@@ -373,6 +373,8 @@ The template is extended rather than replaced.
 
 ### 9.5 Wireframe (Overview, 1200 × 800)
 
+High-fidelity mockups of Overview, Fans, Templates and Hardware are in [docs/mockups/](docs/mockups/README.md).
+
 ```
 ┌──────────┬───────────────────────────────────────────────────────────────────┐
 │  (logo)  │  Overview                                   ● live   [AC ⚡]       │
