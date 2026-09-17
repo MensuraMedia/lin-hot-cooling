@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #080C17; font-family: Manrope, Ubuntu, Cantarell, sans-serif; color: #F5F7FA; }
+    a { color: #C1FF14; } a:hover { color: #D9FF6B; }
+    .nav { display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 14px; border-radius: 12px; color: #8B8F99; font-size: 14px; font-weight: 500; text-decoration: none; }
+    .nav svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .nav-on { background: rgba(193, 255, 20, 0.10); color: #C1FF14; }
+    .card { background: #1E222E; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 18px; box-sizing: border-box; }
+    .cap { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #8B8F99; }
+    .num { font-variant-numeric: tabular-nums; }
+    .seg { height: 40px; min-width: 104px; padding: 0 18px; border: 0; border-radius: 999px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: transparent; }
+    .hero-cool { background-image: linear-gradient(135deg, #ECFEC2 0%, #D6F2A5 45%, #B8E86A 100%); color: #0A0F05; }
+    .hero-warm { background-image: linear-gradient(135deg, #FFF3C4 0%, #F5C542 60%, #E8963A 100%); color: #1A1204; }
+    .hero-hot { background-image: linear-gradient(135deg, #C22061 0%, #A01743 55%, #7A1235 100%); color: #FFFFFF; }
+    .segtrack-cool, .segtrack-warm { background: rgba(10, 15, 5, 0.12); }
+    .segtrack-hot { background: rgba(0, 0, 0, 0.22); }
+    .seg-on-cool, .seg-on-warm { background: #0A0F05; color: #C1FF14; }
+    .seg-off-cool, .seg-off-warm { color: #0A0F05; }
+    .seg-on-hot { background: #FFFFFF; color: #A01743; }
+    .seg-off-hot { color: #FFFFFF; }
+    .spin { animation-name: hcspin; animation-timing-function: linear; animation-iteration-count: infinite; }
+    .pulse { animation: hcpulse 1s ease-in-out infinite; }
+    @keyframes hcspin { to { transform: rotate(360deg); } }
+    @keyframes hcpulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @media (prefers-reduced-motion: reduce) { .spin, .pulse { animation: none; } }
+  </style>
+</helmet>
+<div style="width: 1280px; height: 800px; display: flex; background: #080C17; overflow: hidden;">
+
+  <nav aria-label="Main" style="width: 216px; flex-shrink: 0; box-sizing: border-box; padding: 24px 14px; display: flex; flex-direction: column; gap: 4px; background-image: linear-gradient(180deg, #0D1322 0%, #080C17 100%); border-right: 1px solid rgba(255, 255, 255, 0.05);">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 0 8px 22px;">
+      <div style="width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background-image: linear-gradient(135deg, #1E2A12 0%, #0B101D 100%); border: 1px solid rgba(193, 255, 20, 0.35);">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 10C12 6 13 3 16 3s3 3 0 5z"/><path d="M14 12c4 0 7 1 7 4s-3 3-5 0z"/><path d="M12 14c0 4-1 7-4 7s-3-3 0-5z"/><path d="M10 12c-4 0-7-1-7-4s3-3 5 0z"/></svg>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-size: 16px; font-weight: 800; letter-spacing: -0.01em;">Hot Cooling</span>
+        <span style="font-size: 12px; color: #8B8F99;">Thermal control</span>
+      </div>
+    </div>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Overview</a>
+    <a class="nav" href="Fans.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 10C12 6 13 3 16 3s3 3 0 5z"/><path d="M14 12c4 0 7 1 7 4s-3 3-5 0z"/><path d="M12 14c0 4-1 7-4 7s-3-3 0-5z"/><path d="M10 12c-4 0-7-1-7-4s3-3 5 0z"/></svg>Fans</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/><path d="M12 9v7"/></svg>Thermals</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Power</a>
+    <a class="nav nav-on" href="AgentProfiles.dc.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Profiles</a>
+    <a class="nav" href="Templates.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg>Templates</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m14 10 2-2 2 2-2 2z"/><path d="M18 3v2M21 6h-2"/></svg>Automation</a>
+    <a class="nav" href="Hardware.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>Hardware</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Benchmarks</a>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>History</a>
+    <div style="flex-grow: 1;"></div>
+    <a class="nav" href="Main.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Settings</a>
+  </nav>
+
+  <main style="flex-grow: 1; box-sizing: border-box; padding: 28px 32px; display: flex; flex-direction: column; gap: 18px; min-width: 0;">
+    <header style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em;">Profiles</h1>
+        <span style="font-size: 14px; color: #8B8F99;">Cooling categories and the Thermal Agent's template ranking</span>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <span style="font-size: 13px; font-weight: 600; color: #8B8F99;">Agent mode</span>
+        <div role="group" aria-label="Agent mode" style="display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: #1E222E;">
+          <sc-for list="{{modes}}" as="m" hint-placeholder-count="3">
+            <button class="seg" style="min-width: 88px; height: 36px; {{m.style}}" onClick="{{m.pick}}" aria-pressed="{{m.pressed}}">{{m.label}}</button>
+          </sc-for>
+        </div>
+        <button style="height: 44px; padding: 0 18px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;">Agent settings</button>
+      </div>
+    </header>
+
+    <div style="display: flex; gap: 16px; flex-grow: 1; min-height: 0;">
+      <div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+        <section style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;">
+          <sc-for list="{{cats}}" as="c" hint-placeholder-count="3">
+            <div style="border-radius: 18px; padding: 14px 16px; box-sizing: border-box; display: flex; gap: 12px; align-items: center; background: #1E222E; {{c.border}}">
+              <span style="width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: {{c.tint}};">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{c.color}}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{c.icon}}"/></svg>
+              </span>
+              <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+                <span style="font-size: 15px; font-weight: 700;">{{c.name}} Cooling</span>
+                <span style="font-size: 12px; color: #8B8F99;">{{c.effect}}</span>
+              </span>
+              <span style="flex-grow: 1;"></span>
+              <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.04em; color: {{c.color}};">{{c.badge}}</span>
+            </div>
+          </sc-for>
+        </section>
+
+        <section class="card" style="flex-grow: 1; min-height: 0; padding: 16px 22px; display: flex; flex-direction: column; gap: 4px;">
+          <div style="display: flex; align-items: center; gap: 16px; padding-bottom: 6px;">
+            <span style="font-size: 16px; font-weight: 700;">Thermal Agent ranking</span>
+            <div role="meter" aria-label="Heat score 78 of 100" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="flex-grow: 1; height: 8px; border-radius: 999px; background: #2A2E3A; overflow: hidden;">
+              <div style="height: 8px; width: 78%; border-radius: 999px; background-image: linear-gradient(90deg, #5DDEA5 0%, #C1FF14 45%, #F5C542 75%, #F14D8A 100%); background-size: 128% 8px;"></div>
+            </div>
+            <span class="num" style="font-size: 22px; font-weight: 800;">78</span>
+            <span style="font-size: 13px; font-weight: 700;">Hot · CPU 91 °C <span style="color: #FF8DB6;">↑ 1.8 °C/min</span></span>
+          </div>
+          <div style="display: grid; grid-template-columns: 22px minmax(0, 1fr) 120px 36px 64px 84px; gap: 12px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.06);">
+            <span></span><span class="cap">Template</span><span class="cap">Score</span><span></span><span class="cap">Relief</span><span></span>
+          </div>
+          <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+            <span class="cap" style="padding-top: 8px; color: {{g.color}};">{{g.label}}</span>
+            <sc-for list="{{g.rows}}" as="r" hint-placeholder-count="3">
+              <div style="display: grid; grid-template-columns: 22px minmax(0, 1fr) 120px 36px 64px 84px; gap: 12px; align-items: center; height: 36px; padding: 0 6px; margin: 0 -6px; border-radius: 10px; {{r.rowStyle}}">
+                <span style="width: 16px; height: 16px; border-radius: 50%; box-sizing: border-box; {{r.radio}}"></span>
+                <button onClick="{{r.select}}" aria-label="Show details for {{r.name}}" style="display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 0; border: 0; background: transparent; color: #F5F7FA; font-family: inherit; text-align: left; cursor: pointer;">
+                  <span style="max-width: 100%; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.name}}</span>
+                  <span style="max-width: 100%; font-size: 11px; color: #8B8F99; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.reason}}</span>
+                </button>
+                <span style="height: 6px; border-radius: 999px; background: #2A2E3A; overflow: hidden;"><span style="display: block; height: 6px; border-radius: 999px; width: {{r.scorePct}}; background: {{r.barColor}};"></span></span>
+                <span class="num" style="font-size: 13px; font-weight: 800; text-align: right;">{{r.score}}</span>
+                <span class="num" style="font-size: 12px; font-weight: 700; color: #5DDEA5;">{{r.relief}}</span>
+                <sc-if value="{{r.active}}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size: 12px; font-weight: 700; color: #C1FF14; text-align: right;">Active</span>
+                </sc-if>
+                <sc-if value="{{r.inactive}}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{r.apply}}" disabled="{{r.disabled}}" aria-label="Apply {{r.name}}" style="height: 30px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: {{r.applyBg}}; color: {{r.applyFg}}; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer;">Apply</button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </sc-for>
+        </section>
+      </div>
+
+      <aside style="width: 340px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px;">
+        <section aria-label="Selected template" style="border-radius: 22px; overflow: hidden; background: #1E222E; border: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column;">
+          <div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; {{sel.hero}}">
+            <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.05em; opacity: 0.85;">{{sel.catUpper}} COOLING · SCORE {{sel.score}}</span>
+            <span style="font-size: 20px; font-weight: 800;">{{sel.name}}</span>
+            <span style="font-size: 13px; font-weight: 600; opacity: 0.9;">{{sel.why}}</span>
+          </div>
+          <div style="padding: 14px 20px; display: flex; flex-direction: column; gap: 8px;">
+            <span class="cap">What changes now</span>
+            <sc-for list="{{sel.plan}}" as="p" hint-placeholder-count="4">
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <span style="width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: {{p.bg}};"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="{{p.fg}}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{p.icon}}"/></svg></span>
+                <span style="font-size: 13px; font-weight: 600;">{{p.text}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section class="card" style="flex-grow: 1; padding: 16px 20px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <span style="font-size: 15px; font-weight: 700;">Cooling history</span>
+            <span style="font-size: 11px; color: #8B8F99;">Illustrative · recorded from M4</span>
+          </div>
+          <span style="font-size: 12px; color: #8B8F99;">Median temperature drop 2 minutes after applying, on this machine</span>
+          <sc-for list="{{history}}" as="h" hint-placeholder-count="5">
+            <div style="display: grid; grid-template-columns: 118px minmax(0, 1fr) 52px; gap: 10px; align-items: center;">
+              <span style="font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{h.name}}</span>
+              <span style="height: 10px; border-radius: 999px; background: #2A2E3A; overflow: hidden;"><span style="display: block; height: 10px; border-radius: 999px; width: {{h.pct}}; background-image: linear-gradient(90deg, #293C1C 0%, {{h.color}} 100%);"></span></span>
+              <span class="num" style="font-size: 12px; font-weight: 800; text-align: right; color: #5DDEA5;">{{h.value}}</span>
+            </div>
+          </sc-for>
+        </section>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const mode = st.mode || 'suggest';
+    const active = st.active || 'general';
+    const selected = st.selected || 'gaming';
+    const C = {
+      intense: { name: 'Intense', color: '#FF6FA3', tint: 'rgba(241, 77, 138, 0.16)', bar: '#F14D8A', hero: 'background-image: linear-gradient(135deg, #C22061 0%, #A01743 55%, #7A1235 100%); color: #FFFFFF;', icon: 'M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-3-1-6 1-9z', effect: 'Maximum heat removal' },
+      optimal: { name: 'Optimal', color: '#C1FF14', tint: 'rgba(193, 255, 20, 0.12)', bar: '#C1FF14', hero: 'background-image: linear-gradient(135deg, #ECFEC2 0%, #D6F2A5 45%, #B8E86A 100%); color: #0A0F05;', icon: 'M12 3v18M5 7h14M5 7l-3 6h6zM19 7l-3 6h6z', effect: 'Everyday balance' },
+      idle: { name: 'Idle', color: '#5DDEA5', tint: 'rgba(93, 222, 165, 0.14)', bar: '#5DDEA5', hero: 'background-image: linear-gradient(135deg, #D8FBEA 0%, #8FE8C1 55%, #3FBF88 100%); color: #06140E;', icon: 'M5 19c0-8 5-14 14-14 0 9-6 14-14 14zM5 19l7-7', effect: 'Silent and efficient' }
+    };
+    const T = [
+      ['gaming', 'High-Intensity Gaming', 'intense', 91, '−8 °C', 'Best relief for the gaming load'],
+      ['longrun', 'Long-Running Operations', 'intense', 74, '−9 °C', 'Most relief, lowers game performance'],
+      ['cooldown', 'Cool-down', 'intense', 66, '−5 °C', 'Holds fans until the zones cool'],
+      ['esports', 'Esports / Competitive', 'intense', 61, '−4 °C', 'Fast ramp-up, less relief'],
+      ['general', 'General Operations', 'optimal', 38, '—', 'Current template'],
+      ['dev', 'Development', 'optimal', 33, '−1 °C', 'Made for compile bursts'],
+      ['media', 'Media & Streaming', 'optimal', 29, '−1 °C', 'Keeps fans steady'],
+      ['quiet', 'Quiet Office / Night', 'idle', 0, '—', 'Excluded while Hot'],
+      ['battery', 'On Battery', 'idle', 0, '—', 'Needs battery power']
+    ];
+    const OK = { icon: 'm5 12 5 5 9-10', bg: 'rgba(93, 222, 165, 0.16)', fg: '#5DDEA5' };
+    const NA = { icon: 'M6 12h12', bg: '#2A2E3A', fg: '#8B8F99' };
+    const PART = { icon: 'M12 7v6M12 17h.01', bg: 'rgba(245, 197, 66, 0.16)', fg: '#F5C542' };
+    const PLAN = {
+      intense: [[OK, 'Profile → performance'], [OK, 'CPU preference → performance'], [OK, 'Fan boost above CPU 85 °C'], [PART, 'GPU power cap: advisory only'], [NA, 'Fan curve: not supported']],
+      optimal: [[OK, 'Profile → balanced'], [OK, 'Fans automatic'], [NA, 'No boosts']],
+      idle: [[OK, 'Profile → quiet'], [OK, 'CPU preference → power'], [NA, 'Boosts only at critical temperature']]
+    };
+    const modes = [['observe', 'Observe'], ['suggest', 'Suggest'], ['auto', 'Auto']].map(([id, label]) => ({
+      label, pressed: id === mode ? 'true' : 'false',
+      style: id === mode ? 'background: #C1FF14; color: #0A0F05;' : 'color: #B9BDC6;',
+      pick: () => this.setState({ mode: id })
+    }));
+    const activeCat = (T.find((t) => t[0] === active) || T[4])[2];
+    const cats = ['idle', 'optimal', 'intense'].map((k) => ({
+      name: C[k].name, color: C[k].color, tint: C[k].tint, icon: C[k].icon, effect: C[k].effect,
+      badge: k === activeCat ? 'ACTIVE' : '',
+      border: k === activeCat ? 'border: 1.5px solid #C1FF14;' : 'border: 1px solid rgba(255, 255, 255, 0.06);'
+    }));
+    const groups = ['intense', 'optimal', 'idle'].map((k) => ({
+      label: C[k].name.toUpperCase(), color: C[k].color,
+      rows: T.filter((t) => t[2] === k).map(([id, name, cat, score, relief, reason]) => {
+        const excluded = score === 0;
+        return {
+          name, reason: id === active ? 'Current template' : reason, score: excluded ? '—' : score,
+          scorePct: score + '%', barColor: C[cat].bar, relief: id === active ? '' : relief,
+          active: id === active, inactive: id !== active, disabled: excluded,
+          applyBg: id === 'gaming' && id !== active ? '#C1FF14' : 'transparent',
+          applyFg: id === 'gaming' && id !== active ? '#0A0F05' : '#F5F7FA',
+          radio: id === active ? 'border: 5px solid #C1FF14; background: #0A0F05;' : 'border: 1.5px solid #8B8F99;',
+          rowStyle: id === selected ? 'background: rgba(193, 255, 20, 0.06);' : '',
+          select: () => this.setState({ selected: id }),
+          apply: () => this.setState({ active: id, selected: id })
+        };
+      })
+    }));
+    const s = T.find((t) => t[0] === selected) || T[0];
+    return {
+      modes, cats, groups,
+      sel: {
+        name: s[1], score: s[3] || '—', catUpper: C[s[2]].name.toUpperCase(), hero: C[s[2]].hero,
+        why: s[0] === active ? 'Active now' : s[5],
+        plan: PLAN[s[2]].map(([k, text]) => ({ ...k, text }))
+      },
+      history: [
+        { name: 'Long-Running Ops', value: '−9.1 °C', pct: '91%', color: '#F14D8A' },
+        { name: 'High-Intensity Gaming', value: '−8.2 °C', pct: '82%', color: '#F14D8A' },
+        { name: 'Cool-down', value: '−6.4 °C', pct: '64%', color: '#F14D8A' },
+        { name: 'General Operations', value: '−3.0 °C', pct: '30%', color: '#C1FF14' },
+        { name: 'Quiet Office', value: '−1.8 °C', pct: '18%', color: '#5DDEA5' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -2,7 +2,8 @@
 
 | | |
 | --- | --- |
-| Version | 1.0 (2026-09-17) |
+| Version | 1.1 (2026-09-17): card dimensions aligned with the mockups |
+| Mockups | `docs/mockups/AgentOverview.dc.html`, `AgentProfiles.dc.html`, `AgentStates.dc.html`; reusable component `AgentCard.dc.html` |
 | Status | Specification (not implemented) |
 | Related | [TECHNICAL-CONCEPT.md](../TECHNICAL-CONCEPT.md) §3 (process model), §6 (heat vectors), §7 (categories, templates, rules), §8 (helper), §13 (safety), §20 (modularity); [ui-layout-spec.md](ui-layout-spec.md) (tokens and components); [milestones.md](milestones.md) M3.5–M3.7 |
 | Milestones | M1 (monitoring core, read-only card), M3 (decisions, template switching, background service), M4 (history and learning) |
@@ -251,7 +252,7 @@ The file is validated against `data/schema/agent-config.json`, and invalid value
 The card shows the agent's view and lets you switch templates in one step.
 
 ### 7.1 Placement
-- **Overview:** replaces the right-hand bottom card when the agent is enabled. The Thermal zones card moves to Thermals, and Overview keeps a compact zones strip inside this card. Card size at the default window: 492 × ≈ 250 (half of the bottom row).
+- **Overview:** replaces the right-hand bottom card (Thermal zones) when the agent is enabled. The zone sparklines move to the Thermals page, and the card's status line always names the hottest zone. Card size at the default window: **492 × 300** (half of the bottom row).
 - **Fans and Thermals:** a compact variant (single row, §7.4) above the capability strip.
 - **Profiles:** the full-width variant (§7.5).
 
@@ -273,15 +274,15 @@ The card shows the agent's view and lets you switch templates in one step.
 
 | Part | Spec (tokens from ui-layout-spec §3) |
 | --- | --- |
-| Container | `.hc-card`, padding 20 × 22, column gap 12 |
+| Container | `.hc-card`, 492 × 300 on Overview, padding 16 × 20, column gap 6; section header "COOLING TEMPLATES" (overline) with the "More templates…" link on the right, above the rows |
 | Title row | "Thermal Agent" `title.card`; right: mode pill 32 tall (`surface.3`, pulse dot colored by mode: lime = Auto, `state.warm` = Suggest, `text.secondary` = Observe) that opens a popover (`Gio.Menu`) with the three modes and "Agent settings…" |
 | Heat meter | Horizontal bar 8 tall, radius 999, track `surface.2`; fill `grad.gauge` clipped to the score; score number `value.md` at the right; 400 ms spring animation |
 | Status line | `body` 14/600: "{State} · {hottest zone} {T̂} °C", then a trend arrow and "{slope} °C/min" in `caption` (↑ `state.hot.text`, ↓ `state.cool`, → `text.secondary`) |
 | Forecast line | `caption` `text.secondary`: "Warning in ~{τ} min" (hidden when τ = ∞) · dominant vectors in plain words |
 | Divider | 1 px `border.row` |
-| Template rows | Up to 4 rows: active template first, then the top recommendations, then pinned templates (deduplicated). Each row is 44 tall, gap 12, with: radio indicator 18 px (lime when active); name `body` 14/600; reason + expected relief `caption` `text.secondary` (relief colored `state.cool`); category dot 8 px (intense/optimal/idle colors); right: "active" check (lime) or secondary **Apply** button (32 tall compact variant). The row is a `Gtk.ListBoxRow`; Enter applies. |
+| Template rows | Up to 3 rows at the Overview size (2 while the recommendation bar is visible), 36 tall; up to 4 in larger layouts: active template first, then the top recommendations, then pinned templates (deduplicated). Each row is 44 tall, gap 12, with: radio indicator 18 px (lime when active); name `body` 14/600; reason + expected relief `caption` `text.secondary` (relief colored `state.cool`); category dot 8 px (intense/optimal/idle colors); right: "active" check (lime) or secondary **Apply** button (32 tall compact variant). The row is a `Gtk.ListBoxRow`; Enter applies. |
 | "More templates…" | Lime link row (13/600) opening a popover with the full catalog grouped by category (search field on top) |
-| Recommendation bar | Shown only in Suggest mode when a recommendation is active: 44 tall, radius 12, `accent.lime.tint` background; text "Recommendation: {name}" 13/700; primary **Apply** (36 tall) + secondary **Not now** |
+| Recommendation bar | Shown only in Suggest mode when a recommendation is active, pinned to the bottom of the card: 40 tall (buttons 32), radius 12, `accent.lime.tint` background; text "Recommendation: {name}" 13/700; primary **Apply** (36 tall) + secondary **Not now** |
 | Emergency state | The whole card border turns `state.hot.strong` 1.5 px; the heat meter pulses (unless reduced motion); rows are disabled with the tooltip "Emergency cooling active"; the banner text replaces the recommendation bar |
 | Unavailable states | Agent not running → "Background agent is off" + **Start agent** button. Helper unavailable → rows show "Read-only" and Apply is disabled, with a tooltip. |
 

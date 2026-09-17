@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #080C17; font-family: Manrope, Ubuntu, Cantarell, sans-serif; color: #F5F7FA; }
+    a { color: #C1FF14; } a:hover { color: #D9FF6B; }
+    .lbl { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: #8B8F99; }
+    .lbl b { color: #F5F7FA; font-weight: 800; }
+  </style>
+</helmet>
+<div style="width: 1660px; height: 1120px; box-sizing: border-box; padding: 48px; background: #080C17; display: flex; flex-direction: column; gap: 28px;">
+  <div style="display: flex; flex-direction: column; gap: 6px;">
+    <h1 style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em;">Thermal Agent · card states and surfaces</h1>
+    <span style="font-size: 15px; color: #8B8F99;">Standard card (492 × 300) in each assessment state and mode, the compact variant, the desktop notification and the menus. Values are illustrative.</span>
+  </div>
+
+  <div style="display: flex; gap: 48px;">
+    <div style="display: grid; grid-template-columns: repeat(2, 492px); column-gap: 32px; row-gap: 20px;">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>HOT · SUGGEST</b> — recommendation waiting</span>
+        <dc-import name="AgentCard" preset="hot-suggest" hint-size="492px,300px"></dc-import>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>ELEVATED · AUTO</b> — template applied automatically</span>
+        <dc-import name="AgentCard" preset="elevated-auto" hint-size="492px,300px"></dc-import>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>NOMINAL · OBSERVE</b> — report only</span>
+        <dc-import name="AgentCard" preset="nominal-observe" hint-size="492px,300px"></dc-import>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>CRITICAL</b> — emergency path, switching locked</span>
+        <dc-import name="AgentCard" preset="critical" hint-size="492px,300px"></dc-import>
+      </div>
+    </div>
+
+    <div style="width: 492px; display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>AGENT OFF</b></span>
+        <dc-import name="AgentCard" preset="off" hint-size="492px,300px"></dc-import>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="lbl"><b>DESKTOP NOTIFICATION</b> — Suggest mode</span>
+        <div role="dialog" aria-label="Notification" style="width: 400px; box-sizing: border-box; padding: 16px 18px; border-radius: 16px; background: #1E222E; border: 1px solid rgba(255,255,255,0.10); display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background-image: linear-gradient(135deg, #1E2A12 0%, #0B101D 100%); border: 1px solid rgba(193, 255, 20, 0.35);">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 10C12 6 13 3 16 3s3 3 0 5z"/><path d="M14 12c4 0 7 1 7 4s-3 3-5 0z"/><path d="M12 14c0 4-1 7-4 7s-3-3 0-5z"/><path d="M10 12c-4 0-7-1-7-4s3-3 5 0z"/></svg>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <span style="font-size: 12px; color: #8B8F99;">Hot Cooling · now</span>
+              <span style="font-size: 15px; font-weight: 700;">Your laptop is running hot</span>
+              <span style="font-size: 13px; line-height: 1.45; color: #B9BDC6;">CPU is at 91 °C and rising. Switch to High-Intensity Gaming for about 8 °C of relief?</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; justify-content: flex-end;">
+            <button style="height: 36px; padding: 0 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 700;">Not now</button>
+            <button style="height: 36px; padding: 0 16px; border: 0; border-radius: 999px; background: #C1FF14; color: #0A0F05; font-family: inherit; font-size: 13px; font-weight: 800;">Apply</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 20px; align-items: flex-start;">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <span class="lbl"><b>MODE MENU</b></span>
+          <div role="menu" aria-label="Agent mode" style="width: 210px; box-sizing: border-box; padding: 6px; border-radius: 14px; background: #262A36; border: 1px solid rgba(255,255,255,0.10); display: flex; flex-direction: column; gap: 2px;">
+            <button role="menuitemradio" aria-checked="false" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 10px; border: 0; border-radius: 10px; background: transparent; color: #F5F7FA; font-family: inherit; text-align: left;"><span style="font-size: 13px; font-weight: 700;">Observe</span><span style="font-size: 11px; color: #8B8F99;">Report only</span></button>
+            <button role="menuitemradio" aria-checked="true" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 10px; border: 0; border-radius: 10px; background: rgba(193, 255, 20, 0.10); color: #C1FF14; font-family: inherit; text-align: left;"><span style="font-size: 13px; font-weight: 700;">Suggest ✓</span><span style="font-size: 11px; color: #B9BDC6;">Ask before switching</span></button>
+            <button role="menuitemradio" aria-checked="false" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 10px; border: 0; border-radius: 10px; background: transparent; color: #F5F7FA; font-family: inherit; text-align: left;"><span style="font-size: 13px; font-weight: 700;">Auto</span><span style="font-size: 11px; color: #8B8F99;">Switch templates for me</span></button>
+            <div style="height: 1px; margin: 4px 6px; background: rgba(255,255,255,0.08);"></div>
+            <button role="menuitem" style="padding: 8px 10px; border: 0; border-radius: 10px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 600; text-align: left;">Agent settings…</button>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <span class="lbl"><b>MORE TEMPLATES</b></span>
+          <div role="dialog" aria-label="All templates" style="width: 210px; box-sizing: border-box; padding: 10px; border-radius: 14px; background: #262A36; border: 1px solid rgba(255,255,255,0.10); display: flex; flex-direction: column; gap: 6px;">
+            <label style="display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; border-radius: 999px; background: #1E222E;">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#8B8F99" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg>
+              <input type="search" aria-label="Search templates" placeholder="Search" style="width: 130px; border: 0; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 12px; outline: none;">
+            </label>
+            <span style="font-size: 10px; font-weight: 800; letter-spacing: 0.05em; color: #FF6FA3; padding: 4px 4px 0;">INTENSE</span>
+            <span style="font-size: 12px; font-weight: 600; padding: 2px 4px;">High-Intensity Gaming</span>
+            <span style="font-size: 12px; font-weight: 600; padding: 2px 4px;">Long-Running Operations</span>
+            <span style="font-size: 10px; font-weight: 800; letter-spacing: 0.05em; color: #C1FF14; padding: 4px 4px 0;">OPTIMAL</span>
+            <span style="font-size: 12px; font-weight: 600; padding: 2px 4px;">General Operations</span>
+            <span style="font-size: 10px; font-weight: 800; letter-spacing: 0.05em; color: #5DDEA5; padding: 4px 4px 0;">IDLE</span>
+            <span style="font-size: 12px; font-weight: 600; padding: 2px 4px;">Quiet Office / Night</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <span class="lbl"><b>COMPACT VARIANT</b> — Fans and Thermals pages (full content width)</span>
+    <div style="width: 1016px; height: 56px; box-sizing: border-box; padding: 0 12px 0 20px; border-radius: 18px; background: #1E222E; border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 16px;">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="M12 8v5M12 16h.01"/></svg>
+      <div role="meter" aria-label="Heat score 78 of 100" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 160px; height: 8px; border-radius: 999px; background: #2A2E3A; overflow: hidden;">
+        <div style="height: 8px; width: 78%; border-radius: 999px; background-image: linear-gradient(90deg, #5DDEA5 0%, #C1FF14 45%, #F5C542 75%, #F14D8A 100%); background-size: 128% 8px;"></div>
+      </div>
+      <span style="font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums;">78</span>
+      <span style="font-size: 14px; font-weight: 700;">Hot · CPU 91 °C <span style="font-size: 12px; color: #FF8DB6;">↑ 1.8 °C/min</span></span>
+      <span style="font-size: 13px; color: #8B8F99;">Template: General Operations</span>
+      <span style="flex-grow: 1;"></span>
+      <button style="height: 36px; padding: 0 16px; border: 0; border-radius: 999px; background: #C1FF14; color: #0A0F05; font-family: inherit; font-size: 13px; font-weight: 800;">Apply High-Intensity Gaming</button>
+      <button style="height: 36px; padding: 0 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: transparent; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 700;">Change template</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1660,"height":1120}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

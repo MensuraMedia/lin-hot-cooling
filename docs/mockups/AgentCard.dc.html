@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #080C17; font-family: Manrope, Ubuntu, Cantarell, sans-serif; color: #F5F7FA; }
+    a { color: #C1FF14; } a:hover { color: #D9FF6B; }
+    .ac-btn { height: 32px; padding: 0 14px; border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .ac-sec { border: 1px solid rgba(255, 255, 255, 0.14); background: transparent; color: #F5F7FA; }
+    .ac-pri { border: 0; background: #C1FF14; color: #0A0F05; }
+    .ac-sec:disabled, .ac-pri:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ac-pulse { animation: acpulse 1.2s ease-in-out infinite; }
+    @keyframes acpulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+    @media (prefers-reduced-motion: reduce) { .ac-pulse { animation: none; } }
+  </style>
+</helmet>
+<section aria-label="Thermal Agent" style="width: 492px; height: 300px; box-sizing: border-box; padding: 16px 20px; border-radius: 18px; background: #1E222E; display: flex; flex-direction: column; gap: 6px; {{cardBorder}}">
+  <div style="display: flex; align-items: center; justify-content: space-between; height: 32px;">
+    <span style="display: flex; align-items: center; gap: 10px;">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#C1FF14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="M12 8v5M12 16h.01"/></svg>
+      <span style="font-size: 16px; font-weight: 700;">Thermal Agent</span>
+    </span>
+    <button onClick="{{cycleMode}}" aria-label="Agent mode: {{modeLabel}}. Change mode" style="display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: #353743; color: #F5F7FA; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;">
+      <span class="ac-pulse" style="width: 8px; height: 8px; border-radius: 50%; background: {{modeColor}};"></span>{{modeLabel}}
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#F5F7FA" stroke-width="2.2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+  </div>
+
+  <div style="flex-grow: 1; min-height: 0; display: {{offDisplay}}; flex-direction: column; align-items: flex-start; justify-content: center; gap: 10px;">
+      <span style="width: 44px; height: 44px; border-radius: 14px; background: #2A2E3A; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#8B8F99" stroke-width="1.7" stroke-linecap="round"><path d="M12 3v9M7.5 6.5a7 7 0 1 0 9 0"/></svg></span>
+      <span style="font-size: 16px; font-weight: 700;">Background agent is off</span>
+      <span style="font-size: 13px; line-height: 1.5; color: #8B8F99;">Heat is monitored only while this window is open, and no templates are suggested. You can still switch templates on the Templates page.</span>
+      <button class="ac-btn ac-pri" style="height: 40px; padding: 0 18px;">Start agent</button>
+  </div>
+
+  <div style="flex-grow: 1; min-height: 0; display: {{onDisplay}}; flex-direction: column; gap: 6px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div role="meter" aria-label="Heat score {{score}} of 100" aria-valuenow="{{score}}" aria-valuemin="0" aria-valuemax="100" style="flex-grow: 1; height: 8px; border-radius: 999px; background: #2A2E3A; overflow: hidden;">
+          <div class="{{meterClass}}" style="height: 8px; width: {{scorePct}}; border-radius: 999px; background-image: linear-gradient(90deg, #5DDEA5 0%, #C1FF14 45%, #F5C542 75%, #F14D8A 100%); background-size: {{meterBgSize}} 8px;"></div>
+        </div>
+        <span style="font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; min-width: 40px; text-align: right;">{{score}}</span>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 8px;">
+        <span style="font-size: 14px; font-weight: 700;">{{stateLabel}} · {{zoneText}}</span>
+        <span style="font-size: 12px; font-weight: 700; color: {{slopeColor}}; font-variant-numeric: tabular-nums;">{{slopeText}}</span>
+      </div>
+      <span style="font-size: 12px; color: #8B8F99;">{{forecast}}</span>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 6px;">
+      <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.05em; color: #8B8F99;">COOLING TEMPLATES</span>
+      <a href="Templates.dc.html" style="font-size: 12px; font-weight: 700; text-decoration: none;">More templates…</a>
+    </div>
+
+    <div role="radiogroup" aria-label="Cooling templates" style="display: flex; flex-direction: column; gap: 2px;">
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="2">
+        <div style="height: 36px; display: flex; align-items: center; gap: 10px;">
+          <span style="width: 16px; height: 16px; border-radius: 50%; box-sizing: border-box; flex-shrink: 0; {{r.radio}}"></span>
+          <span style="width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: {{r.catColor}};"></span>
+          <span style="display: flex; flex-direction: column; flex-grow: 1; min-width: 0;">
+            <span style="font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.name}}</span>
+            <span style="font-size: 11px; color: #8B8F99; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.reason}} <span style="color: #5DDEA5; font-weight: 700;">{{r.relief}}</span></span>
+          </span>
+          <sc-if value="{{r.active}}" hint-placeholder-val="{{ false }}">
+            <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #C1FF14;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#C1FF14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Active</span>
+          </sc-if>
+          <sc-if value="{{r.inactive}}" hint-placeholder-val="{{ true }}">
+            <button class="ac-btn ac-sec" onClick="{{r.apply}}" disabled="{{locked}}" aria-label="Apply {{r.name}}">Apply</button>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="flex-grow: 1;"></div>
+
+    <sc-if value="{{showRec}}" hint-placeholder-val="{{ false }}">
+      <div style="height: 40px; box-sizing: border-box; padding: 0 6px 0 12px; border-radius: 12px; background: rgba(193, 255, 20, 0.10); display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#C1FF14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m14 10 2-2 2 2-2 2z"/><path d="M18 3v2M21 6h-2"/></svg>
+        <span style="flex-grow: 1; font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Suggested: {{recName}} <span style="color: #5DDEA5;">{{recRelief}}</span></span>
+        <button class="ac-btn ac-pri" onClick="{{applyRec}}">Apply</button>
+        <button class="ac-btn ac-sec" onClick="{{snooze}}" style="border: 0;">Not now</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isCritical}}" hint-placeholder-val="{{ false }}">
+      <div role="alert" style="height: 40px; box-sizing: border-box; padding: 0 12px; border-radius: 12px; background: #C22061; color: #FFFFFF; display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20zM12 9v5M12 17h.01"/></svg>
+        <span style="font-size: 12px; font-weight: 700;">Emergency cooling active · switching locked until CPU is below 85 °C</span>
+      </div>
+    </sc-if>
+  </div>
+</section>
+</x-dc>
+<script data-dc-script data-props='{"preset":{"editor":"enum","options":["hot-suggest","elevated-auto","nominal-observe","critical","off"],"default":"hot-suggest","section":"Agent"},"$preview":{"width":492,"height":300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const preset = this.props.preset ?? 'hot-suggest';
+    const st = this.state || {};
+    const CAT = { intense: '#F14D8A', optimal: '#C1FF14', idle: '#5DDEA5' };
+    const P = {
+      'hot-suggest': { mode: 'suggest', state: 'Hot', score: 78, zone: 'CPU 91 °C', slope: '↑ 1.8 °C/min', slopeColor: '#FF8DB6',
+        forecast: 'Critical in ~6 min · sustained CPU + GPU (gaming)', active: 'general',
+        rows: [['general', 'General Operations', 'optimal', 'Active since 20:50', ''], ['cooldown', 'Cool-down', 'intense', 'Holds fans until cool ·', '−5 °C']],
+        rec: ['gaming', 'High-Intensity Gaming', 'intense', 'Best relief for gaming load ·', '−8 °C'] },
+      'elevated-auto': { mode: 'auto', state: 'Warm', score: 52, zone: 'CPU 78 °C', slope: '↑ 0.9 °C/min', slopeColor: '#FF8DB6',
+        forecast: 'Warning in ~8 min · sustained CPU (compile)', active: 'dev',
+        rows: [['dev', 'Development', 'optimal', 'Applied automatically at 21:40', ''], ['longrun', 'Long-Running Operations', 'intense', 'More relief ·', '−6 °C'], ['quiet', 'Quiet Office', 'idle', 'Quieter ·', '−2 °C']] },
+      'nominal-observe': { mode: 'observe', state: 'Cool', score: 18, zone: 'CPU 54 °C', slope: '→ steady', slopeColor: '#8B8F99',
+        forecast: 'No limits in sight · light desktop use', active: 'general',
+        rows: [['general', 'General Operations', 'optimal', 'Power-source default', ''], ['quiet', 'Quiet Office', 'idle', 'Quieter ·', '−3 °C'], ['dev', 'Development', 'optimal', 'Faster ramp-up', '']] },
+      'critical': { mode: 'suggest', state: 'Critical', score: 100, zone: 'CPU 97 °C', slope: '↑ 4.2 °C/min', slopeColor: '#FF8DB6',
+        forecast: 'Fan at full speed · firmware protection active', active: 'gaming', critical: true,
+        rows: [['gaming', 'High-Intensity Gaming', 'intense', 'Emergency override in effect', ''], ['cooldown', 'Cool-down', 'intense', 'Queued after recovery', '']] },
+      'off': { mode: 'off', off: true, rows: [] }
+    }[preset] || {};
+    const modes = ['observe', 'suggest', 'auto'];
+    const mode = st.mode || P.mode;
+    const MODE = { observe: ['Observe', '#8B8F99'], suggest: ['Suggest', '#F5C542'], auto: ['Auto', '#C1FF14'], off: ['Off', '#585C65'] };
+    const active = st.active || P.active;
+    const showRec = !!P.rec && mode === 'suggest' && !st.snoozed && active !== (P.rec && P.rec[0]);
+    let rows = (P.rows || []).slice();
+    if (P.rec && !showRec && !rows.find((r) => r[0] === P.rec[0])) rows = [rows[0], P.rec];
+    rows = rows.map(([id, name, cat, reason, relief]) => {
+      const on = id === active;
+      return {
+        name, reason: on && id !== P.active ? 'Applied from this card' : reason, relief: on ? '' : relief,
+        catColor: CAT[cat], active: on, inactive: !on,
+        radio: on ? 'border: 5px solid #C1FF14; background: #0A0F05;' : 'border: 1.5px solid #8B8F99;',
+        apply: () => this.setState({ active: id })
+      };
+    });
+    if (active !== P.active) {
+      rows.sort((a, b) => (b.active ? 1 : 0) - (a.active ? 1 : 0));
+    }
+    const score = P.score || 0;
+    return {
+      offDisplay: P.off ? 'flex' : 'none', onDisplay: P.off ? 'none' : 'flex', isCritical: !!P.critical,
+      locked: !!P.critical,
+      cardBorder: P.critical ? 'border: 1.5px solid #C22061;' : 'border: 1px solid rgba(255, 255, 255, 0.06);',
+      modeLabel: MODE[mode][0], modeColor: MODE[mode][1],
+      cycleMode: () => { if (!P.off) this.setState({ mode: modes[(modes.indexOf(mode) + 1) % 3] }); },
+      score, scorePct: score + '%', meterBgSize: score > 0 ? Math.round(10000 / score) + '%' : '100%',
+      meterClass: P.critical ? 'ac-pulse' : '',
+      stateLabel: P.state, zoneText: P.zone, slopeText: P.slope, slopeColor: P.slopeColor, forecast: P.forecast,
+      rows, showRec,
+      recName: P.rec ? P.rec[1] : '', recRelief: P.rec ? P.rec[4] : '',
+      applyRec: () => this.setState({ active: P.rec[0] }),
+      snooze: () => this.setState({ snoozed: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

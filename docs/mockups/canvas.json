@@ -1,62 +1,98 @@
 {
- "v": 3,
- "createdOnFiles": {
-  "v": 1,
-  "at": "2026-09-17T16:06:04Z"
- },
- "title": "Lin Hot Cooling Mockups",
- "launch": {
-  "view": "canvas"
- },
- "pages": [],
- "boards": {
-  "Main.dc.html": {
-   "x": 0,
-   "y": 0,
-   "w": 1280,
-   "h": 800,
-   "title": "Overview",
-   "is_interactive": true
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Fans.dc.html": {
+      "h": 800,
+      "is_interactive": true,
+      "title": "Fans",
+      "w": 1280,
+      "x": 1360,
+      "y": 0
+    },
+    "Hardware.dc.html": {
+      "h": 800,
+      "is_interactive": true,
+      "title": "Hardware",
+      "w": 1280,
+      "x": 1360,
+      "y": 920
+    },
+    "Main.dc.html": {
+      "h": 800,
+      "is_interactive": true,
+      "title": "Overview",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "Templates.dc.html": {
+      "h": 800,
+      "is_interactive": true,
+      "title": "Templates",
+      "w": 1280,
+      "x": 0,
+      "y": 920
+    },
+    "AgentOverview.dc.html": {
+      "x": 0,
+      "y": 2240,
+      "w": 1280,
+      "h": 800,
+      "title": "Overview \u00b7 Thermal Agent",
+      "is_interactive": true
+    },
+    "AgentProfiles.dc.html": {
+      "x": 1360,
+      "y": 2240,
+      "w": 1280,
+      "h": 800,
+      "title": "Profiles \u00b7 Agent ranking",
+      "is_interactive": true
+    },
+    "AgentStates.dc.html": {
+      "x": 0,
+      "y": 3160,
+      "w": 1660,
+      "h": 1120,
+      "title": "Thermal Agent \u00b7 states",
+      "is_interactive": true
+    }
   },
-  "Fans.dc.html": {
-   "x": 1360,
-   "y": 0,
-   "w": 1280,
-   "h": 800,
-   "title": "Fans",
-   "is_interactive": true
+  "createdOnFiles": {
+    "at": "2026-09-17T16:06:04Z",
+    "v": 1
   },
-  "Templates.dc.html": {
-   "x": 0,
-   "y": 920,
-   "w": 1280,
-   "h": 800,
-   "title": "Templates",
-   "is_interactive": true
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
   },
-  "Hardware.dc.html": {
-   "x": 1360,
-   "y": 920,
-   "w": 1280,
-   "h": 800,
-   "title": "Hardware",
-   "is_interactive": true
-  }
- },
- "order": [
-  "Main.dc.html",
-  "Fans.dc.html",
-  "Templates.dc.html",
-  "Hardware.dc.html"
- ],
- "notes": {
-  "title": {
-   "x": 0,
-   "y": -300,
-   "text": "Lin Hot Cooling \u2014 desktop screens",
-   "kind": "title1",
-   "maxW": 2640
-  }
- },
- "designSystems": []
+  "notes": {
+    "title": {
+      "kind": "title1",
+      "maxW": 2640,
+      "text": "Lin Hot Cooling \u2014 desktop screens",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "agentTitle": {
+      "x": 0,
+      "y": 1940,
+      "text": "Thermal Agent",
+      "kind": "title1",
+      "maxW": 2640
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Fans.dc.html",
+    "Templates.dc.html",
+    "Hardware.dc.html",
+    "AgentOverview.dc.html",
+    "AgentProfiles.dc.html",
+    "AgentStates.dc.html"
+  ],
+  "pages": [],
+  "title": "Lin Hot Cooling Mockups"
 }
