@@ -66,7 +66,7 @@ It never exceeds firmware limits, never writes raw embedded-controller registers
 | **Automation** | Rules triggered by AC/battery changes, game start/stop (GameMode, Steam), process types, temperature thresholds, sustained load, lid state and schedules, with anti-flapping delays |
 | **Templates** | A shipped catalog plus your own clones, edited in a form or as YAML and validated against a schema |
 | **Insight** | History (1 h / 24 h / 7 d), an action log ("Why"), guided benchmarks comparing categories (FPS, temperatures, RPM, throttling, watts) |
-| **Background agent** | Optional user service that keeps rules running when the window is closed |
+| **Thermal Agent** | Background service that monitors heat, predicts time to limit, ranks cooling templates, and either suggests or applies them (Observe / Suggest / Auto), plus a Cooling Template Card for one-step switching |
 | **Adaptivity** | Features appear or hide according to the hardware. A laptop with only auto/full fan modes gets profile control and boosts; a desktop with PWM headers gets full curves. |
 
 ### Hardware support model
@@ -294,7 +294,9 @@ Work packages and acceptance criteria: [docs/milestones.md](docs/milestones.md).
 | --- | --- |
 | [TECHNICAL-CONCEPT.md](TECHNICAL-CONCEPT.md) | Full technical concept: architecture, discovery sources, state model, heat vectors, templates, rule engine, helper API, UI, design system, packaging, safety, testing, GTK 4 portability, modularity principles |
 | [docs/milestones.md](docs/milestones.md) | Milestone plan M0–M7 |
-| [docs/mockups/](docs/mockups/README.md) | UI mockups: Overview, Fans, Templates, Hardware |
+| [docs/ui-layout-spec.md](docs/ui-layout-spec.md) | UI layout specification: shell, tokens, contrast, components, page layouts, motion, accessibility, responsive rules, GTK mapping |
+| [docs/thermal-agent-spec.md](docs/thermal-agent-spec.md) | Thermal Agent (heat monitoring, assessment, template recommendations, D-Bus API) and the Cooling Template Card |
+| [docs/mockups/](docs/mockups/README.md) | UI mockups: Overview, Fans, Templates, Hardware, Thermal Agent |
 
 ## 14. License and credits
 

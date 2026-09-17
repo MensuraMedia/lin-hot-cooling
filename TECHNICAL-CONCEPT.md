@@ -88,7 +88,7 @@ flowchart LR
 
 **Process model:**
 - The GUI can close at any time.
-- An optional **user-session agent** (`hot-cooling --agent`, a systemd user unit) keeps rules running without the window open: switching when AC is plugged in or removed, and when a game starts or stops.
+- An optional **user-session agent** (`hot-cooling --agent`, a systemd user unit) keeps rules running without the window open: switching when AC is plugged in or removed, and when a game starts or stops. It is fully specified as the **Thermal Agent** in [docs/thermal-agent-spec.md](docs/thermal-agent-spec.md).
 - The helper exits after a period of inactivity, but the watchdog state survives in `/run/hot-cooling/`.
 
 ---
