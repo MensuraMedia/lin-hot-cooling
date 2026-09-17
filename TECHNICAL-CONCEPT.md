@@ -442,12 +442,11 @@ window, .content-area { background-color: @hc_bg; }
 
 .card { background-color: @hc_surface1; border-radius: 18px; border: 1px solid alpha(white, 0.06); padding: 20px; }
 
-.hero-card.cool {
-  background-image: linear-gradient(135deg, #ECFEC2 0%, #D6F2A5 45%, #B8E86A 100%);
-  color: #0A0F05; border-radius: 22px;
-}
-.hero-card.warm { background-image: linear-gradient(135deg, #FFF3C4 0%, #F5C542 60%, #E8963A 100%); }
-.hero-card.hot  { background-image: linear-gradient(135deg, #FFC4DA 0%, #F14D8A 55%, #A01743 100%); color: #FFFFFF; }
+/* heat levels: green / yellow / red (never pink); see docs/ui-layout-spec.md v1.2 */
+.hero-card { border-radius: 22px; }
+.hero-card.nominal { background-image: linear-gradient(135deg, #DCFCE7 0%, #86EFAC 45%, #22C55E 100%); color: #052E16; }
+.hero-card.medium  { background-image: linear-gradient(135deg, #FEF9C3 0%, #FDE047 50%, #EAB308 100%); color: #1A1204; }
+.hero-card.intense { background-image: linear-gradient(135deg, #DC2626 0%, #B91C1C 55%, #7F1D1D 100%); color: #FFFFFF; }
 
 .sidebar { background-image: linear-gradient(180deg, #0B101D 0%, #080C17 100%); }
 .nav-button:checked { background-color: alpha(@hc_accent, 0.10); color: @hc_accent; border-left: 3px solid @hc_accent; }
