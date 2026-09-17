@@ -1,5 +1,7 @@
 # UI mockups (concept stage)
 
+> **Pending update (A0.3–A0.5, see docs/milestones-thermal-agent.md):** the heat colors in these mockups still use the earlier lime/amber/magenta states. The decision of 2026-09-17 changes heat levels to **green / yellow / red** and makes agent surfaces heat-first and collapsed by default. The specs (ui-layout-spec v1.1, thermal-agent-spec v1.2) take precedence.
+
 Four 1280×800 desktop screens in the Lin Hot Cooling design language (TECHNICAL-CONCEPT §9–§10). The values are illustrative and
 based on real readings and capabilities of the ASUS TUF F15 FX506LI reference laptop.
 

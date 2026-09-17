@@ -5,7 +5,7 @@
 | Version | 0.1 (started 2026-09-17) |
 | Source | [TECHNICAL-CONCEPT.md](../TECHNICAL-CONCEPT.md) v0.2 (section numbers below refer to it); [ui-layout-spec.md](ui-layout-spec.md); [thermal-agent-spec.md](thermal-agent-spec.md) |
 | Repository | https://github.com/MensuraMedia/lin-hot-cooling (local checkout `~/projects/hot-cooling`) |
-| Decisions in force | Robust modularity and universality (§20: layered, registry/plugin-based, capability-driven, data-driven); GTK 3, written to be portable to GTK 4 (§19); custom non-commercial license; starter template `gtk-python-dashboard-starter`; MensuraMedia universal-instruction-set v2026.04; palette from `ui-ki-green-gray-black.jpg` |
+| Decisions in force | Thermal Agent: Suggest by default, heat-first collapsed views, green/yellow/red heat levels, panel indicator (2026-09-17); robust modularity and universality (§20: layered, registry/plugin-based, capability-driven, data-driven); GTK 3, written to be portable to GTK 4 (§19); custom non-commercial license; starter template `gtk-python-dashboard-starter`; MensuraMedia universal-instruction-set v2026.04; palette from `ui-ki-green-gray-black.jpg` |
 | Reference hardware | ASUS TUF F15 FX506LI (laptop, one fan, auto/full only, no curves, NVIDIA on-demand without RTD3). A second machine class (a desktop with `nct6775`/`it87` PWM, or a ThinkPad) is needed from M1. |
 
 ---
@@ -97,7 +97,7 @@ flowchart LR
 | M1.5 | Capability manifest + machine profiles | Probe → manifest JSON; `data/machines/asus/fx506li.json` (§4.2); zone topology; degradation matrix states (§4.3) |
 | M1.6 | Components | `FanRotor`, `ThermalGauge`, `HeatSparkline`, `HeroCard` (cool/warm/hot gradients), `PulseDot`, `HeatVectorChip` (§9.2) |
 | M1.7 | Pages | Overview, Thermals and Hardware (capability matrix + conflicts), with read-only views of Fans and Power |
-| M1.9 | Thermal Agent core (read-only) | [thermal-agent-spec.md](thermal-agent-spec.md): filters (EWMA, slope, spikes), time-to-limit, heat score, assessment state machine; Cooling Template Card showing status and the template list (Apply disabled until M3) |
+| M1.9 | Thermal Agent core (read-only); detailed in [milestones-thermal-agent.md](milestones-thermal-agent.md) A1–A2 | [thermal-agent-spec.md](thermal-agent-spec.md): filters (EWMA, slope, spikes), time-to-limit, heat score, assessment state machine; Cooling Template Card showing status and the template list (Apply disabled until M3) |
 | M1.8 | Fixtures and tests | Recorded sysfs trees from the FX506LI + a second machine under `tests/fixtures/sysfs/`; collector unit tests against them; stable-ID tests across hwmon renumbering |
 
 **Acceptance:**
@@ -146,7 +146,7 @@ flowchart LR
 | M3.3 | Template catalog | 9 shipped templates (§7.2), read-only, with user clones in `~/.config/lin-hot-cooling/templates/` |
 | M3.4 | Resolver | Category → template → user overrides → capability filter → conflict filter → diff → plan, with "not applied: reason" notes (§7.3) |
 | M3.5 | Rule engine + agent recommendations | Triggers (AC/battery, GameMode, process class, temperature thresholds, utilization windows, lid, schedule), priorities, hysteresis, dwell (§7.4) |
-| M3.6 | Thermal Agent service | `lin-hot-cooling --agent` as a systemd **user** unit; `io.mensuramedia.LinHotCooling.Agent1` D-Bus API + CLI; recommendation engine with Observe/Suggest/Auto modes, rate limits and notifications (thermal-agent-spec §5–§6) |
+| M3.6 | Thermal Agent service (A3–A5; **Suggest mode by default**, panel indicator) | `lin-hot-cooling --agent` as a systemd **user** unit; `io.mensuramedia.LinHotCooling.Agent1` D-Bus API + CLI; recommendation engine with Observe/Suggest/Auto modes, rate limits and notifications (thermal-agent-spec §5–§6) |
 | M3.7 | Pages + Cooling Template Card actions | Templates (catalog grid, detail with resolved targets, clone/edit with form + YAML), Automation (rules, test trigger, event history), a full "Why" feed |
 | M3.8 | Reference policy | Default rules: AC → performance, battery → quiet, game → High-Intensity Gaming (AC), load end → Cool-down. This matches `optimize-laptop-asus-fx50li/docs/fan-control.md`. |
 

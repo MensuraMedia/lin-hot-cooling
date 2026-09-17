@@ -2,13 +2,22 @@
 
 | | |
 | --- | --- |
-| Version | 1.1 (2026-09-17): card dimensions aligned with the mockups |
+| Version | 1.2 (2026-09-17): owner decisions D1–D4 (Suggest default, heat-first collapsed views, green/yellow/red heat levels, panel indicator) |
 | Mockups | `docs/mockups/AgentOverview.dc.html`, `AgentProfiles.dc.html`, `AgentStates.dc.html`; reusable component `AgentCard.dc.html` |
 | Status | Specification (not implemented) |
 | Related | [TECHNICAL-CONCEPT.md](../TECHNICAL-CONCEPT.md) §3 (process model), §6 (heat vectors), §7 (categories, templates, rules), §8 (helper), §13 (safety), §20 (modularity); [ui-layout-spec.md](ui-layout-spec.md) (tokens and components); [milestones.md](milestones.md) M3.5–M3.7 |
-| Milestones | M1 (monitoring core, read-only card), M3 (decisions, template switching, background service), M4 (history and learning) |
+| Milestones | Detailed plan: [milestones-thermal-agent.md](milestones-thermal-agent.md) (A0–A6), which slots into M1.9, M3.5–M3.7 and M4 |
 
 The **Thermal Agent** is the component that continuously watches heat, understands what is causing it, and makes sure the right cooling template is active. It either asks first or acts automatically, depending on the mode you choose. The **Cooling Template Card** is its face in the UI: it shows what the agent sees and lets you switch templates to cool the system down properly.
+
+### Owner decisions (2026-09-17)
+
+| # | Decision |
+| --- | --- |
+| D1 | **Suggest is the default mode.** Auto is opt-in only (offered after at least 1 h of history). |
+| D2 | **Heat state is the default view** on every agent surface. Expanding reveals the current template and mode, which can be changed there. |
+| D3 | **Heat levels use three colors:** green = nominal, yellow = medium, red = intense (§3.5). |
+| D4 | **A panel indicator** shows the heat level and opens the collapsed mini window (§7.6). |
 
 ---
 
@@ -123,6 +132,20 @@ The **dominant vectors** are those with confidence ≥ 0.6. They drive the recom
 
 The result is capped at 100. The score drives the card's meter and the ranking urgency.
 
+### 3.5 Heat levels (D3)
+
+The five assessment states (§4) map to three user-facing **heat levels**. These are the only colors used for heat detection anywhere in the app.
+
+| Heat level | States | Marks on dark | Text on dark | Fill gradient (hero, indicator, mini window) | Text on fill |
+| --- | --- | --- | --- | --- | --- |
+| **Nominal** (green) | Nominal | `#22C55E` | `#4ADE80` | `#DCFCE7 → #86EFAC → #22C55E` | `#052E16` |
+| **Medium** (yellow) | Elevated, Recovering | `#FACC15` | `#FDE047` | `#FEF9C3 → #FDE047 → #EAB308` | `#1A1204` |
+| **Intense** (red) | Hot, Critical | `#EF4444` | `#F87171` | `#DC2626 → #B91C1C → #7F1D1D` | `#FFFFFF` |
+
+- **Critical** keeps the red level and adds a 1 s pulse (static with reduced motion) plus the emergency banner (`#B91C1C`, white text).
+- **Always labeled:** the level is always named in words, and the indicator icon changes shape per level, so color is never the only cue.
+- **Meter and gauge gradient:** `#22C55E → #FACC15 → #EF4444`.
+
 ---
 
 ## 4. Assessment state machine
@@ -143,13 +166,13 @@ stateDiagram-v2
   Critical --> Recovering: all zones < warn for 60 s
 ```
 
-| State | UI thermal label (layout spec §4.6) | Agent behavior |
+| State | Heat level (§3.5) | Agent behavior |
 | --- | --- | --- |
-| Nominal | Cool | Keeps the power-source default or the current workload template; considers stepping down to a quieter template |
-| Elevated | Warm | Re-ranks templates; in Suggest mode, recommends when a better template is at least 15 points ahead |
-| Hot | Hot | Recommends or applies the top cooling template; allows a fan boost |
-| Recovering | Warm | Holds the cooling template; schedules Cool-down → default |
-| Critical | Hot + emergency banner | **Emergency path:** full fan (if available) + the firmware's most protective profile (quiet when thermald and firmware limit power, otherwise performance for maximum fan table, as the machine profile specifies) + notification; locks switching |
+| Nominal | Nominal (green) | Keeps the power-source default or the current workload template; considers stepping down to a quieter template |
+| Elevated | Medium (yellow) | Re-ranks templates; in Suggest mode, recommends when a better template is at least 15 points ahead |
+| Hot | Intense (red) | Recommends or applies the top cooling template; allows a fan boost |
+| Recovering | Medium (yellow) | Holds the cooling template; schedules Cool-down → default |
+| Critical | Intense (red) + pulse + emergency banner | **Emergency path:** full fan (if available) + the firmware's most protective profile (quiet when thermald and firmware limit power, otherwise performance for maximum fan table, as the machine profile specifies) + notification; locks switching |
 
 Hysteresis values are configurable per machine profile. The defaults are shown above.
 
@@ -183,8 +206,8 @@ The weights are data (`data/agent/weights.yaml`) and can be overridden per user.
 | Mode | Behavior |
 | --- | --- |
 | **Observe** | Assess and rank; show the ranking; never change anything except the emergency path |
-| **Suggest** (default) | When the top candidate beats the active template by ≥ 15 points in Elevated/Hot, show a recommendation on the card and a notification with **Apply** / **Not now** actions. "Not now" snoozes that recommendation for 15 minutes. |
-| **Auto** | Apply the top candidate when it beats the active template by ≥ 20 points and the state has been Elevated/Hot for ≥ 20 s. Step back down (Cool-down → default) when Recovering → Nominal. |
+| **Suggest** (default, D1) | When the top candidate beats the active template by ≥ 15 points in Elevated/Hot, show a recommendation on the card and a notification with **Apply** / **Not now** actions. "Not now" snoozes that recommendation for 15 minutes. |
+| **Auto** (opt-in only) | Offered once the machine has at least 1 h of history (never enabled silently). Applies the top candidate when it beats the active template by ≥ 20 points and the state has been Elevated/Hot for ≥ 20 s. Step back down (Cool-down → default) when Recovering → Nominal. |
 
 A manual template choice (card, Templates page, Profiles page) always wins. The agent follows it and only recommends, with no auto-switching, for **10 minutes** or until the state becomes Critical.
 
@@ -251,6 +274,19 @@ The file is validated against `data/schema/agent-config.json`, and invalid value
 
 The card shows the agent's view and lets you switch templates in one step.
 
+### 7.0 Presentation model: heat first, then expand (D2)
+
+Every agent surface has two views.
+
+| View | Default | Shows | Controls |
+| --- | --- | --- | --- |
+| **Collapsed** | **Yes** | Heat level (word in the level color), heat meter, hottest zone + trend, forecast; on the Overview card also a 10-minute sparkline of the hottest zone; a small level-colored "Suggestion available" dot when the agent has a recommendation | Expander "Template & mode ▾" |
+| **Expanded** | On request | Everything above, plus the current template (name, category, since when), the mode (Observe / **Suggest** / Auto), the recommendation bar, and the template rows with Apply | Mode switch, Apply, Not now, More templates… |
+
+- **Memory:** the expansion state is remembered per surface (`ui.toml`).
+- **Expander:** a disclosure button (`aria-expanded`), toggled with Space/Enter; the 200 ms height animation is instant with reduced motion.
+- **Emergency:** while Critical, collapsed views show the red banner without expanding.
+
 ### 7.1 Placement
 - **Overview:** replaces the right-hand bottom card (Thermal zones) when the agent is enabled. The zone sparklines move to the Thermals page, and the card's status line always names the hottest zone. Card size at the default window: **492 × 300** (half of the bottom row).
 - **Fans and Thermals:** a compact variant (single row, §7.4) above the capability strip.
@@ -275,15 +311,15 @@ The card shows the agent's view and lets you switch templates in one step.
 | Part | Spec (tokens from ui-layout-spec §3) |
 | --- | --- |
 | Container | `.hc-card`, 492 × 300 on Overview, padding 16 × 20, column gap 6; section header "COOLING TEMPLATES" (overline) with the "More templates…" link on the right, above the rows |
-| Title row | "Thermal Agent" `title.card`; right: mode pill 32 tall (`surface.3`, pulse dot colored by mode: lime = Auto, `state.warm` = Suggest, `text.secondary` = Observe) that opens a popover (`Gio.Menu`) with the three modes and "Agent settings…" |
-| Heat meter | Horizontal bar 8 tall, radius 999, track `surface.2`; fill `grad.gauge` clipped to the score; score number `value.md` at the right; 400 ms spring animation |
-| Status line | `body` 14/600: "{State} · {hottest zone} {T̂} °C", then a trend arrow and "{slope} °C/min" in `caption` (↑ `state.hot.text`, ↓ `state.cool`, → `text.secondary`) |
+| Title row | "Thermal Agent" `title.card`; right: mode pill 32 tall (`surface.3`, with a mode dot: filled lime = Auto, lime ring = Suggest, `text.secondary` = Observe; mode dots never use heat colors) that opens a popover (`Gio.Menu`) with the three modes and "Agent settings…"; the pill appears in the expanded view only |
+| Heat meter | Horizontal bar 8 tall, radius 999, track `surface.2`; fill `#22C55E → #FACC15 → #EF4444` clipped to the score; score number `value.md` in the heat-level text color at the right; 400 ms spring animation |
+| Status line | Heat-level word (`body` 14/800, level text color: `#4ADE80` / `#FDE047` / `#F87171`) · "{hottest zone} {T̂} °C", then a trend arrow and "{slope} °C/min" in `caption` (↑ `#F87171`, ↓ `#4ADE80`, → `text.secondary`) |
 | Forecast line | `caption` `text.secondary`: "Warning in ~{τ} min" (hidden when τ = ∞) · dominant vectors in plain words |
 | Divider | 1 px `border.row` |
 | Template rows | Up to 3 rows at the Overview size (2 while the recommendation bar is visible), 36 tall; up to 4 in larger layouts: active template first, then the top recommendations, then pinned templates (deduplicated). Each row is 44 tall, gap 12, with: radio indicator 18 px (lime when active); name `body` 14/600; reason + expected relief `caption` `text.secondary` (relief colored `state.cool`); category dot 8 px (intense/optimal/idle colors); right: "active" check (lime) or secondary **Apply** button (32 tall compact variant). The row is a `Gtk.ListBoxRow`; Enter applies. |
 | "More templates…" | Lime link row (13/600) opening a popover with the full catalog grouped by category (search field on top) |
 | Recommendation bar | Shown only in Suggest mode when a recommendation is active, pinned to the bottom of the card: 40 tall (buttons 32), radius 12, `accent.lime.tint` background; text "Recommendation: {name}" 13/700; primary **Apply** (36 tall) + secondary **Not now** |
-| Emergency state | The whole card border turns `state.hot.strong` 1.5 px; the heat meter pulses (unless reduced motion); rows are disabled with the tooltip "Emergency cooling active"; the banner text replaces the recommendation bar |
+| Emergency state | The whole card border turns `#DC2626` 1.5 px, the banner is `#B91C1C` with white text; the heat meter pulses (unless reduced motion); rows are disabled with the tooltip "Emergency cooling active"; the banner text replaces the recommendation bar |
 | Unavailable states | Agent not running → "Background agent is off" + **Start agent** button. Helper unavailable → rows show "Read-only" and Apply is disabled, with a tooltip. |
 
 ### 7.3 Interaction rules
@@ -296,10 +332,23 @@ The card shows the agent's view and lets you switch templates in one step.
   - row: "{name}, {category} template, expected {relief} degrees cooler, {reason}";
   - meter: "Heat score {n} of 100, state {state}".
 
-### 7.4 Compact variant (Fans, Thermals)
+### 7.4 Compact variant (Fans, Thermals; collapsed by default)
 - **Size:** a single 56-tall card.
 - **Content, left to right:** heat meter (160 wide) + state text + the active template name + a **Change template** secondary button, which opens the same template popover as "More templates…".
 - **Recommendation:** when one is active, a lime **Apply {name}** button appears before **Change template**.
+
+### 7.6 Panel indicator and mini window (D4)
+
+| Part | Spec |
+| --- | --- |
+| Backend | **XApp.StatusIcon** (libxapp; native on Cinnamon/Mint; provides left-click activation with the icon's position). Fallback: **AyatanaAppIndicator3** (menu-only) on other desktops. The backend is a plugin (`hot_cooling.agent.indicators`). |
+| Icons | Full-color SVGs: **Nominal** green fan; **Medium** yellow fan + dot; **Intense** red fan + "!"; Critical alternates red/white every 1 s (static with reduced motion). Tooltip: "Hot Cooling — {Level} · {zone} {T} °C". |
+| Left click | Toggles the **mini window**, placed next to the icon and opened **collapsed** |
+| Mini window, collapsed | Undecorated, 320 × 132, radius 18, `surface.1`, level-colored 4 px top edge. Contents: level word (22/800 in the level text color), heat meter, hottest zone + trend, forecast, expander "Template & mode ▾", suggestion dot. |
+| Mini window, expanded | 320 × 440: adds the current template, mode segmented control (Observe / **Suggest** / Auto), recommendation bar (Apply / Not now), the top 3 templates with Apply, "More templates…" and "Open Hot Cooling" |
+| Behavior | Closes on focus loss or Esc; remembers its expansion state; keyboard reachable; double-clicking the icon opens the main window |
+| Right click | Menu: Mode (radio), Snooze suggestions for 1 h, Open Hot Cooling, Quit agent |
+| Process | The indicator is owned by the agent process (A4/A5). It uses GTK only in a separate indicator module, loaded lazily so that the agent core stays GTK-free. |
 
 ### 7.5 Full variant (Profiles page)
 - **Layout:** full width, two columns.
@@ -375,8 +424,10 @@ The UI talks to the agent **only** through the `Agent1` proxy (or the in-process
 
 ---
 
-## 12. Open questions
+## 12. Resolved questions (2026-09-17)
 
-1. **Default mode:** Suggest (as specified) or Auto on first run? The recommendation is Suggest until the machine has at least 1 hour of history.
-2. **Emergency profile choice** per machine (quiet vs performance fan table): confirm on the FX506LI with the benchmark script.
-3. **Tray indicator:** add a StatusNotifierItem (AppIndicator) showing the heat state in the panel? It would be outside GTK proper and optional.
+1. **Default mode:** Suggest (D1). Auto is opt-in after at least 1 h of history.
+2. **Heat presentation:** heat first, collapsed by default, expandable for template and mode (D2); green/yellow/red levels (D3).
+3. **Tray indicator:** yes, with XApp.StatusIcon and an Ayatana fallback (D4, §7.6).
+
+Still open: the emergency profile choice per machine (quiet vs performance fan table). Confirm it on the FX506LI with the benchmark script in A1/A3.

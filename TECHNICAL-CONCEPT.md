@@ -340,10 +340,10 @@ The template is extended rather than replaced.
 | Component | Behavior |
 | --- | --- |
 | **FanRotor** | A 7-blade vector rotor that spins at an angular speed mapped from RPM: `ω = clamp(rpm / rpm_max, 0, 1) · ω_max`, with `ω_max` ≈ 2.5 rev/s (the visual cap, so it doesn't strobe). Blade motion blur (alpha-layered ghost blades) above 60 % speed. A lime glow ring shows duty. It "spins down" with easing when RPM falls to 0, and a dashed outline means firmware-managed with no reading. |
-| **ThermalGauge** | A 270° arc gauge whose arc paint is a gradient from mint → lime → amber → magenta. Needle and value animate with critically damped spring easing. Trip points are drawn as ticks. |
+| **ThermalGauge** | A 270° arc gauge whose arc paint is a green → yellow → red gradient. Needle and value animate with critically damped spring easing. Trip points are drawn as ticks. |
 | **HeatSparkline** | An area chart with a vertical gradient fill (`#293C1C` → transparent). The line turns magenta above the warning line. |
 | **CategorySwitch** | A segmented control (Idle / Optimal / Intense) in the style of the reference "Monthly / Weekly / Daily" tabs. The active pill slides. |
-| **HeroCard** | A lime gradient card for the active state (as in the reference "Standard" card). It shifts toward a magenta-to-amber gradient when the machine runs hot. |
+| **HeroCard** | A gradient card for the current heat level: green (nominal), yellow (medium) or red (intense), as decided on 2026-09-17 |
 | **HeatVectorChip** | Small rounded chip with an icon and label; its color comes from the vector class. |
 | **PulseDot** | A live indicator (lime) that pulses at the sampling rate; amber while waiting for the helper. |
 
@@ -416,10 +416,11 @@ The palette is sampled from `ui-ki-green-gray-black.jpg`: a deep navy-black base
 | `accent.lime` | `#C1FF14` | Primary actions, active nav, FAB, live dot |
 | `accent.lime.soft` | `#ECFEC2` → `#D6F2A5` → `#B8E86A` | Hero gradient |
 | `accent.lime.deep` | `#293C1C` | Chart fills, gauge background |
-| `state.cool` | `#5DDEA5` | Cool/OK (mint) |
-| `state.warm` | `#F5C542` | Warning (amber, added for thermal semantics) |
-| `state.hot` | `#F14D8A` | Hot/negative (magenta) |
-| `state.hot.deep` | `#A01743` | Hot chart fill |
+| `heat.nominal` / `heat.medium` / `heat.intense` | `#22C55E` / `#FACC15` / `#EF4444` | **Heat levels: green / yellow / red** (decision 2026-09-17; see ui-layout-spec v1.1) |
+| `state.cool` | `#5DDEA5` | OK/applied status, Idle category (mint) |
+| `state.warm` | `#F5C542` | Advisory status, boost timer |
+| `category.intense` | `#F14D8A` | Intense template category (magenta; not a heat color) |
+| `category.intense.deep` | `#A01743` | Intense category gradient |
 | `on.accent` | `#0A0F05` | Text on lime surfaces |
 
 ### 10.2 Typography and layout
@@ -616,6 +617,7 @@ The detailed plan (work packages, deliverables, acceptance criteria) is in [docs
 | 6 | NVIDIA mobile GPUs rarely allow power-limit changes | Advisory actions (FPS cap, PRIME) where controls are missing |
 | 7 | Naming/branding and license | **Decided 2026-09-17:** repo/package `lin-hot-cooling`, app ID `io.mensuramedia.LinHotCooling`; custom license (free use/modify/distribute, commercial use by written permission). The starter's "personal and educational use" terms are recorded in NOTICE; commercial permission may also be needed from its author |
 | 8 | Repository | **Resolved:** https://github.com/MensuraMedia/lin-hot-cooling |
+| 9 | Thermal Agent defaults and heat colors | **Decided 2026-09-17:** Suggest mode by default (Auto is opt-in); heat state is the default (collapsed) view, expandable to template and mode; heat levels are green / yellow / red; a panel indicator is included. Plan: [docs/milestones-thermal-agent.md](docs/milestones-thermal-agent.md) |
 
 ---
 

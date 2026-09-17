@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Version | 1.0 (2026-09-17) |
+| Version | 1.1 (2026-09-17): green/yellow/red heat levels |
 | Status | **Approved:** Overview, Fans, Templates. **Provisional:** Hardware (not reviewed yet). |
 | Source of truth | `docs/mockups/*.dc.html` (1280 × 800 artboards) + this document. When they disagree, this document wins and the mockup is updated. |
 | Related | [TECHNICAL-CONCEPT.md](../TECHNICAL-CONCEPT.md) §9 (UI), §10 (design system), §19 (GTK 4 portability), §20 (modularity); [milestones.md](milestones.md) M0.4–M0.7, M1.6–M1.7, M2.8, M3.7 |
@@ -75,12 +75,16 @@ This document fixes the layout, dimensions, tokens, component anatomy, states, m
 | `accent.lime.hover` | `#D9FF6B` | Link hover |
 | `accent.lime.tint` | `rgba(193,255,20,0.10)` / `0.12` | Active nav background / optimal badge |
 | `accent.lime.deep` | `#293C1C` | Chart fill end |
-| `state.cool` | `#5DDEA5` | OK/applied, idle category, cool zone |
-| `state.warm` | `#F5C542` | Warnings, boost timer, advisory |
-| `state.hot` | `#F14D8A` | Hot lines, dots and icons (**not** as a text background) |
-| `state.hot.strong` | `#C22061` | Hot fills behind white text (performance pill, hot gradient start) |
-| `state.hot.deep` | `#A01743` / `#7A1235` | Hot gradient middle/end, text on white pills |
-| `state.hot.text` | `#FF8DB6` / `#FF6FA3` | Hot-semantic text on dark surfaces |
+| `heat.nominal` / `.text` | `#22C55E` / `#4ADE80` | **Heat level Nominal (green)**: marks / text on dark |
+| `heat.medium` / `.text` | `#FACC15` / `#FDE047` | **Heat level Medium (yellow)** |
+| `heat.intense` / `.text` | `#EF4444` / `#F87171` | **Heat level Intense (red)**; also Critical |
+| `heat.intense.fill` / `.deep` | `#DC2626` / `#B91C1C` | Red fills behind white text (emergency banner, hot hero) |
+| `state.cool` | `#5DDEA5` | OK/applied status, Idle template category (not a heat level) |
+| `state.warm` | `#F5C542` | Advisory status, boost timer (not a heat level) |
+| `category.intense` | `#F14D8A` | Intense template category marks only (**not** a heat color; not as a text background) |
+| `category.intense.strong` | `#C22061` | Intense category fills behind white text (performance pill, intense template header) |
+| `category.intense.deep` | `#A01743` / `#7A1235` | Intense category gradient middle/end |
+| `category.intense.text` | `#FF8DB6` / `#FF6FA3` | Intense category text on dark surfaces |
 | Tints | `rgba(<semantic>, 0.12–0.16)` | Icon tiles, badges, feed avatars, chips |
 
 **Contrast (WCAG 2.2, computed):**
@@ -94,24 +98,32 @@ This document fixes the layout, dimensions, tokens, component anatomy, states, m
 | `accent.lime` on `bg.base` / `surface.1` | 16.4 / 13.3 | All text |
 | `text.onAccent` on lime / cool gradient stops | 16.2 / 13.7–18.0 | All text |
 | `text.onWarm` on warm gradient stops | 7.8–11.4 | All text |
-| White on `state.hot.strong` / `#A01743` / `#7A1235` | 5.7 / 7.8 / 10.7 | All text |
-| White on `state.hot` `#F14D8A` | 3.4 | **Not for text** (changed on 2026-09-17, §12) |
+| White on `category.intense.strong` / `#A01743` / `#7A1235` | 5.7 / 7.8 / 10.7 | All text |
+| White on `category.intense` `#F14D8A` | 3.4 | **Not for text** (changed on 2026-09-17, §12) |
 | `state.cool` / `state.warm` / `#FF8DB6` / `#FF6FA3` on `surface.1` | 9.4 / 9.8 / 7.4 / 6.1 | All text |
+| `#4ADE80` / `#FDE047` / `#F87171` on `surface.1` | 9.1 / 12.0 / 5.7 | All text (heat levels) |
+| `#22C55E` / `#FACC15` / `#EF4444` on `surface.1` | 7.0 / 10.4 / 4.2 | Marks, icons, large text; `#EF4444` is not for small text |
+| `#052E16` on `#DCFCE7` / `#86EFAC` / `#22C55E` | 13.6 / 10.6 / 6.5 | All text (nominal fill) |
+| `#1A1204` on `#FEF9C3` / `#FDE047` / `#EAB308` | 17.3 / 14.1 / 9.7 | All text (medium fill) |
+| White on `#DC2626` / `#B91C1C` / `#7F1D1D` | 4.8 / 6.5 / 10.0 | All text (intense fill) |
 | `#585C65` on `bg.base` | 2.9 | **Decorative only**, never text |
 
 ### 3.2 Gradients
 
 | Token | Definition | Use |
 | --- | --- | --- |
-| `grad.hero.cool` | 135°: `#ECFEC2` 0 % → `#D6F2A5` 45 % → `#B8E86A` 100 % | Cool hero, optimal template header |
-| `grad.hero.warm` | 135°: `#FFF3C4` 0 % → `#F5C542` 60 % → `#E8963A` 100 % | Warm hero |
-| `grad.hero.hot` | 135°: `#C22061` 0 % → `#A01743` 55 % → `#7A1235` 100 % | Hot hero, intense template header |
+| `grad.heat.nominal` | 135°: `#DCFCE7` 0 % → `#86EFAC` 45 % → `#22C55E` 100 %; text `#052E16` | Hero (Nominal), mini window edge, indicator |
+| `grad.heat.medium` | 135°: `#FEF9C3` 0 % → `#FDE047` 50 % → `#EAB308` 100 %; text `#1A1204` | Hero (Medium) |
+| `grad.heat.intense` | 135°: `#DC2626` 0 % → `#B91C1C` 55 % → `#7F1D1D` 100 %; text white | Hero (Intense / Critical) |
+| `grad.hero.cool` | 135°: `#ECFEC2` 0 % → `#D6F2A5` 45 % → `#B8E86A` 100 % | Optimal template header (brand lime; no longer a heat state) |
+| `grad.hero.warm` | *(retired in v1.1; replaced by `grad.heat.medium`)* | — |
+| `grad.category.intense` | 135°: `#C22061` 0 % → `#A01743` 55 % → `#7A1235` 100 % | Intense template header (category, not heat) |
 | `grad.hero.idle` | 135°: `#D8FBEA` 0 % → `#8FE8C1` 55 % → `#3FBF88` 100 % | Idle template header |
 | `grad.sidebar` | 180°: `#0D1322` → `#080C17` | Sidebar |
 | `grad.brand` | 135°: `#1E2A12` → `#0B101D`, border lime 35 % | Brand tile |
 | `grad.blade` | Diagonal: `#ECFEC2` → `#7FB51A` (tile) / `#6E9E12` (large) | Rotor blades |
 | `grad.ring.boost` | Diagonal: `#C1FF14` → `#F5C542` | Fan hero duty ring |
-| `grad.gauge` | Bottom-left → top-right: `#5DDEA5` 0 → `#C1FF14` .45 → `#F5C542` .75 → `#F14D8A` 1 | Arc gauges |
+| `grad.gauge` | Bottom-left → top-right: `#22C55E` 0 → `#FACC15` 0.5 → `#EF4444` 1 | Arc gauges, heat meters |
 | `grad.area.<color>` | Vertical: color 35 % → 0 % (sparklines); lime 28 % → `#293C1C` 0 % (response chart) | Chart fills |
 | `glow.fan` | Radial at 50 % / 42 %: lime 10 % → transparent at 60 % | Fan hero card background |
 
@@ -176,7 +188,7 @@ Each entry gives the anatomy, dimensions, states, tokens and implementation.
 - **Variants:**
   - `.live`: pulse dot 8 px lime with glow, text "Live · 1 s", where the text reflects the sampling interval;
   - `.power`: 16 px plug (AC) or battery icon in lime + text "AC power · charge limit 80 %";
-  - `.template.<category>`: tinted background (hot 14 %), text/icon `state.hot.text` (intense), lime (optimal) or `state.cool` (idle).
+  - `.template.<category>`: tinted background (hot 14 %), text/icon `category.intense.text` (intense), lime (optimal) or `state.cool` (idle).
 
 ### 4.4 Icon button — `.hc-icon-button`
 - **Visual:** 36 × 36 circle `surface.3`, 18 px icon `text.primary`.
@@ -186,11 +198,11 @@ Each entry gives the anatomy, dimensions, states, tokens and implementation.
 - `surface.1`, 1 px `border.hairline`, radius 18; padding per §3.4.
 - **Title row:** title (`title.card`) left, meta or link (`caption`/`body.sm`, lime link) right, `space-between`.
 
-### 4.6 Hero state card — `.hc-hero.cool|.warm|.hot`
+### 4.6 Hero state card — `.hc-hero.heat-nominal|.heat-medium|.heat-intense`
 - Radius 24, padding 26 × 30. Horizontal: three blocks, `space-between`, gap ≥ 24, vertically centered.
 - **Block 1, Thermal state:**
   - `overline` 13/700 at 75 % opacity;
-  - `display.state` word Cool / Warm / Hot;
+  - `display.state` word Nominal / Medium / Intense (Critical during an emergency);
   - metrics line in `body.strong` at 85 % opacity: "CPU {t} °C · dGPU {t} °C · Fan {rpm} RPM".
 - **Block 2, Active:** overline; "{Category} Cooling" in `title.hero`; "Template · {name}" in `body` 14/600 at 85 % opacity.
 - **Block 3:** category segmented control (§4.7, hero variant).
@@ -198,10 +210,10 @@ Each entry gives the anatomy, dimensions, states, tokens and implementation.
 
   | State | Background | Text | Segment track | Active segment | Inactive segment text |
   | --- | --- | --- | --- | --- | --- |
-  | cool | `grad.hero.cool` | `text.onAccent` | `rgba(10,15,5,0.12)` | bg `#0A0F05`, text lime | `#0A0F05` |
-  | warm | `grad.hero.warm` | `text.onWarm` | `rgba(10,15,5,0.12)` | bg `#0A0F05`, text lime | `#0A0F05` |
-  | hot | `grad.hero.hot` | `#FFFFFF` | `rgba(0,0,0,0.22)` | bg `#FFFFFF`, text `#A01743` | `#FFFFFF` |
-- **State rule:** thermal state = the worst zone state.
+  | Nominal (green) | `grad.heat.nominal` | `#052E16` | `rgba(5,46,22,0.12)` | bg `#052E16`, text `#4ADE80` | `#052E16` |
+  | Medium (yellow) | `grad.heat.medium` | `#1A1204` | `rgba(26,18,4,0.12)` | bg `#1A1204`, text `#FDE047` | `#1A1204` |
+  | Intense (red) | `grad.heat.intense` | `#FFFFFF` | `rgba(0,0,0,0.22)` | bg `#FFFFFF`, text `#B91C1C` | `#FFFFFF` |
+- **State rule:** the heat level comes from the Thermal Agent's assessment (thermal-agent-spec §3.5, §4): Nominal → green; Elevated/Recovering → yellow; Hot/Critical → red. Without the agent, the same rule is computed in-process. The rule below is the fallback:
   - Cool: every zone below warning − 10 °C.
   - Warm: any zone at or above warning − 10 °C.
   - Hot: any zone at or above warning.
@@ -217,7 +229,7 @@ Each entry gives the anatomy, dimensions, states, tokens and implementation.
   | --- | --- | --- | --- | --- |
   | `.on-hero` | per hero state (§4.6) | per hero state | per hero state | Category switch |
   | `.on-surface` | `surface.3` | lime / `text.onAccent` | `text.primary` | Fan mode (Automatic / Max boost) |
-  | `.on-surface.semantic` | `surface.3` | `state.hot.strong` + white (performance), lime (balanced), `state.cool` + `text.onIdle` (quiet) | `text.primary` | Firmware profile (min-width 84) |
+  | `.on-surface.semantic` | `surface.3` | `category.intense.strong` + white (performance), lime (balanced), `state.cool` + `text.onIdle` (quiet) | `text.primary` | Firmware profile (min-width 84) |
   | `.filter` | `surface.1` | lime / `text.onAccent` | `text.chip` | Template filter (height 36, min-width 72) |
 - **Behavior:**
   - It's a radio group (`role=group` + `aria-pressed`, GTK: `Gtk.RadioButton` with draw-indicator off, or toggle buttons in a group).
@@ -278,14 +290,14 @@ Each entry gives the anatomy, dimensions, states, tokens and implementation.
   - Avatar: 40 px circle, tinted 12–16 % with the event's semantic color, holding a 20 px icon in that color.
   - Text: title `body` 14/600 over meta `caption` `text.secondary` (gap 2).
   - Time: `caption` tnum, right-aligned.
-- **Colors by event type:** game/intense → `state.hot`; fan boost → lime; cool-down / idle → `state.cool`; warning → `state.warm`.
+- **Colors by event type:** game / intense template → `category.intense`; fan boost → lime; cool-down / idle → `state.cool`; heat level changes → the heat-level color (`heat.nominal/medium/intense`); advisory → `state.warm`.
 - **Overview:** shows the latest 3 events, with a "View all" link (lime, 13/600) to History.
 
 ### 4.13 Zone sparkline row — `.hc-zone-row`
 - **Grid:** 110 | 1fr | 64, gap 14, rows centered.
 - **Content:** zone name 14/600; `Sparkline` 32 tall; value 16/700 tnum right-aligned "{t} °C".
 - **Sparkline:** 10-minute window, at least 12 points (1 Hz data downsampled to the width); 2 px line; `grad.area` fill.
-- **Color by zone:** CPU lime, dGPU `state.cool`, chipset `state.warm`, storage `text.secondary`. The line turns `state.hot` for segments above warning.
+- **Color by zone:** CPU lime, dGPU `state.cool`, chipset `#8B8F99`-tinted amber, storage `text.secondary`. Segments turn `heat.medium` within 10 °C of warning and `heat.intense` above warning.
 - **Card:** title "Thermal zones", meta "Last 10 minutes"; shows the 4 hottest zones.
 
 ### 4.14 Fan response chart — `ResponseChart`
@@ -293,7 +305,7 @@ Each entry gives the anatomy, dimensions, states, tokens and implementation.
 - **Grid:** 3 horizontal lines at 25/50/75 %, 1 px `rgba(255,255,255,0.05)`.
 - **Series:**
   - RPM: 2.5 px lime line with lime area fill;
-  - CPU °C: 2 px `state.hot` line, on its own axis mapping.
+  - CPU °C: 2 px line colored by heat level per segment (`heat.nominal` / `.medium` / `.intense`), on its own axis mapping.
 - **Event markers:** 1 px `state.warm` vertical line, dashed 4/4, with a label below in `caption` 12/600 amber ("Boost triggered · CPU 86 °C").
 - **Legend:** 12 × 3 swatches (radius 2) + `caption` labels, and a "Last 10 minutes" caption. X-axis labels at the start and end times.
 
@@ -341,7 +353,7 @@ Each entry gives the anatomy, dimensions, states, tokens and implementation.
 ### 4.18 Buttons — `.hc-button`
 - **Primary:** 44 tall, padding 0 × 20, radius 999, lime background, `text.onAccent` 14/800; optional 18 px icon (stroke 2.2) with gap 8.
 - **Secondary:** 44 tall, padding 0 × 18, transparent background, 1 px `border.outline`, `text.primary` 14/700.
-- **Destructive or hot actions:** `state.hot.strong` background with white text.
+- **Destructive or emergency actions:** `heat.intense.fill` (`#DC2626`) background with white text.
 - **Disabled:** 40 % opacity, not focusable, with a tooltip saying why.
 
 ### 4.19 Template detail panel — `.hc-template-detail`
@@ -466,7 +478,7 @@ Thermals, Power, Profiles, Automation, Benchmarks, History, Settings and About u
 | Loading (first probe) | Cards show `surface.2` placeholder blocks of the final size. No shimmer when reduced motion is on; otherwise a 1.2 s opacity pulse from 60 to 100 %. |
 | Capability missing | Control disabled (§4.18) + tooltip + an entry in the Hardware capability table |
 | Helper offline or not authorized | Amber banner under the header: `state.warm` 12 % tint, 44 tall, radius 12, text "Cooling control unavailable — read-only mode" + "Retry" secondary button |
-| Emergency (critical temperature) | Hero forced to hot; red banner (`state.hot.strong` background, white text) "Emergency cooling active" + reason; category switch locked until zones fall below warning |
+| Emergency (critical temperature) | Hero forced to Intense (red); banner `heat.intense.deep` (`#B91C1C`) background, white text, "Emergency cooling active" + reason; category switch locked until zones fall below warning |
 | Conflict detected | Amber banner naming the other manager, with the actions "Let Hot Cooling manage" and "Pause automation" |
 | Unsaved template edits | Secondary footer bar with "Discard" / "Save" |
 | Notifications | Desktop notification only for emergency, helper failure and conflicts; everything else goes to the "Why" feed |
@@ -533,7 +545,7 @@ Thermals, Power, Profiles, Automation, Benchmarks, History, Settings and About u
 | Sidebar items | `Gtk.ListBox` rows or flat `Gtk.Button`s generated from the page registry | Active state via the `.active` class |
 | Cards, pills, chips, buttons | `Gtk.Box` / `Gtk.Button` + CSS classes (§3) | GTK 3 CSS supports `border-radius`, `background-image` gradients, `box-shadow` and `transition`; spacing uses `Gtk.Box` spacing (no CSS `gap`) |
 | Grids | `Gtk.Grid` (column-homogeneous) or `Gtk.FlowBox` (template cards) | No CSS grid in GTK |
-| Hero gradient crossfade | `Gtk.Overlay` with two `Gtk.Box` layers + opacity animation (tick callback) | CSS classes `.cool/.warm/.hot` per layer |
+| Hero gradient crossfade | `Gtk.Overlay` with two `Gtk.Box` layers + opacity animation (tick callback) | CSS classes `.heat-nominal/.heat-medium/.heat-intense` per layer |
 | Segmented control | `Gtk.Box` of `Gtk.RadioButton`s (`draw_indicator=False`) + `SegmentIndicator` (`CanvasArea`) behind them | Slide animation drawn in Cairo |
 | FanRotor, RingMeter, ArcGauge, Sparkline, ResponseChart, TopologyDiagram | `ui.compat.CanvasArea` subclasses drawing with pycairo (`cairo.LinearGradient`, `RadialGradient`, `arc`, `curve_to`) | Colors from theme tokens; `set_antialias(ANTIALIAS_BEST)` |
 | Uppercase overlines | Code-side `upper()` of translated strings | GTK CSS has no `text-transform` |
@@ -552,18 +564,20 @@ Thermals, Power, Profiles, Automation, Benchmarks, History, Settings and About u
 @define-color hc_text2 #8B8F99;
 @define-color hc_lime #C1FF14;
 @define-color hc_cool #5DDEA5;
-@define-color hc_warm #F5C542;
-@define-color hc_hot #F14D8A;
-@define-color hc_hot_strong #C22061;
+@define-color hc_heat_nominal #22C55E;
+@define-color hc_heat_medium #FACC15;
+@define-color hc_heat_intense #EF4444;
+@define-color hc_intense_category #C22061;
 
 .hc-sidebar { background-image: linear-gradient(180deg, #0D1322, @hc_bg); border-right: 1px solid alpha(white, 0.05); padding: 24px 14px; }
 .hc-nav { min-height: 40px; padding: 0 14px; border-radius: 12px; color: @hc_text2; font-weight: 500; }
 .hc-nav.active { background-color: alpha(@hc_lime, 0.10); color: @hc_lime; }
 .hc-card { background-color: @hc_surface1; border: 1px solid alpha(white, 0.06); border-radius: 18px; }
 .hc-hero { border-radius: 24px; padding: 26px 30px; }
-.hc-hero.cool { background-image: linear-gradient(135deg, #ECFEC2 0%, #D6F2A5 45%, #B8E86A 100%); color: #0A0F05; }
-.hc-hero.warm { background-image: linear-gradient(135deg, #FFF3C4 0%, #F5C542 60%, #E8963A 100%); color: #1A1204; }
-.hc-hero.hot  { background-image: linear-gradient(135deg, #C22061 0%, #A01743 55%, #7A1235 100%); color: #FFFFFF; }
+.hc-hero.heat-nominal { background-image: linear-gradient(135deg, #DCFCE7 0%, #86EFAC 45%, #22C55E 100%); color: #052E16; }
+.hc-hero.heat-medium  { background-image: linear-gradient(135deg, #FEF9C3 0%, #FDE047 50%, #EAB308 100%); color: #1A1204; }
+.hc-hero.heat-intense { background-image: linear-gradient(135deg, #DC2626 0%, #B91C1C 55%, #7F1D1D 100%); color: #FFFFFF; }
+.heat-nominal-text { color: #4ADE80; }  .heat-medium-text { color: #FDE047; }  .heat-intense-text { color: #F87171; }
 .hc-segmented { border-radius: 999px; padding: 4px; }
 .hc-segmented button { min-height: 40px; min-width: 104px; padding: 0 18px; border-radius: 999px; font-weight: 700; }
 .hc-button.primary { min-height: 44px; padding: 0 20px; border-radius: 999px; background-color: @hc_lime; color: #0A0F05; font-weight: 800; }
@@ -603,4 +617,5 @@ Thermals, Power, Profiles, Automation, Benchmarks, History, Settings and About u
 | Date | Change |
 | --- | --- |
 | 2026-09-17 | v1.0: spec written from the approved Overview, Fans and Templates mockups; Hardware recorded as provisional. |
+| 2026-09-17 | v1.1 (owner decision D3): heat detection uses **green / yellow / red** (`heat.nominal/medium/intense`) for hero cards, gauges, meters, sparklines and the indicator. The former cool/warm/hot hero gradients are retired; magenta is now only the Intense *template category* color. Agent surfaces are heat-first and collapsed by default (thermal-agent-spec §7.0). Mockups are to be updated in A0.3–A0.5. |
 | 2026-09-17 | Accessibility fix (applied to the mockups too): the hot gradient changed from `#FFC4DA → #F14D8A → #A01743` to `#C22061 → #A01743 → #7A1235` (white text ≥ 5.7:1), and the "Performance" segment fill changed from `#F14D8A` (3.4:1) to `#C22061`. `#F14D8A` is kept for non-text marks only. |
